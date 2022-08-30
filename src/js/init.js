@@ -37,7 +37,6 @@ function initTeams() {
 function initTeamsHelper(localTeamsJson) {
     let initTeamsPromise = new Promise((resolve,reject) => {
         nhlApi.GetFromNHLApi("/teams").then((teams) => {
-            console.log(Object.keys(teams));
             let apiteams = teams["teams"];
             let internalTeamsJson = {};
             for (team of localTeamsJson) {
