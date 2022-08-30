@@ -31,7 +31,7 @@ function initTeams() {
             reject(err);
         });
     })
-    return finalTeamsPromise   
+    return finalTeamsPromise;   
 }
 
 function initTeamsHelper(localTeamsJson) {
@@ -49,7 +49,6 @@ function initTeamsHelper(localTeamsJson) {
                 obj["goalHorn"] = team["goalHorn"];
                 internalTeamsJson[obj["name"]] = obj;
               } else if (team["name"].valueOf() == "NHL") {
-                // chrome.storage.local.set({"NHLObj": team});
                 internalTeamsJson["NHL"] = team;
               }
             }
