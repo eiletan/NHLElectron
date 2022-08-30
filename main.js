@@ -1,9 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
-const { ipcMain } = require('electron');
-const init = require('./src/js/init');
-const api = require('./src/js/NhlApi');
 
 
 function createWindow () {
