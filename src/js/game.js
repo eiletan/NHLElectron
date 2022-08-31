@@ -1,5 +1,6 @@
 // A collection of functions used to retrieve and process game schedules and game data.
 const nhlApi = require('./NhlApi.js');
+const util = require('./util.js');
 
 var NOTIFLENGTH = 20000;
 
@@ -45,7 +46,7 @@ function findGameForTeam(team, date) {
                 for (game of retgames) {
                     let awayTeam = game["teams"]["away"]["team"]["name"]
                     let homeTeam = game["teams"]["home"]["team"]["name"]
-                    if (matchTeamName(awayTeam, team) || matchTeamName(homeTeam, team)) {
+                    if (util.matchTeamName(awayTeam, team) || util.matchTeamName(homeTeam, team)) {
                         found = true;
                         console.log(game);
                         resolve(game);
@@ -64,39 +65,6 @@ function findGameForTeam(team, date) {
     return gamePromise;
 }
 
-/**
- * Compares two team names. Ignores accents and case, and is capable of comparing shortened versions of team names. Ex. "Vancouver Canucks" and "Canucks" would be equivalent.
- * @param {String} teamNameA First team name to be compared
- * @param {String} teamNameB Second team name to be compared
- * @returns True if the teams are the same, false otherwise
- */
-function matchTeamName(teamNameA, teamNameB) {
-    try {
-        teamNameA = decodeURIComponent(escape(teamNameA));
-        teamNameB = decodeURIComponent(escape(teamNameB));
-        teamNameA = teamNameA.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-        teamNameB = teamNameB.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-        teamNameA = teamNameA.toLowerCase();
-        teamNameB = teamNameB.toLowerCase();
-    } catch {
-        teamNameA = teamNameA.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-        teamNameB = teamNameB.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-        teamNameA = teamNameA.toLowerCase();
-        teamNameB = teamNameB.toLowerCase();
-    }
-
-    if (teamNameA.valueOf() == teamNameB.valueOf()) {
-        return true;
-    } else {
-        teamADelimited = teamNameA.split(" ");
-        for (word of teamADelimited) {
-            if (word.valueOf() == teamNameB.valueOf()) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
 
 /**
  * Creates an internal record of a NHL game and saves it to local storage.
@@ -174,8 +142,8 @@ function matchTeamName(teamNameA, teamNameB) {
             if (pogame["matchupTeams"] != undefined) {
                 let respTeamA = pogame["matchupTeams"][0]["team"]["name"];
                 let respTeamB = pogame["matchupTeams"][1]["team"]["name"];
-                if (matchTeamName(respTeamA,teamA)) {
-                    if (matchTeamName(respTeamB, teamB)) {
+                if (util.matchTeamName(respTeamA,teamA)) {
+                    if (util.matchTeamName(respTeamB, teamB)) {
                         let round = i+1;
                         let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
                         let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
@@ -188,8 +156,8 @@ function matchTeamName(teamNameA, teamNameB) {
                         pogameObj["seriesStatus"] = seriesStatus;
                         return pogameObj;
                     }
-                } else if (matchTeamName(respTeamB,teamA)) {
-                    if (matchTeamName(respTeamA,teamB)) {
+                } else if (util.matchTeamName(respTeamB,teamA)) {
+                    if (util.matchTeamName(respTeamA,teamB)) {
                         let round = i+1;
                         let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
                         let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
@@ -358,7 +326,7 @@ function extractAllGoalsScored(game) {
                         let teamName = goalObj["team"]["name"];
                         let teamLogo;
                         let teamAudio;
-                        if (matchTeamName(teamName,game["home"]["name"])) {
+                        if (util.matchTeamName(teamName,game["home"]["name"])) {
                             teamLogo = game["home"]["logo"];
                             teamAudio = game["home"]["goalHorn"];
                         } else {
