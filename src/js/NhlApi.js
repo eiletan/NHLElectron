@@ -1,7 +1,7 @@
 // A collection of functions used for calling the public NHL API
 const https = require('https');
 
-const domain = "https://statsapi.web.nhl.com/api/v1";
+const DOMAIN = "https://statsapi.web.nhl.com/api/v1";
 
 /**
  * Makes a GET request to the NHL API
@@ -10,7 +10,7 @@ const domain = "https://statsapi.web.nhl.com/api/v1";
  */
 function GetFromNHLApi(uri) {
     let getPromise = new Promise((resolve,reject) => {
-    https.get(domain+uri,(result) => {
+    https.get(DOMAIN+uri,(result) => {
         let resp = '';
         result.on('data', (data) => {
             resp = resp + data;
@@ -18,9 +18,11 @@ function GetFromNHLApi(uri) {
         result.on('end', () => {
             resp = JSON.parse(resp);
             resolve(resp);
+            return;
         });
         }).on('error',(err) => {
             reject(err);
+            return;
         });
     })
     return getPromise;

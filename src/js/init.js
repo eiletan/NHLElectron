@@ -3,6 +3,7 @@ const fs = require('fs');
 const { resolve } = require('path');
 const path = require('path');
 const nhlApi = require('./NhlApi.js');
+const util = require('./util.js');
 
 /**
  * Initializes team directory as a JSON object by combining data from
@@ -11,24 +12,26 @@ const nhlApi = require('./NhlApi.js');
  */
 function initTeams() {
     let pathToFile = path.join(__dirname, "..", "assets", "teams", "teams.json")
-    let localTeamsPromise = new Promise((resolve,reject) => {
-        fs.readFile(pathToFile,(err,data) => {
-            if (err) {
-                console.log(err);
-                reject(err);
-            } else {
-                data = JSON.parse(data);
-                resolve(data);   
-            }
-        });
-    })
+    // let localTeamsPromise = new Promise((resolve,reject) => {
+    //     fs.readFile(pathToFile,(err,data) => {
+    //         if (err) {
+    //             console.log(err);
+    //             reject(err);
+    //             return;
+    //         } else {
+    //             data = JSON.parse(data);
+    //             resolve(data);
+    //             return;   
+    //         }
+    //     });
+    // })
     let finalTeamsPromise = new Promise((resolve,reject) => {
-        localTeamsPromise.then((localTeams) => {
-            return initTeamsHelper(localTeams);
+        util.retrieveFile(pathToFile).then((localTeams) => {
+          return initTeamsHelper(localTeams);
         }).then((initTeamsFinal) => {
-            resolve(initTeamsFinal);
+          resolve(initTeamsFinal);
         }).catch((err) => {
-            reject(err);
+          reject(err);
         });
     })
     return finalTeamsPromise;   
@@ -71,8 +74,10 @@ function initTeamsHelper(localTeamsJson) {
               }
             }
             resolve(internalTeamsJson);
+            return;
           }).catch((err) => {
             reject("Team data initialization failed due to (" + err +")");
+            return;
         });
     });
     return initTeamsPromise;

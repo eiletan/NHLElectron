@@ -1,6 +1,7 @@
 // A collection of functions used to retrieve and process game schedules and game data.
+const nhlApi = require('./NhlApi.js');
 
-var notifLength = 20000;
+var NOTIFLENGTH = 20000;
 
 
 /**
@@ -10,27 +11,24 @@ var notifLength = 20000;
  */
 function findGames(date) {
     let gamesList = null;
-    let retprom = new Promise((resolve,reject) => {
-        GetFromNHLApi("/schedule?date=" + date).then((games) => {
-            console.log(games);
+    let scheduledGamesPromise = new Promise((resolve,reject) => {
+        nhlApi.GetFromNHLApi("/schedule?date=" + date).then((games) => {
             if (games["dates"].length == 0) {
                 let empty = [];
                 resolve(empty);
                 return;
             } else {
                 gamesList = games["dates"][0]["games"];
-                console.log(gamesList);
                 resolve(gamesList);
                 return;
             }
-            return;
         }).catch((err) => {
             reject("An error occurred: Games for " + date + " could not be retrieved. Please try again");
             console.log(err);
             return;
         });
     });
-    return retprom;
+    return scheduledGamesPromise;
 }
 
 /**
@@ -40,7 +38,7 @@ function findGames(date) {
  * @returns a Promise that resolves with the NHL game as a JSON object, else an exception is thrown
  */
 function findGameForTeam(team, date) {
-    let retprom = new Promise((resolve,reject) => {
+    let gamePromise = new Promise((resolve,reject) => {
         try {
             findGames(date).then((retgames) => {
                 let found = false;
@@ -63,7 +61,7 @@ function findGameForTeam(team, date) {
             throw err;
         }
     });
-    return retprom;
+    return gamePromise;
 }
 
 /**
@@ -106,7 +104,7 @@ function matchTeamName(teamNameA, teamNameB) {
  * @returns a Promise that resolves with an JSON object when the internal record of the game is created and saved to local storage
  */
  function createGame(gameid) {
-    let retprom = new Promise((resolve, reject) => {
+    let createGamePromise = new Promise((resolve, reject) => {
       GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((response) => {
           chrome.storage.local.get(["teams"], function (result) {
             extractAllGoalsScored(response).then((goals) => {
@@ -157,7 +155,7 @@ function matchTeamName(teamNameA, teamNameB) {
           return;
         });
     });
-    return retprom;
+    return createGamePromise;
   }
 
   /**
@@ -218,7 +216,7 @@ function matchTeamName(teamNameA, teamNameB) {
  * @returns a Promise that resolves with an array that contains all goals scored currently from last to first.
  */
  function getAllGoalsScored(gameid) {
-    let retprom = new Promise((resolve, reject) => {
+    let goalsScoredPromise = new Promise((resolve, reject) => {
       GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
           extractAllGoalsScored(game).then((goals) => {
             resolve(goals);
@@ -230,7 +228,7 @@ function matchTeamName(teamNameA, teamNameB) {
           return;
         });
     });
-    return retprom;
+    return goalsScoredPromise;
   }
   
   
@@ -240,7 +238,7 @@ function matchTeamName(teamNameA, teamNameB) {
    * @returns a Promise that resolves with the state of the game as an JSON object
    */
   function getGameState(gameid) {
-      let retprom = new Promise((resolve,reject) => {
+      let gameStatePromise = new Promise((resolve,reject) => {
           GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
               let gameState = extractGameState(game);
               resolve(gameState);
@@ -250,7 +248,7 @@ function matchTeamName(teamNameA, teamNameB) {
               return;
           })
       });
-      return retprom;
+      return gameStatePromise;
   }
 
   /**
@@ -349,7 +347,7 @@ function extractAllGoalsScored(game) {
    * @returns a Promise that resolves with the updated game object
    */
   function updateGameStatus() {
-    let retprom = new Promise((resolve,reject) => {
+    let updateGameStatePromise = new Promise((resolve,reject) => {
         try {
             chrome.storage.local.get(["currentGame"], function(result) {
                 let game = result.currentGame;
@@ -400,7 +398,7 @@ function extractAllGoalsScored(game) {
             
         }
     });
-    return retprom;
+    return updateGameStatePromise;
   }
 
   /**
@@ -447,3 +445,12 @@ function extractAllGoalsScored(game) {
     }
     return winnerJSON;
   } 
+
+
+module.exports = {
+    findGames: findGames,
+    findGameForTeam: findGameForTeam,
+    createGame: createGame,
+    updateGameStatus: updateGameStatus,
+    determineWinner: determineWinner
+}
