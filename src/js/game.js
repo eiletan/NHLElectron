@@ -48,7 +48,6 @@ function findGameForTeam(team, date) {
                     let homeTeam = game["teams"]["home"]["team"]["name"]
                     if (util.matchTeamName(awayTeam, team) || util.matchTeamName(homeTeam, team)) {
                         found = true;
-                        console.log(game);
                         resolve(game);
                     }
                 }
@@ -69,62 +68,68 @@ function findGameForTeam(team, date) {
 /**
  * Creates an internal record of a NHL game and saves it to local storage.
  * @param {String} gameid API internal ID of a NHL Game
+ * @param {Object} teams Internal record of teams
+ * @param {Object} mock Mock object of api response. Intended for testing
  * @returns a Promise that resolves with an JSON object when the internal record of the game is created and saved to local storage
  */
- function createGame(gameid) {
+ function createGame(gameid,teams,mock = null) {
     let createGamePromise = new Promise((resolve, reject) => {
-      GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((response) => {
-          chrome.storage.local.get(["teams"], function (result) {
-            extractAllGoalsScored(response).then((goals) => {
-              let teams = result.teams;
-              let gameData = response["gameData"];
-              let homeTeam = gameData["teams"]["home"]["name"];
-              let awayTeam = gameData["teams"]["away"]["name"];
-              let gameObj = {};
-              gameObj["home"] = teams[homeTeam];
-              gameObj["away"] = teams[awayTeam];
-              gameObj["id"] = gameid;
-              gameObj["allGoals"] = goals;
-              gameObj["currentState"] = extractGameState(response);
-              gameObj["playoffSeries"] = null;
-              if (gameData["game"]["type"] == "P") {
-                GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary").then((response) => {
-                  let pogame = findPlayoffGame(response, homeTeam, awayTeam);
-                  gameObj["playoffSeries"] = pogame;
-                  if (pogame != null) {
-                    chrome.storage.local.set({ currentGame: gameObj, currentGameId: gameid },function () {
-                        console.log("Game have been saved to local storage: " + gameObj);
-                        console.log(gameObj);
-                        resolve(gameObj);
-                        return;
-                      }
-                    );
-                  } else {
-                    reject(
-                      "Playoff data could not be found for the game. Please try again"
-                    );
-                  }
-                });
-              } else {
-                // Save to local storage
-                chrome.storage.local.set({ currentGame: gameObj, currentGameId: gameid }, function () {
-                    console.log("Game have been saved to local storage: " + gameObj);
-                    console.log(gameObj);
+        if (mock) {
+            try {
+                let gameObj = createGameHelper(gameid, mock, teams);
+                resolve(gameObj);
+                return;
+            } catch (err) {
+                reject(err);
+            }  
+        }
+        else {
+            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((response) => {
+                try {
+                    let gameObj = createGameHelper(gameid, response, teams);
                     resolve(gameObj);
                     return;
-                  }
-                );
-              }
+                } catch (err) {
+                    reject(err);
+                }
             });
-          });
-        })
-        .catch((err) => {
-          reject("Game could not be created due to: " + err);
-          return;
-        });
+        }
     });
     return createGamePromise;
-  }
+}
+
+/**
+ * A helper function for the createGame that creates the game object for internal use
+ * @param {Object} response Response from the NHL API or a mock response object (for testing)
+ * @param {Object} teams Internal teams object
+ * @returns The game object for internal use, or throws an error
+ */
+function createGameHelper(gameid, response, teams) {
+    let goals = extractAllGoalsScored(response);
+    let gameData = response["gameData"];
+    let homeTeam = gameData["teams"]["home"]["name"];
+    let awayTeam = gameData["teams"]["away"]["name"];
+    let gameObj = {};
+    gameObj["home"] = teams[homeTeam];
+    gameObj["away"] = teams[awayTeam];
+    gameObj["id"] = gameid;
+    gameObj["allGoals"] = goals;
+    gameObj["currentState"] = extractGameState(response);
+    gameObj["playoffSeries"] = null;
+    if (gameData["game"]["type"] == "P") {
+        nhlApi.GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary").then((response) => {
+            let pogame = findPlayoffGame(response, homeTeam, awayTeam);
+            gameObj["playoffSeries"] = pogame;
+            if (pogame != null) {
+                return gameObj;
+            } else {
+                throw "Playoff data could not be found for the game. Please try again";
+            }
+        });
+    } else {
+        return gameObj;
+    }
+}
 
   /**
    * Function which finds playoff information about the given game
@@ -185,7 +190,7 @@ function findGameForTeam(team, date) {
  */
  function getAllGoalsScored(gameid) {
     let goalsScoredPromise = new Promise((resolve, reject) => {
-      GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
+      nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
           extractAllGoalsScored(game).then((goals) => {
             resolve(goals);
             return;
@@ -207,7 +212,7 @@ function findGameForTeam(team, date) {
    */
   function getGameState(gameid) {
       let gameStatePromise = new Promise((resolve,reject) => {
-          GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
+          nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
               let gameState = extractGameState(game);
               resolve(gameState);
               return;
@@ -239,8 +244,8 @@ function findGameForTeam(team, date) {
     awayTeam["powerplay"] = awayTeamAPI["powerPlay"];
     awayTeam["goaliePulled"] = awayTeamAPI["goaliePulled"];
     let gameState = {};
-    gameState["period"] = current["currentPeriodOrdinal"];
-    gameState["periodTimeRemaining"] = current["currentPeriodTimeRemaining"];
+    gameState["period"] = current["currentPeriodOrdinal"] ? current["currentPeriodOrdinal"]: null ;
+    gameState["periodTimeRemaining"] = current["currentPeriodTimeRemaining"] ? current["currentPeriodTimeRemaining"] : null;
     homeTeam["shootoutGoalsScored"] = null;
     homeTeam["shootoutAttempts"] = null;
     awayTeam["shootoutGoalsScored"] = null;
@@ -265,49 +270,41 @@ function findGameForTeam(team, date) {
  * @param {Object} game API response from the live game endpoint
  * @returns Array of all goals scored
  */
-function extractAllGoalsScored(game) {
-    let retprom = new Promise((resolve, reject) => {
-      gameData = game["liveData"]["plays"]["allPlays"];
-      let goals = [];
-      let gameson;
-      chrome.storage.local.get(["currentGame"], function (result) {
-        gameson = result.currentGame;
-        if (gameson != undefined && gameson != null && gameson["allGoals"] != undefined && gameson["allGoals"] != null) {
-          // If current game is defined, then we know not to check every single goal in the API response
-          for (let i = gameData.length - 1; i >= 0; i--) {
-            let gameEvent = gameData[i];
-            let gameEventType = gameEvent["result"]["eventTypeId"];
-            if (gameEventType.valueOf() === "GOAL") {
-              if (gameson["allGoals"].length > 0) {
-                if (gameson["allGoals"][0]["about"]["eventId"] == gameEvent["about"]["eventId"]) {
-                  // If the first goal found matches the first goal of the internal game state, then merge goals and locally stored goals and return
-                  let retGoals = goals.concat(gameson["allGoals"]);
-                  resolve(retGoals);
-                  return;
+function extractAllGoalsScored(game,prevGame = null) {
+    gameData = game["liveData"]["plays"]["allPlays"];
+    let goals = [];
+    if (prevGame) {
+        if (prevGame["allGoals"] && (prevGame["allGoals"].length > 0)) {
+            // If current game is defined, then there is no need to check every single goal in the API response
+            for (let i = gameData.length-1; i >= 0; i--) {
+                let gameEvent = gameData[i];
+                let gameEventType = gameEvent["result"]["eventTypeId"];
+                if (gameEventType.valueOf() === "GOAL") {
+                    if (prevGame["allGoals"][0]["about"]["eventId"] == gameEvent["about"]["eventId"]) {
+                        // If the first goal found matches the first goal of the internal game state, then merge goals and locally stored goals and return
+                        let retGoals = goals.concat(prevGame["allGoals"]);
+                        return retGoals;
+                    } else {
+                        goals.push(gameEvent);
+                    }
                 } else {
-                  goals.push(gameEvent);
+                    goals.push(gameEvent);
                 }
-              } else {
-                goals.push(gameEvent);
-              }
-            }
-          }
-        } else {
-          // If game has no goals, push all goal events into the array
-          for (let i = gameData.length - 1; i >= 0; i--) {
+            } 
+        }
+    } else {
+        // If game has no goals, push all goal events into the array
+        for (let i = gameData.length - 1; i >= 0; i--) {
             let gameEvent = gameData[i];
             let gameEventType = gameEvent["result"]["eventTypeId"];
             if (gameEventType.valueOf() === "GOAL") {
-              goals.push(gameEvent);
+                goals.push(gameEvent);
             }
-          }
         }
-        resolve(goals);
-        return;
-      });
-    });
-    return retprom;
-  }
+    }
+    return goals;
+}
+
   
 
   /**
