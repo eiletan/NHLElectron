@@ -1,4 +1,5 @@
 {
+    "season": "20202021",
     "allGoals": [
         {
             "about": {
@@ -682,5 +683,6 @@
         "teamName": "Canucks"
     },
     "id": "2020020710",
-    "playoffSeries": null
+    "playoffSeries": null,
+    "areGoalsUpdated": false
 }

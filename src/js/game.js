@@ -75,23 +75,23 @@ function findGameForTeam(team, date) {
  function createGame(gameid,teams,mock = null) {
     let createGamePromise = new Promise((resolve, reject) => {
         if (mock) {
-            try {
-                let gameObj = createGameHelper(gameid, mock, teams);
+            createGameHelper(gameid, mock, teams).then((gameObj) => {
                 resolve(gameObj);
                 return;
-            } catch (err) {
+            }).catch((err) => {
                 reject(err);
-            }  
+                return;
+            });  
         }
         else {
             nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((response) => {
-                try {
-                    let gameObj = createGameHelper(gameid, response, teams);
-                    resolve(gameObj);
-                    return;
-                } catch (err) {
-                    reject(err);
-                }
+                return createGameHelper(gameid, response, teams);
+            }).then((gameObj)=> {
+                resolve(gameObj);
+                return;
+            }).catch((err) => {
+                reject("Game could not be created due to: " +err);
+                return;
             });
         }
     });
@@ -105,30 +105,40 @@ function findGameForTeam(team, date) {
  * @returns The game object for internal use, or throws an error
  */
 function createGameHelper(gameid, response, teams) {
-    let goals = extractAllGoalsScored(response);
-    let gameData = response["gameData"];
-    let homeTeam = gameData["teams"]["home"]["name"];
-    let awayTeam = gameData["teams"]["away"]["name"];
-    let gameObj = {};
-    gameObj["home"] = teams[homeTeam];
-    gameObj["away"] = teams[awayTeam];
-    gameObj["id"] = gameid;
-    gameObj["allGoals"] = goals;
-    gameObj["currentState"] = extractGameState(response);
-    gameObj["playoffSeries"] = null;
-    if (gameData["game"]["type"] == "P") {
-        nhlApi.GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary").then((response) => {
-            let pogame = findPlayoffGame(response, homeTeam, awayTeam);
-            gameObj["playoffSeries"] = pogame;
-            if (pogame != null) {
-                return gameObj;
-            } else {
-                throw "Playoff data could not be found for the game. Please try again";
-            }
-        });
-    } else {
-        return gameObj;
-    }
+    let createGameHelperPromise = new Promise((resolve,reject) => {
+        let goals = extractAllGoalsScored(response);
+        let gameData = response["gameData"];
+        let homeTeam = gameData["teams"]["home"]["name"];
+        let awayTeam = gameData["teams"]["away"]["name"];
+        let gameObj = {};
+        gameObj["season"] = gameData["game"]["season"];
+        gameObj["home"] = teams[homeTeam];
+        gameObj["away"] = teams[awayTeam];
+        gameObj["id"] = gameid;
+        gameObj["allGoals"] = goals;
+        gameObj["currentState"] = extractGameState(response);
+        gameObj["playoffSeries"] = null;
+        gameObj["areGoalsUpdated"] = false;
+        if (gameData["game"]["type"] == "P") {
+            nhlApi.GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary&season=" +  gameData["game"]["season"]).then((response) => {
+                let pogame = findPlayoffGame(response, homeTeam, awayTeam);
+                gameObj["playoffSeries"] = pogame;
+                if (pogame != null) {
+                    resolve(gameObj);
+                    return;
+                } else {
+                    throw "Playoff data could not be found for the game. Please try again";
+                }
+            }).catch((err) => {
+                reject(err);
+                return;
+            });
+        } else {
+            resolve(gameObj);
+            return;
+        }
+    });
+    return createGameHelperPromise;
 }
 
   /**

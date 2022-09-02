@@ -1,4 +1,5 @@
 {
+    "season": "20212022",
     "allGoals": [
         {
             "about": {
@@ -551,5 +552,6 @@
         "gamenum": "Game 6",
         "round": "Stanley Cup Final",
         "seriesStatus": "COL wins 4-2"
-    }
+    },
+    "areGoalsUpdated": false 
 }

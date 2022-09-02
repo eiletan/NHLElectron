@@ -11,7 +11,7 @@ describe('Game', function() {
     let regularGameBeforeMockResponse;
     let regularGameBefore;
     let regularGameAfter;
-    let playoffGameAfter;
+    let playoffGame;
     let internalTeams;
 
     before(function () {
@@ -28,7 +28,7 @@ describe('Game', function() {
             regularSchedule = values[0];
             playoffSchedule = values[1];
             regularGameAfter = values[2];
-            playoffGameAfter = values[3];
+            playoffGame = values[3];
             internalTeams = values[4];
             regularGameBeforeMockResponse = values[5];
             regularGameBefore = values[6];
@@ -81,5 +81,15 @@ describe('Game', function() {
             assert.fail(err);
         })
     });
+
+    it('should create playoff game', function() {
+        // 2021030412 is the id of a playoff game from 2022-06-19
+        return game.createGame("2021030412",internalTeams).then((game) => {
+            assert.deepEqual(game,playoffGame);
+        }).catch((err) => {
+            assert.fail(err);
+        })
+    });
+
 
 });

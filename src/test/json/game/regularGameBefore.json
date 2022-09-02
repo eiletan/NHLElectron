@@ -1,4 +1,5 @@
 {
+    "season": "20222023",
     "home": {
       "name": "Edmonton Oilers",
       "logo": "data/icons/Edmonton Oilers.png",
@@ -41,5 +42,6 @@
         "shootoutAttempts": null
       }
     },
-    "playoffSeries": null
+    "playoffSeries": null,
+    "areGoalsUpdated": false
   }
