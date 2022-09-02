@@ -20,6 +20,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "testMocha": "mocha src/test/**/*.js",
     "eject": "react-scripts eject",
     "electron-react": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron . \""
   },
@@ -40,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0"
   }
 }

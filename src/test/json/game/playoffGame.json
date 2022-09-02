@@ -1,0 +1,557 @@
+{
+    "season": "20212022",
+    "allGoals": [
+        {
+            "about": {
+                "dateTime": "2022-06-19T02:31:29Z",
+                "eventId": 668,
+                "eventIdx": 290,
+                "goals": {
+                    "away": 0,
+                    "home": 7
+                },
+                "ordinalNum": "3rd",
+                "period": 3,
+                "periodTime": "09:49",
+                "periodTimeRemaining": "10:11",
+                "periodType": "REGULAR"
+            },
+            "coordinates": {
+                "x": -70,
+                "y": -20
+            },
+            "players": [
+                {
+                    "player": {
+                        "fullName": "Cale Makar",
+                        "id": 8480069,
+                        "link": "/api/v1/people/8480069"
+                    },
+                    "playerType": "Scorer",
+                    "seasonTotal": 7
+                },
+                {
+                    "player": {
+                        "fullName": "Mikko Rantanen",
+                        "id": 8478420,
+                        "link": "/api/v1/people/8478420"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 17
+                },
+                {
+                    "player": {
+                        "fullName": "Nathan MacKinnon",
+                        "id": 8477492,
+                        "link": "/api/v1/people/8477492"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 9
+                },
+                {
+                    "player": {
+                        "fullName": "Andrei Vasilevskiy",
+                        "id": 8476883,
+                        "link": "/api/v1/people/8476883"
+                    },
+                    "playerType": "Goalie"
+                }
+            ],
+            "result": {
+                "description": "Cale Makar (7) Wrist Shot, assists: Mikko Rantanen (17), Nathan MacKinnon (9)",
+                "emptyNet": false,
+                "event": "Goal",
+                "eventCode": "COL668",
+                "eventTypeId": "GOAL",
+                "gameWinningGoal": false,
+                "secondaryType": "Wrist Shot",
+                "strength": {
+                    "code": "PPG",
+                    "name": "Power Play"
+                }
+            },
+            "team": {
+                "id": 21,
+                "link": "/api/v1/teams/21",
+                "name": "Colorado Avalanche",
+                "triCode": "COL"
+            }
+        },
+        {
+            "about": {
+                "dateTime": "2022-06-19T02:18:37Z",
+                "eventId": 653,
+                "eventIdx": 252,
+                "goals": {
+                    "away": 0,
+                    "home": 6
+                },
+                "ordinalNum": "3rd",
+                "period": 3,
+                "periodTime": "02:04",
+                "periodTimeRemaining": "17:56",
+                "periodType": "REGULAR"
+            },
+            "coordinates": {
+                "x": -62,
+                "y": 17
+            },
+            "players": [
+                {
+                    "player": {
+                        "fullName": "Cale Makar",
+                        "id": 8480069,
+                        "link": "/api/v1/people/8480069"
+                    },
+                    "playerType": "Scorer",
+                    "seasonTotal": 6
+                },
+                {
+                    "player": {
+                        "fullName": "Andrew Cogliano",
+                        "id": 8471699,
+                        "link": "/api/v1/people/8471699"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 3
+                },
+                {
+                    "player": {
+                        "fullName": "Andrei Vasilevskiy",
+                        "id": 8476883,
+                        "link": "/api/v1/people/8476883"
+                    },
+                    "playerType": "Goalie"
+                }
+            ],
+            "result": {
+                "description": "Cale Makar (6) Wrist Shot, assists: Andrew Cogliano (3)",
+                "emptyNet": false,
+                "event": "Goal",
+                "eventCode": "COL653",
+                "eventTypeId": "GOAL",
+                "gameWinningGoal": false,
+                "secondaryType": "Wrist Shot",
+                "strength": {
+                    "code": "SHG",
+                    "name": "Short Handed"
+                }
+            },
+            "team": {
+                "id": 21,
+                "link": "/api/v1/teams/21",
+                "name": "Colorado Avalanche",
+                "triCode": "COL"
+            }
+        },
+        {
+            "about": {
+                "dateTime": "2022-06-19T01:45:25Z",
+                "eventId": 332,
+                "eventIdx": 212,
+                "goals": {
+                    "away": 0,
+                    "home": 5
+                },
+                "ordinalNum": "2nd",
+                "period": 2,
+                "periodTime": "16:26",
+                "periodTimeRemaining": "03:34",
+                "periodType": "REGULAR"
+            },
+            "coordinates": {
+                "x": 58,
+                "y": 17
+            },
+            "players": [
+                {
+                    "player": {
+                        "fullName": "Darren Helm",
+                        "id": 8471794,
+                        "link": "/api/v1/people/8471794"
+                    },
+                    "playerType": "Scorer",
+                    "seasonTotal": 2
+                },
+                {
+                    "player": {
+                        "fullName": "Logan O'Connor",
+                        "id": 8481186,
+                        "link": "/api/v1/people/8481186"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 3
+                },
+                {
+                    "player": {
+                        "fullName": "Andrei Vasilevskiy",
+                        "id": 8476883,
+                        "link": "/api/v1/people/8476883"
+                    },
+                    "playerType": "Goalie"
+                }
+            ],
+            "result": {
+                "description": "Darren Helm (2) Wrist Shot, assists: Logan O'Connor (3)",
+                "emptyNet": false,
+                "event": "Goal",
+                "eventCode": "COL332",
+                "eventTypeId": "GOAL",
+                "gameWinningGoal": false,
+                "secondaryType": "Wrist Shot",
+                "strength": {
+                    "code": "EVEN",
+                    "name": "Even"
+                }
+            },
+            "team": {
+                "id": 21,
+                "link": "/api/v1/teams/21",
+                "name": "Colorado Avalanche",
+                "triCode": "COL"
+            }
+        },
+        {
+            "about": {
+                "dateTime": "2022-06-19T01:22:43Z",
+                "eventId": 310,
+                "eventIdx": 147,
+                "goals": {
+                    "away": 0,
+                    "home": 4
+                },
+                "ordinalNum": "2nd",
+                "period": 2,
+                "periodTime": "04:51",
+                "periodTimeRemaining": "15:09",
+                "periodType": "REGULAR"
+            },
+            "coordinates": {
+                "x": 62,
+                "y": 3
+            },
+            "players": [
+                {
+                    "player": {
+                        "fullName": "Valeri Nichushkin",
+                        "id": 8477501,
+                        "link": "/api/v1/people/8477501"
+                    },
+                    "playerType": "Scorer",
+                    "seasonTotal": 8
+                },
+                {
+                    "player": {
+                        "fullName": "Mikko Rantanen",
+                        "id": 8478420,
+                        "link": "/api/v1/people/8478420"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 16
+                },
+                {
+                    "player": {
+                        "fullName": "Andrei Vasilevskiy",
+                        "id": 8476883,
+                        "link": "/api/v1/people/8476883"
+                    },
+                    "playerType": "Goalie"
+                }
+            ],
+            "result": {
+                "description": "Valeri Nichushkin (8) Snap Shot, assists: Mikko Rantanen (16)",
+                "emptyNet": false,
+                "event": "Goal",
+                "eventCode": "COL310",
+                "eventTypeId": "GOAL",
+                "gameWinningGoal": false,
+                "secondaryType": "Snap Shot",
+                "strength": {
+                    "code": "EVEN",
+                    "name": "Even"
+                }
+            },
+            "team": {
+                "id": 21,
+                "link": "/api/v1/teams/21",
+                "name": "Colorado Avalanche",
+                "triCode": "COL"
+            }
+        },
+        {
+            "about": {
+                "dateTime": "2022-06-19T00:43:43Z",
+                "eventId": 80,
+                "eventIdx": 79,
+                "goals": {
+                    "away": 0,
+                    "home": 3
+                },
+                "ordinalNum": "1st",
+                "period": 1,
+                "periodTime": "13:52",
+                "periodTimeRemaining": "06:08",
+                "periodType": "REGULAR"
+            },
+            "coordinates": {
+                "x": -79,
+                "y": -1
+            },
+            "players": [
+                {
+                    "player": {
+                        "fullName": "Andre Burakovsky",
+                        "id": 8477444,
+                        "link": "/api/v1/people/8477444"
+                    },
+                    "playerType": "Scorer",
+                    "seasonTotal": 3
+                },
+                {
+                    "player": {
+                        "fullName": "Mikko Rantanen",
+                        "id": 8478420,
+                        "link": "/api/v1/people/8478420"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 15
+                },
+                {
+                    "player": {
+                        "fullName": "Devon Toews",
+                        "id": 8478038,
+                        "link": "/api/v1/people/8478038"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 9
+                },
+                {
+                    "player": {
+                        "fullName": "Andrei Vasilevskiy",
+                        "id": 8476883,
+                        "link": "/api/v1/people/8476883"
+                    },
+                    "playerType": "Goalie"
+                }
+            ],
+            "result": {
+                "description": "Andre Burakovsky (3) Tip-In, assists: Mikko Rantanen (15), Devon Toews (9)",
+                "emptyNet": false,
+                "event": "Goal",
+                "eventCode": "COL80",
+                "eventTypeId": "GOAL",
+                "gameWinningGoal": false,
+                "secondaryType": "Tip-In",
+                "strength": {
+                    "code": "EVEN",
+                    "name": "Even"
+                }
+            },
+            "team": {
+                "id": 21,
+                "link": "/api/v1/teams/21",
+                "name": "Colorado Avalanche",
+                "triCode": "COL"
+            }
+        },
+        {
+            "about": {
+                "dateTime": "2022-06-19T00:31:28Z",
+                "eventId": 68,
+                "eventIdx": 42,
+                "goals": {
+                    "away": 0,
+                    "home": 2
+                },
+                "ordinalNum": "1st",
+                "period": 1,
+                "periodTime": "07:55",
+                "periodTimeRemaining": "12:05",
+                "periodType": "REGULAR"
+            },
+            "coordinates": {
+                "x": -54,
+                "y": 28
+            },
+            "players": [
+                {
+                    "player": {
+                        "fullName": "Josh Manson",
+                        "id": 8476312,
+                        "link": "/api/v1/people/8476312"
+                    },
+                    "playerType": "Scorer",
+                    "seasonTotal": 3
+                },
+                {
+                    "player": {
+                        "fullName": "Andrew Cogliano",
+                        "id": 8471699,
+                        "link": "/api/v1/people/8471699"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 2
+                },
+                {
+                    "player": {
+                        "fullName": "Alex Newhook",
+                        "id": 8481618,
+                        "link": "/api/v1/people/8481618"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 4
+                },
+                {
+                    "player": {
+                        "fullName": "Andrei Vasilevskiy",
+                        "id": 8476883,
+                        "link": "/api/v1/people/8476883"
+                    },
+                    "playerType": "Goalie"
+                }
+            ],
+            "result": {
+                "description": "Josh Manson (3) Wrist Shot, assists: Andrew Cogliano (2), Alex Newhook (4)",
+                "emptyNet": false,
+                "event": "Goal",
+                "eventCode": "COL68",
+                "eventTypeId": "GOAL",
+                "gameWinningGoal": false,
+                "secondaryType": "Wrist Shot",
+                "strength": {
+                    "code": "EVEN",
+                    "name": "Even"
+                }
+            },
+            "team": {
+                "id": 21,
+                "link": "/api/v1/teams/21",
+                "name": "Colorado Avalanche",
+                "triCode": "COL"
+            }
+        },
+        {
+            "about": {
+                "dateTime": "2022-06-19T00:21:41Z",
+                "eventId": 59,
+                "eventIdx": 17,
+                "goals": {
+                    "away": 0,
+                    "home": 1
+                },
+                "ordinalNum": "1st",
+                "period": 1,
+                "periodTime": "02:54",
+                "periodTimeRemaining": "17:06",
+                "periodType": "REGULAR"
+            },
+            "coordinates": {
+                "x": -81,
+                "y": -3
+            },
+            "players": [
+                {
+                    "player": {
+                        "fullName": "Valeri Nichushkin",
+                        "id": 8477501,
+                        "link": "/api/v1/people/8477501"
+                    },
+                    "playerType": "Scorer",
+                    "seasonTotal": 7
+                },
+                {
+                    "player": {
+                        "fullName": "Andre Burakovsky",
+                        "id": 8477444,
+                        "link": "/api/v1/people/8477444"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 5
+                },
+                {
+                    "player": {
+                        "fullName": "Alex Newhook",
+                        "id": 8481618,
+                        "link": "/api/v1/people/8481618"
+                    },
+                    "playerType": "Assist",
+                    "seasonTotal": 3
+                },
+                {
+                    "player": {
+                        "fullName": "Andrei Vasilevskiy",
+                        "id": 8476883,
+                        "link": "/api/v1/people/8476883"
+                    },
+                    "playerType": "Goalie"
+                }
+            ],
+            "result": {
+                "description": "Valeri Nichushkin (7) Tip-In, assists: Andre Burakovsky (5), Alex Newhook (3)",
+                "emptyNet": false,
+                "event": "Goal",
+                "eventCode": "COL59",
+                "eventTypeId": "GOAL",
+                "gameWinningGoal": true,
+                "secondaryType": "Tip-In",
+                "strength": {
+                    "code": "PPG",
+                    "name": "Power Play"
+                }
+            },
+            "team": {
+                "id": 21,
+                "link": "/api/v1/teams/21",
+                "name": "Colorado Avalanche",
+                "triCode": "COL"
+            }
+        }
+    ],
+    "away": {
+        "abbreviation": "TBL",
+        "color": "#002868",
+        "goalHorn": "data/audio/Tampa Bay Lightning.mp3",
+        "id": 14,
+        "logo": "data/icons/Tampa Bay Lightning.png",
+        "name": "Tampa Bay Lightning",
+        "shortName": "Tampa Bay",
+        "teamName": "Lightning"
+    },
+    "currentState": {
+        "away": {
+            "goaliePulled": false,
+            "goals": 0,
+            "powerplay": false,
+            "shootoutAttempts": null,
+            "shootoutGoalsScored": null,
+            "shots": 16
+        },
+        "home": {
+            "goaliePulled": false,
+            "goals": 7,
+            "powerplay": false,
+            "shootoutAttempts": null,
+            "shootoutGoalsScored": null,
+            "shots": 30
+        },
+        "period": "3rd",
+        "periodTimeRemaining": "Final"
+    },
+    "home": {
+        "abbreviation": "COL",
+        "color": "#6F263D",
+        "goalHorn": "data/audio/Colorado Avalanche.mp3",
+        "id": 21,
+        "logo": "data/icons/Colorado Avalanche.png",
+        "name": "Colorado Avalanche",
+        "shortName": "Colorado",
+        "teamName": "Avalanche"
+    },
+    "id": "2021030412",
+    "playoffSeries": {
+        "gamenum": "Game 6",
+        "round": "Stanley Cup Final",
+        "seriesStatus": "COL wins 4-2"
+    },
+    "areGoalsUpdated": false 
+}

@@ -1,0 +1,201 @@
+[
+  {
+    "gamePk": 2021030132,
+    "link": "/api/v1/game/2021030132/feed/live",
+    "gameType": "P",
+    "season": "20212022",
+    "gameDate": "2022-05-04T23:00:00Z",
+    "status": {
+      "abstractGameState": "Final",
+      "codedGameState": "7",
+      "detailedState": "Final",
+      "statusCode": "7",
+      "startTimeTBD": false
+    },
+    "teams": {
+      "away": {
+        "leagueRecord": {
+          "wins": 0,
+          "losses": 2,
+          "type": "league"
+        },
+        "score": 2,
+        "team": {
+          "id": 6,
+          "name": "Boston Bruins",
+          "link": "/api/v1/teams/6"
+        }
+      },
+      "home": {
+        "leagueRecord": {
+          "wins": 2,
+          "losses": 0,
+          "type": "league"
+        },
+        "score": 5,
+        "team": {
+          "id": 12,
+          "name": "Carolina Hurricanes",
+          "link": "/api/v1/teams/12"
+        }
+      }
+    },
+    "venue": {
+      "id": 5066,
+      "name": "PNC Arena",
+      "link": "/api/v1/venues/5066"
+    },
+    "content": {
+      "link": "/api/v1/game/2021030132/content"
+    }
+  },
+  {
+    "gamePk": 2021030122,
+    "link": "/api/v1/game/2021030122/feed/live",
+    "gameType": "P",
+    "season": "20212022",
+    "gameDate": "2022-05-04T23:30:00Z",
+    "status": {
+      "abstractGameState": "Final",
+      "codedGameState": "7",
+      "detailedState": "Final",
+      "statusCode": "7",
+      "startTimeTBD": false
+    },
+    "teams": {
+      "away": {
+        "leagueRecord": {
+          "wins": 1,
+          "losses": 1,
+          "type": "league"
+        },
+        "score": 5,
+        "team": {
+          "id": 14,
+          "name": "Tampa Bay Lightning",
+          "link": "/api/v1/teams/14"
+        }
+      },
+      "home": {
+        "leagueRecord": {
+          "wins": 1,
+          "losses": 1,
+          "type": "league"
+        },
+        "score": 3,
+        "team": {
+          "id": 10,
+          "name": "Toronto Maple Leafs",
+          "link": "/api/v1/teams/10"
+        }
+      }
+    },
+    "venue": {
+      "name": "Scotiabank Arena",
+      "link": "/api/v1/venues/null"
+    },
+    "content": {
+      "link": "/api/v1/game/2021030122/content"
+    }
+  },
+  {
+    "gamePk": 2021030162,
+    "link": "/api/v1/game/2021030162/feed/live",
+    "gameType": "P",
+    "season": "20212022",
+    "gameDate": "2022-05-05T01:30:00Z",
+    "status": {
+      "abstractGameState": "Final",
+      "codedGameState": "7",
+      "detailedState": "Final",
+      "statusCode": "7",
+      "startTimeTBD": false
+    },
+    "teams": {
+      "away": {
+        "leagueRecord": {
+          "wins": 1,
+          "losses": 1,
+          "type": "league"
+        },
+        "score": 2,
+        "team": {
+          "id": 19,
+          "name": "St. Louis Blues",
+          "link": "/api/v1/teams/19"
+        }
+      },
+      "home": {
+        "leagueRecord": {
+          "wins": 1,
+          "losses": 1,
+          "type": "league"
+        },
+        "score": 6,
+        "team": {
+          "id": 30,
+          "name": "Minnesota Wild",
+          "link": "/api/v1/teams/30"
+        }
+      }
+    },
+    "venue": {
+      "id": 5098,
+      "name": "Xcel Energy Center",
+      "link": "/api/v1/venues/5098"
+    },
+    "content": {
+      "link": "/api/v1/game/2021030162/content"
+    }
+  },
+  {
+    "gamePk": 2021030182,
+    "link": "/api/v1/game/2021030182/feed/live",
+    "gameType": "P",
+    "season": "20212022",
+    "gameDate": "2022-05-05T02:00:00Z",
+    "status": {
+      "abstractGameState": "Final",
+      "codedGameState": "7",
+      "detailedState": "Final",
+      "statusCode": "7",
+      "startTimeTBD": false
+    },
+    "teams": {
+      "away": {
+        "leagueRecord": {
+          "wins": 1,
+          "losses": 1,
+          "type": "league"
+        },
+        "score": 0,
+        "team": {
+          "id": 26,
+          "name": "Los Angeles Kings",
+          "link": "/api/v1/teams/26"
+        }
+      },
+      "home": {
+        "leagueRecord": {
+          "wins": 1,
+          "losses": 1,
+          "type": "league"
+        },
+        "score": 6,
+        "team": {
+          "id": 22,
+          "name": "Edmonton Oilers",
+          "link": "/api/v1/teams/22"
+        }
+      }
+    },
+    "venue": {
+      "id": 5100,
+      "name": "Rogers Place",
+      "link": "/api/v1/venues/5100"
+    },
+    "content": {
+      "link": "/api/v1/game/2021030182/content"
+    }
+  }
+]
