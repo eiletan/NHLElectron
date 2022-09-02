@@ -318,63 +318,33 @@ function extractAllGoalsScored(game,prevGame = null) {
   
 
   /**
-   * Updates the game state locally, and sends notification if a team has scored
+   * Updates the game state
+   * @param {Object} game The game object to be updated
    * @returns a Promise that resolves with the updated game object
    */
-  function updateGameStatus() {
+  function updateGameStatus(game) {
     let updateGameStatePromise = new Promise((resolve,reject) => {
-        try {
-            chrome.storage.local.get(["currentGame"], function(result) {
-                let game = result.currentGame;
-                let gameId = game["id"];
-                getAllGoalsScored(gameId).then((goals) => {
-                    if (game["allGoals"].length != goals.length) {
-                        let goalObj = goals[0];
-                        let teamName = goalObj["team"]["name"];
-                        let teamLogo;
-                        let teamAudio;
-                        if (util.matchTeamName(teamName,game["home"]["name"])) {
-                            teamLogo = game["home"]["logo"];
-                            teamAudio = game["home"]["goalHorn"];
-                        } else {
-                            teamLogo = game["away"]["logo"];
-                            teamAudio = game["away"]["goalHorn"];
-                        }
-                        let strength = goalObj["result"]["strength"]["code"];
-                        let goalTitle = game["away"]["abbreviation"] + ": " + goalObj["about"]["goals"]["away"] + " | " + game["home"]["abbreviation"] + ": " + goalObj["about"]["goals"]["home"]
-                        + " (" + goalObj["team"]["triCode"] + " GOAL)";
-                        // Strip point totals from the goal description because it can be initially inaccurate 
-                        let goalDescriptor = goalObj["result"]["description"].replace(/ \((.*?)\)/g,"");
-                        let goalDesc = goalDescriptor + " \n" + goalObj["about"]["ordinalNum"] + " @ " + goalObj["about"]["periodTime"]
-                        + " (" + strength + ")" ;
-                        sendNotification(goalTitle,goalDesc,teamLogo,teamAudio);
-                        game["allGoals"] = goals;
-                        return getGameState(gameId);
-                    } else {
-                        game["allGoals"] = goals;
-                        return getGameState(gameId);
-                    }
-                }).then((gameState) => {
-                    game["currentState"] = gameState;
-                    chrome.storage.local.set({ "currentGame": game}, function () {
-                        console.log("Game has been updated");
-                        console.log(game);
-                        chrome.runtime.sendMessage({gameUpdate: game});
-                        resolve(game);
-                        return;
-                      });
-                }).catch((err) => {
-                    reject("Game could not be updated due to: " + err);
-                    return;
-                })
+        let gameId = game["id"];
+        getAllGoalsScored(gameId).then((goals) => {
+            if (game["allGoals"].length != goals.length) {
+                game["allGoals"] = goals;
+                game["areGoalsUpdated"] = true;
+                return getGameState(gameId);
+            } else {
+                game["allGoals"] = goals;
+                game["areGoalsUpdated"] = false;
+                return getGameState(gameId);
+            }}).then((gameState) => {
+                game["currentState"] = gameState;
+                resolve(game);
+                return;
+            }).catch((err) => {
+                reject("Game could not be updated due to: " + err);
+                return;
             });
-        } catch (err) {
-            throw "Game could not be updated due to: " + err;
-            
-        }
-    });
+        });
     return updateGameStatePromise;
-  }
+}
 
   /**
    * Determines the winner of the game
