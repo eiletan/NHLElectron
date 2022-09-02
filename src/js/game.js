@@ -359,7 +359,7 @@ function extractAllGoalsScored(game,prevGame = null) {
 
   /**
    * Determines the winner of the game
-   * @param {Object} game API response from the live game endpoint
+   * @param {Object} game Internal game object
    * @returns JSON object containing information about the game win; type of win, winning team, and final score
    */
   function determineWinner(game) {

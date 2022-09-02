@@ -120,5 +120,128 @@ describe('Game', function() {
         });
     });
 
+    it('should return home team winner in regulation', function() {
+        let winnerObj = game.determineWinner(regularGameAfter);
+        let actual = {
+            "awayGoals": 3,
+            "homeGoals": 6,
+            "awayShort": "TOR",
+            "homeShort": "VAN",
+            "home": "Vancouver Canucks",
+            "away": "Toronto Maple Leafs",
+            "winType": "Regulation",
+            "winnerShort": "VAN",
+            "winner": "Vancouver Canucks",
+            "winnerLoc": "home"
+        };
+        assert.deepEqual(winnerObj,actual);
+    });
+
+
+    it('should return away team winner in regulation', function() {
+        return game.createGame("2021021126",internalTeams).then((createdGame) => {
+            let winnerObj = game.determineWinner(createdGame);
+            let actual = {
+                "awayGoals": 5,
+                "homeGoals": 1,
+                "awayShort": "VAN",
+                "homeShort": "VGK",
+                "home": "Vegas Golden Knights",
+                "away": "Vancouver Canucks",
+                "winType": "Regulation",
+                "winnerShort": "VAN",
+                "winner": "Vancouver Canucks",
+                "winnerLoc": "away"
+            };
+            assert.deepEqual(winnerObj,actual);
+        }).catch((err) => {
+            assert.fail(err);
+        })
+    });
+
+    it('should return home team winner in overtime', function() {
+        return game.createGame("2021020141",internalTeams).then((createdGame) => {
+            let winnerObj = game.determineWinner(createdGame);
+            let actual = {
+                "awayGoals": 2,
+                "homeGoals": 3,
+                "awayShort": "NYR",
+                "homeShort": "VAN",
+                "home": "Vancouver Canucks",
+                "away": "New York Rangers",
+                "winType": "Overtime",
+                "winnerShort": "VAN",
+                "winner": "Vancouver Canucks",
+                "winnerLoc": "home"
+            };
+            assert.deepEqual(winnerObj,actual);
+        }).catch((err) => {
+            assert.fail(err);
+        })
+    });
+
+    it('should return away team winner in overtime', function() {
+        return game.createGame("2021020550",internalTeams).then((createdGame) => {
+            let winnerObj = game.determineWinner(createdGame);
+            let actual = {
+                "awayGoals": 2,
+                "homeGoals": 1,
+                "awayShort": "VAN",
+                "homeShort": "ANA",
+                "home": "Anaheim Ducks",
+                "away": "Vancouver Canucks",
+                "winType": "Overtime",
+                "winnerShort": "VAN",
+                "winner": "Vancouver Canucks",
+                "winnerLoc": "away"
+            };
+            assert.deepEqual(winnerObj,actual);
+        }).catch((err) => {
+            assert.fail(err);
+        })
+    });
+
+    it('should return home team winner in shootout', function() {
+        return game.createGame("2021020400",internalTeams).then((createdGame) => {
+            let winnerObj = game.determineWinner(createdGame);
+            let actual = {
+                "awayGoals": 1,
+                "homeGoals": 2,
+                "awayShort": "BOS",
+                "homeShort": "VAN",
+                "home": "Vancouver Canucks",
+                "away": "Boston Bruins",
+                "winType": "Shootout",
+                "winnerShort": "VAN",
+                "winner": "Vancouver Canucks",
+                "winnerLoc": "home"
+            };
+            assert.deepEqual(winnerObj,actual);
+        }).catch((err) => {
+            assert.fail(err);
+        })
+    });
+
+    it('should return away team winner in shootout', function() {
+        return game.createGame("2021021269",internalTeams).then((createdGame) => {
+            let winnerObj = game.determineWinner(createdGame);
+            let actual = {
+                "awayGoals": 5,
+                "homeGoals": 4,
+                "awayShort": "SJS",
+                "homeShort": "VGK",
+                "home": "Vegas Golden Knights",
+                "away": "San Jose Sharks",
+                "winType": "Shootout",
+                "winnerShort": "SJS",
+                "winner": "San Jose Sharks",
+                "winnerLoc": "away"
+            };
+            assert.deepEqual(winnerObj,actual);
+        }).catch((err) => {
+            assert.fail(err);
+        })
+    });
+
 
 });
