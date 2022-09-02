@@ -80,12 +80,12 @@ describe('Game', function() {
     });
 
     it('should create regular season game during the game', function() {
-        // 2020020710 is the id of a regular season game from 2021-04-20
+        // 2020020710 is the id of a regular season game from 2021-04-20, the game will be created with a modified response from the NHL API to simulate it being in progress
         return game.createGame("2020020710",internalTeams, regularGameDuringMockResponse).then((game) => {
             assert.deepEqual(game,regularGameDuring);
         }).catch((err) => {
             assert.fail(err);
-        })
+        });
     });
 
     it('should create regular season game after game end', function() {
@@ -104,6 +104,20 @@ describe('Game', function() {
         }).catch((err) => {
             assert.fail(err);
         })
+    });
+
+    it('should update game', function() {
+        // 2020020710 is the id of a regular season game from 2021-04-20, the game will be created with a modified response from the NHL API to simulate it being in progress
+        return game.createGame("2020020710",internalTeams, regularGameDuringMockResponse).then((gameToUpdate) => {
+            assert.deepEqual(gameToUpdate,regularGameDuring);
+            return game.updateGameStatus(gameToUpdate);
+        }).then((finalGame) => {
+            let updatedGame = JSON.parse(JSON.stringify(regularGameAfter));
+            updatedGame["areGoalsUpdated"] = true;
+            assert.deepEqual(finalGame,updatedGame);
+        }).catch((err) => {
+            assert.fail(err);
+        });
     });
 
 

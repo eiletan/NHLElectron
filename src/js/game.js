@@ -196,20 +196,26 @@ function createGameHelper(gameid, response, teams) {
 /**
  * Gets a live update for the game specified by gameid and returns all goals scored in the game at the present moment as an array
  * @param {String} gameid API internal ID of a NHL Game
+ * @param {Object} prevGame The game object to be updated
+ * @param {Object} mock Mock object of NHL api response. Intended for testing
  * @returns a Promise that resolves with an array that contains all goals scored currently from last to first.
  */
- function getAllGoalsScored(gameid) {
+ function getAllGoalsScored(gameid, prevGame, mock = null) {
     let goalsScoredPromise = new Promise((resolve, reject) => {
-      nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
-          extractAllGoalsScored(game).then((goals) => {
+        if (mock) {
+            let goals = extractAllGoalsScored(mock, prevGame);
             resolve(goals);
             return;
-          });
-        })
-        .catch((err) => {
-          reject("Error retrieving game data: " + err);
-          return;
-        });
+        } else {
+            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
+                let goals = extractAllGoalsScored(game, prevGame);
+                resolve(goals);
+                return;
+              }).catch((err) => {
+                reject("Error retrieving game data: " + err);
+                return;
+              });
+        }
     });
     return goalsScoredPromise;
   }
@@ -220,19 +226,25 @@ function createGameHelper(gameid, response, teams) {
    * @param {String} gameid API internal ID of a NHL Game
    * @returns a Promise that resolves with the state of the game as an JSON object
    */
-  function getGameState(gameid) {
+  function getGameState(gameid, mock = null) {
       let gameStatePromise = new Promise((resolve,reject) => {
-          nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
-              let gameState = extractGameState(game);
-              resolve(gameState);
-              return;
-          }).catch((err) => {
-              reject(err);
-              return;
-          })
+        if (mock) {
+            let gameState = extractGameState(mock);
+            resolve(gameState);
+            return;
+        } else {
+            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
+                let gameState = extractGameState(game);
+                resolve(gameState);
+                return;
+            }).catch((err) => {
+                reject(err);
+                return;
+            })
+        }
       });
       return gameStatePromise;
-  }
+}
 
   /**
    * Gets information about game state
@@ -297,8 +309,6 @@ function extractAllGoalsScored(game,prevGame = null) {
                     } else {
                         goals.push(gameEvent);
                     }
-                } else {
-                    goals.push(gameEvent);
                 }
             } 
         }
@@ -320,12 +330,13 @@ function extractAllGoalsScored(game,prevGame = null) {
   /**
    * Updates the game state
    * @param {Object} game The game object to be updated
+   * @param {Object} mock Mock object of NHL api response. Intended for testing
    * @returns a Promise that resolves with the updated game object
    */
-  function updateGameStatus(game) {
+  function updateGameStatus(game, mock = null) {
     let updateGameStatePromise = new Promise((resolve,reject) => {
         let gameId = game["id"];
-        getAllGoalsScored(gameId).then((goals) => {
+        getAllGoalsScored(gameId,game,mock).then((goals) => {
             if (game["allGoals"].length != goals.length) {
                 game["allGoals"] = goals;
                 game["areGoalsUpdated"] = true;
