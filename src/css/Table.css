@@ -31,10 +31,18 @@
     object-fit: contain;
     max-height: 50%;
     max-width: 50%;
+    min-height: 30px;
+    min-width: 30px;
+    height: 30%;
+    width: 30%;
 }
 
 .tableDataCell {
     max-height: 50%;
     max-width: 50%;
+    min-width: 20%;
+    min-height: 20%;
+    height: 30%;
+    width: 30%;
     border: 2px solid black;
 }
