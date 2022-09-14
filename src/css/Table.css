@@ -28,10 +28,7 @@
 }
 
 .table img {
-    max-height: 30%;
-    max-width: 30%;
-    min-height: 50px;
-    min-width: 50px;
+    object-fit: contain;
 }
 
 .tableDataCell {
