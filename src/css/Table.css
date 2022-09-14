@@ -29,10 +29,12 @@
 
 .table img {
     object-fit: contain;
+    max-height: 50%;
+    max-width: 50%;
 }
 
 .tableDataCell {
-    height: 10%;
-    width: 10%;
+    max-height: 50%;
+    max-width: 50%;
     border: 2px solid black;
 }
