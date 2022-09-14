@@ -10,12 +10,13 @@ export default function Table(props) {
     function createRowsAndData(arr, order, rowKey = null, cellKey = null) {
         // Check if array of data and order keys match
         let arrKeys = Object.keys(arr[0]);
-        let orderKeys = Object.keys(order);
-        if (arrKeys.length != orderKeys.length) {
+        if (arrKeys.length != order.length) {
             throw new Error(`The number of keys for the column must be the same as the number of keys in the order array. 
-            ${arrKeys.length} is not equal to ${orderKeys.length}`);
+            ${arrKeys.length} is not equal to ${order.length}`);
         }
         arrKeys.sort();
+        let orderKeys = JSON.stringify(order);
+        orderKeys = JSON.parse(orderKeys);
         orderKeys.sort();
         // Check if the keys are the same
         for (let a = 0; a < arrKeys.length; a++) {
