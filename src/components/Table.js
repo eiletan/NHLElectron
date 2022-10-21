@@ -30,7 +30,7 @@ export default function Table(props) {
             let cells = [];
             for (let i = 0; i < order.length; i++) {
                 let cellData = rowDataObj[order[i]];
-                cells.push(<td className="tableDataCell" key={cellKey ? rowDataObj[cellKey] : i}>{cellData}</td>);
+                cells.push(<td className={"tableDataCell " + order[i]} key={cellKey ? rowDataObj[cellKey] : i}>{cellData}</td>);
             }
             let row = <tr className="tableRow" key={rowKey ? rowDataObj[rowKey] : index}>{cells}</tr>
             rows.push(row);
