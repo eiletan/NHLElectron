@@ -2,37 +2,56 @@ import React from 'react';
 import '../css/Table.css';
 
 export default function Table(props) {
-    // Pass data for the table in the form of an array of objects, with each object representing a table row. The prop is "rows"
-    // Pass the order in which the data should go in the table row as an array, with the list of keys in order. The prop is "dataRowOrder"
-    // Pass the key name that will be used as table row key. The prop is "dataRowKey". If unspecified, then the index will be used
-    // Pass the key name that will be used as table data cell key. The prop is "dataCellKey". If unspecified, then the index will be used 
+    const rowKey = "ROWKEYIDENTIFIER";
+    // Pass data for the table in the form of an array of maps, with each map representing a table row. The prop is "rows"
+    // Each map must contain a ROWKEYIDENTIFIER key, if you do not want to specify row key, then set the value to null
+    // Pass the class names for each data cell as an array, with the list of class names in order. The prop is "dataClassNames"
 
-    function createRowsAndData(arr, order, rowKey = null, cellKey = null) {
-        // Check if array of data and order keys match
-        let arrKeys = Object.keys(arr[0]);
-        if (arrKeys.length != order.length) {
-            throw new Error(`The number of keys for the column must be the same as the number of keys in the order array. 
-            ${arrKeys.length} is not equal to ${order.length}`);
-        }
-        arrKeys.sort();
-        let orderKeys = JSON.stringify(order);
-        orderKeys = JSON.parse(orderKeys);
-        orderKeys.sort();
-        // Check if the keys are the same
-        for (let a = 0; a < arrKeys.length; a++) {
-            if (arrKeys[a] != orderKeys[a]) {
-                throw new Error(`Column names are not the same: ${arrKeys[a]} is not equal to ${orderKeys[a]}`);
+    function createRowsAndData(arr, classNames = null) {
+        // Check if every object in array is a map
+        for (let i = 0; i < arr.length; i++) {
+            if (!(arr[i] instanceof Map)) {
+                throw new Error("One or more objects in the array representing table data is not a map.");
             }
+        }
+        // Check if rowKey is present in all the maps
+        for (let l = 0; l < arr.length; l++) {
+            if (arr[l].get(rowKey) === undefined) {
+                throw new Error("Row key identifier not present in the row data");
+            }
+        }
+        // Check if all Maps have same number of columns
+        let mapKeys = Array.from(arr[0].keys());
+        let numCol = mapKeys.length;
+        for (let j = 1; j < arr.length; j++) {
+            let arrMapKeys = Array.from(arr[j].keys());
+            if (arrMapKeys.length !== numCol) {
+                throw new Error(`Number of columns is not the same for each row. Expected number of columns is ${numCol}, actual number is ${arrMapKeys.length}`);
+            }
+        }
+        // If classNames is not null, check that the length of the array is the same as number of columns
+        if (classNames && (classNames.length !== numCol-1)) {
+            throw new Error(`Number of class names does not match the number of columns. Expected number of class names is ${numCol-1}, actual number is ${classNames.length}`);
         }
 
         let rows = [];
-        arr.map((rowDataObj, index) => {
+        arr.map((rowDataMap, index) => {
             let cells = [];
-            for (let i = 0; i < order.length; i++) {
-                let cellData = rowDataObj[order[i]];
-                cells.push(<td className={"tableDataCell " + order[i]} key={cellKey ? rowDataObj[cellKey] : i}>{cellData}</td>);
+            let keys = Array.from(rowDataMap.keys());
+            for (let k = 0; k < keys.length; k++) {
+                let cellData = rowDataMap.get(keys[k]);
+                // Ignore ROWKEYIDENTIFIER since it is used for identifying the row in react
+                if (String(keys[k]) === String(rowKey)) {
+                    continue;
+                }
+                if (classNames) {
+                    cells.push(<td className={"tableDataCell " + classNames[k]} key={k}>{cellData}</td>);
+                } else {
+                    cells.push(<td className={"tableDataCell"} key={k}>{cellData}</td>);
+                }
+                
             }
-            let row = <tr className="tableRow" key={rowKey ? rowDataObj[rowKey] : index}>{cells}</tr>
+            let row = <tr className="tableRow" key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}>{cells}</tr>
             rows.push(row);
         });
         return rows;
@@ -42,7 +61,7 @@ export default function Table(props) {
         <div className="tableContainer">
             <table className="table">
                 <tbody className="tableBody">
-                    {createRowsAndData(props.rows,props.dataRowOrder,props.dataRowKey,props.dataCellKey)}
+                    {createRowsAndData(props.rows,props.classNames)}
                 </tbody>
             </table>
         </div>
