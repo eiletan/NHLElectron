@@ -38,11 +38,10 @@
 }
 
 .tableDataCell {
-    max-height: 50%;
-    max-width: 50%;
-    min-width: 20%;
-    min-height: 20%;
-    height: 30%;
-    width: 30%;
-    border: 2px solid black;
+    padding: 1px;
+}
+
+.class1 {
+    height: 10vh;
+    width: 100px
 }
