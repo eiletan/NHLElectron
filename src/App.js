@@ -10,7 +10,8 @@ function App() {
         <Table 
           rows={[new Map([["col1", "VAN"],["col2", <img src={require("./assets/logos/Vancouver Canucks.png")}></img>],["ROWKEYIDENTIFIER", 13454]]), 
           new Map([["col1", "BOS"],["col2", <img src={require("./assets/logos/Boston Bruins.png")}></img>],["ROWKEYIDENTIFIER", null]])]}
-          classNames={["class1","class2"]}
+          cellClassNames={["class1","class2"]}
+          rowClassNames={["VAN","BOS"]}
           />
       </ErrorBoundary>
     </div>
