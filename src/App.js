@@ -14,7 +14,7 @@ function App() {
       <ErrorBoundary>
         <Table 
           rows={[map1]}
-          cellClassNames={["class1","class2", "class3", "class4", "class5", "class6"]}
+          cellClassNames={["class1","class1", "class1", "class1", "class1", "class1"]}
           rowClassNames={["VAN"]}
           />
       </ErrorBoundary>
