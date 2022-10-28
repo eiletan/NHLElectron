@@ -13,8 +13,9 @@ function App() {
     <div className="App">
       <ErrorBoundary>
         <Table 
-          rows={[map1,map1]}
-          classNames={["class1","class1","class1","class1","class1","class1"]}
+          rows={[map1]}
+          cellClassNames={["class1","class2", "class3", "class4", "class5", "class6"]}
+          rowClassNames={["VAN"]}
           />
       </ErrorBoundary>
     </div>
