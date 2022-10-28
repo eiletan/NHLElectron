@@ -8,40 +8,40 @@ export default function Table(props) {
     // Pass the class names for each data cell as an array, with the list of class names in order. The prop is "cellClassNames"
     // Pass the class names for each data row as an array, with the list of class names in order. The prop is "rowClassNames"
 
-    function createRowsAndData(arr, cellClassNames = null, rowClassNames = null) {
+    function createRowsAndData() {
         // Check if every object in array is a map
-        for (let i = 0; i < arr.length; i++) {
-            if (!(arr[i] instanceof Map)) {
+        for (let i = 0; i < props.rows.length; i++) {
+            if (!(props.rows[i] instanceof Map)) {
                 throw new Error("One or more objects in the array representing table data is not a map.");
             }
         }
         // Check if rowKey is present in all the maps
-        for (let l = 0; l < arr.length; l++) {
-            if (arr[l].get(rowKey) === undefined) {
+        for (let l = 0; l < props.rows.length; l++) {
+            if (props.rows[l].get(rowKey) === undefined) {
                 throw new Error("Row key identifier not present in the row data");
             }
         }
         // Check if all Maps have same number of columns
-        let mapKeys = Array.from(arr[0].keys());
+        let mapKeys = Array.from(props.rows[0].keys());
         let numCol = mapKeys.length;
-        let numRow = arr.length;
-        for (let j = 1; j < arr.length; j++) {
-            let arrMapKeys = Array.from(arr[j].keys());
+        let numRow = props.rows.length;
+        for (let j = 1; j < props.rows.length; j++) {
+            let arrMapKeys = Array.from(props.rows[j].keys());
             if (arrMapKeys.length !== numCol) {
                 throw new Error(`Number of columns is not the same for each row. Expected number of columns is ${numCol}, actual number is ${arrMapKeys.length}`);
             }
         }
-        // If cellClassNames is not null, check that the length of the array is the same as number of columns
-        if (cellClassNames && (cellClassNames.length !== numCol-1)) {
-            throw new Error(`Number of cell class names does not match the number of columns. Expected number of cell class names is ${numCol-1}, actual number is ${cellClassNames.length}`);
+        // If props.cellClassNames is not null, check that the length of the array is the same as number of columns
+        if (props.cellClassNames && (props.cellClassNames.length !== numCol-1)) {
+            throw new Error(`Number of cell class names does not match the number of columns. Expected number of cell class names is ${numCol-1}, actual number is ${props.cellClassNames.length}`);
         }
-        // If rowClassNames is not null, check that the length of the array is the same as number of columns
-        if (rowClassNames && (rowClassNames.length !== numRow)) {
-            throw new Error(`Number of row class names does not match the number of rows. Expected number of row class names is ${numRow}, actual number is ${rowClassNames.length}`);
+        // If props.rowClassNames is not null, check that the length of the array is the same as number of columns
+        if (props.rowClassNames && (props.rowClassNames.length !== numRow)) {
+            throw new Error(`Number of row class names does not match the number of rows. Expected number of row class names is ${numRow}, actual number is ${props.rowClassNames.length}`);
         }
 
         let rows = [];
-        arr.map((rowDataMap, index) => {
+        props.rows.map((rowDataMap, index) => {
             let cells = [];
             let keys = Array.from(rowDataMap.keys());
             for (let k = 0; k < keys.length; k++) {
@@ -50,16 +50,16 @@ export default function Table(props) {
                 if (String(keys[k]) === String(rowKey)) {
                     continue;
                 }
-                if (cellClassNames) {
-                    cells.push(<td className={"tableDataCell " + cellClassNames[k]} key={k}>{cellData}</td>);
+                if (props.cellClassNames) {
+                    cells.push(<td className={"tableDataCell " + props.cellClassNames[k]} key={k}>{cellData}</td>);
                 } else {
                     cells.push(<td className={"tableDataCell"} key={k}>{cellData}</td>);
                 }
                 
             }
             let row;
-            if (rowClassNames) {
-                row = <tr className={"tableRow " + rowClassNames[index]} key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}>{cells}</tr>
+            if (props.rowClassNames) {
+                row = <tr className={"tableRow " + props.rowClassNames[index]} key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}>{cells}</tr>
             } else {
                 row = <tr className="tableRow" key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}>{cells}</tr>
             }
@@ -73,7 +73,7 @@ export default function Table(props) {
         <div className="tableContainer">
             <table className="table">
                 <tbody className="tableBody">
-                    {createRowsAndData(props.rows,props.cellClassNames, props.rowClassNames)}
+                    {createRowsAndData()}
                 </tbody>
             </table>
         </div>
