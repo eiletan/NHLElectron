@@ -1,7 +1,4 @@
 // A collection of functions used to initalize data stored in files into the application.
-const fs = require('fs');
-const { resolve } = require('path');
-const path = require('path');
 const nhlApi = require('./NhlApi.js');
 const util = require('./util.js');
 
@@ -10,26 +7,12 @@ const util = require('./util.js');
  * a local json file and the NHL API
  * Returns a promise
  */
-function initTeams() {
-    let pathToFile = path.join(__dirname, "..", "assets", "teams", "teams.json")
-    // let localTeamsPromise = new Promise((resolve,reject) => {
-    //     fs.readFile(pathToFile,(err,data) => {
-    //         if (err) {
-    //             console.log(err);
-    //             reject(err);
-    //             return;
-    //         } else {
-    //             data = JSON.parse(data);
-    //             resolve(data);
-    //             return;   
-    //         }
-    //     });
-    // })
+function initTeams(path) {
     let finalTeamsPromise = new Promise((resolve,reject) => {
-        util.retrieveFile(pathToFile).then((localTeams) => {
+        util.retrieveFile(path).then((localTeams) => {
           return initTeamsHelper(localTeams);
-        }).then((initTeamsFinal) => {
-          resolve(initTeamsFinal);
+        }).then((finalTeamsJson) => {
+          resolve(finalTeamsJson);
         }).catch((err) => {
           reject(err);
         });
@@ -42,7 +25,7 @@ function initTeamsHelper(localTeamsJson) {
         nhlApi.GetFromNHLApi("/teams").then((teams) => {
             let apiteams = teams["teams"];
             let internalTeamsJson = {};
-            for (team of localTeamsJson) {
+            for (let team of localTeamsJson) {
               if (team["name"].valueOf() != "NHL") {
                 let obj = {};
                 obj["name"] = team["name"];
@@ -55,7 +38,7 @@ function initTeamsHelper(localTeamsJson) {
               }
             }
             let keys = Object.keys(internalTeamsJson);
-            for (apiteam of apiteams) {
+            for (let apiteam of apiteams) {
               if (apiteam["active"] === true) {
                 if (keys.includes(apiteam["name"])) {
                   internalTeamsJson[apiteam["name"]]["id"] = apiteam["id"];

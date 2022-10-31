@@ -1,6 +1,4 @@
 // A collection of functions used for calling the public NHL API
-const https = require('https');
-
 const DOMAIN = "https://statsapi.web.nhl.com/api/v1";
 
 /**
@@ -10,20 +8,20 @@ const DOMAIN = "https://statsapi.web.nhl.com/api/v1";
  */
 function GetFromNHLApi(uri) {
     let getPromise = new Promise((resolve,reject) => {
-    https.get(DOMAIN+uri,(result) => {
-        let resp = '';
-        result.on('data', (data) => {
-            resp = resp + data;
-        });
-        result.on('end', () => {
-            resp = JSON.parse(resp);
-            resolve(resp);
-            return;
-        });
-        }).on('error',(err) => {
-            reject(err);
-            return;
-        });
+        let xhr = new XMLHttpRequest();
+        xhr.responseType = "json";
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    resolve(xhr.response);
+                } else {
+                    reject("Call to NHL api failed due to: " + xhr.statusText);
+                }
+                
+            }
+        }
+        xhr.open("GET", DOMAIN + uri);
+        xhr.send();
     })
     return getPromise;
 }
