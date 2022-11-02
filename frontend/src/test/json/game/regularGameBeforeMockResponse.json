@@ -1,0 +1,246 @@
+{
+    "gamePk" : 2022020010,
+    "link" : "/api/v1/game/2022020010/feed/live",
+    "metaData" : {
+      "wait" : 10,
+      "timeStamp" : "20220808_172307"
+    },
+    "gameData" : {
+      "game" : {
+        "pk" : 2022020010,
+        "season" : "20222023",
+        "type" : "R"
+      },
+      "datetime" : {
+        "dateTime" : "2022-10-13T02:00:00Z"
+      },
+      "status" : {
+        "abstractGameState" : "Preview",
+        "codedGameState" : "1",
+        "detailedState" : "Scheduled",
+        "statusCode" : "1",
+        "startTimeTBD" : false
+      },
+      "teams" : {
+        "away" : {
+          "id" : 23,
+          "name" : "Vancouver Canucks",
+          "link" : "/api/v1/teams/23",
+          "venue" : {
+            "id" : 5073,
+            "name" : "Rogers Arena",
+            "link" : "/api/v1/venues/5073",
+            "city" : "Vancouver",
+            "timeZone" : {
+              "id" : "America/Vancouver",
+              "offset" : -7,
+              "tz" : "PDT"
+            }
+          },
+          "abbreviation" : "VAN",
+          "triCode" : "VAN",
+          "teamName" : "Canucks",
+          "locationName" : "Vancouver",
+          "firstYearOfPlay" : "1970",
+          "division" : {
+            "id" : 15,
+            "name" : "Pacific",
+            "nameShort" : "PAC",
+            "link" : "/api/v1/divisions/15",
+            "abbreviation" : "P"
+          },
+          "conference" : {
+            "id" : 5,
+            "name" : "Western",
+            "link" : "/api/v1/conferences/5"
+          },
+          "franchise" : {
+            "franchiseId" : 20,
+            "teamName" : "Canucks",
+            "link" : "/api/v1/franchises/20"
+          },
+          "shortName" : "Vancouver",
+          "officialSiteUrl" : "http://www.canucks.com/",
+          "franchiseId" : 20,
+          "active" : true
+        },
+        "home" : {
+          "id" : 22,
+          "name" : "Edmonton Oilers",
+          "link" : "/api/v1/teams/22",
+          "venue" : {
+            "id" : 5100,
+            "name" : "Rogers Place",
+            "link" : "/api/v1/venues/5100",
+            "city" : "Edmonton",
+            "timeZone" : {
+              "id" : "America/Edmonton",
+              "offset" : -6,
+              "tz" : "MDT"
+            }
+          },
+          "abbreviation" : "EDM",
+          "triCode" : "EDM",
+          "teamName" : "Oilers",
+          "locationName" : "Edmonton",
+          "firstYearOfPlay" : "1979",
+          "division" : {
+            "id" : 15,
+            "name" : "Pacific",
+            "nameShort" : "PAC",
+            "link" : "/api/v1/divisions/15",
+            "abbreviation" : "P"
+          },
+          "conference" : {
+            "id" : 5,
+            "name" : "Western",
+            "link" : "/api/v1/conferences/5"
+          },
+          "franchise" : {
+            "franchiseId" : 25,
+            "teamName" : "Oilers",
+            "link" : "/api/v1/franchises/25"
+          },
+          "shortName" : "Edmonton",
+          "officialSiteUrl" : "http://www.edmontonoilers.com/",
+          "franchiseId" : 25,
+          "active" : true
+        }
+      },
+      "players" : { },
+      "venue" : {
+        "id" : 5100,
+        "name" : "Rogers Place",
+        "link" : "/api/v1/venues/5100"
+      }
+    },
+    "liveData" : {
+      "plays" : {
+        "allPlays" : [ ],
+        "scoringPlays" : [ ],
+        "penaltyPlays" : [ ],
+        "playsByPeriod" : [ ]
+      },
+      "linescore" : {
+        "currentPeriod" : 0,
+        "periods" : [ ],
+        "shootoutInfo" : {
+          "away" : {
+            "scores" : 0,
+            "attempts" : 0
+          },
+          "home" : {
+            "scores" : 0,
+            "attempts" : 0
+          }
+        },
+        "teams" : {
+          "home" : {
+            "team" : {
+              "id" : 22,
+              "name" : "Edmonton Oilers",
+              "link" : "/api/v1/teams/22",
+              "abbreviation" : "EDM",
+              "triCode" : "EDM"
+            },
+            "goals" : 0,
+            "shotsOnGoal" : 0,
+            "goaliePulled" : false,
+            "numSkaters" : 0,
+            "powerPlay" : false
+          },
+          "away" : {
+            "team" : {
+              "id" : 23,
+              "name" : "Vancouver Canucks",
+              "link" : "/api/v1/teams/23",
+              "abbreviation" : "VAN",
+              "triCode" : "VAN"
+            },
+            "goals" : 0,
+            "shotsOnGoal" : 0,
+            "goaliePulled" : false,
+            "numSkaters" : 0,
+            "powerPlay" : false
+          }
+        },
+        "powerPlayStrength" : "Even",
+        "hasShootout" : false,
+        "intermissionInfo" : {
+          "intermissionTimeRemaining" : 0,
+          "intermissionTimeElapsed" : 0,
+          "inIntermission" : false
+        }
+      },
+      "boxscore" : {
+        "teams" : {
+          "away" : {
+            "team" : {
+              "id" : 23,
+              "name" : "Vancouver Canucks",
+              "link" : "/api/v1/teams/23",
+              "abbreviation" : "VAN",
+              "triCode" : "VAN"
+            },
+            "teamStats" : {
+              "teamSkaterStats" : {
+                "goals" : 0,
+                "pim" : 0,
+                "shots" : 0,
+                "powerPlayPercentage" : "0.0",
+                "powerPlayGoals" : 0.0,
+                "powerPlayOpportunities" : 0.0,
+                "faceOffWinPercentage" : "0.0",
+                "blocked" : 0,
+                "takeaways" : 0,
+                "giveaways" : 0,
+                "hits" : 0
+              }
+            },
+            "players" : { },
+            "goalies" : [ ],
+            "skaters" : [ ],
+            "onIce" : [ ],
+            "onIcePlus" : [ ],
+            "scratches" : [ ],
+            "penaltyBox" : [ ],
+            "coaches" : [ ]
+          },
+          "home" : {
+            "team" : {
+              "id" : 22,
+              "name" : "Edmonton Oilers",
+              "link" : "/api/v1/teams/22",
+              "abbreviation" : "EDM",
+              "triCode" : "EDM"
+            },
+            "teamStats" : {
+              "teamSkaterStats" : {
+                "goals" : 0,
+                "pim" : 0,
+                "shots" : 0,
+                "powerPlayPercentage" : "0.0",
+                "powerPlayGoals" : 0.0,
+                "powerPlayOpportunities" : 0.0,
+                "faceOffWinPercentage" : "0.0",
+                "blocked" : 0,
+                "takeaways" : 0,
+                "giveaways" : 0,
+                "hits" : 0
+              }
+            },
+            "players" : { },
+            "goalies" : [ ],
+            "skaters" : [ ],
+            "onIce" : [ ],
+            "onIcePlus" : [ ],
+            "scratches" : [ ],
+            "penaltyBox" : [ ],
+            "coaches" : [ ]
+          }
+        },
+        "officials" : [ ]
+      },
+      "decisions" : { }
+    }
+  }

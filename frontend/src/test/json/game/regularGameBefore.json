@@ -1,0 +1,47 @@
+{
+    "season": "20222023",
+    "home": {
+      "name": "Edmonton Oilers",
+      "logo": "data/icons/Edmonton Oilers.png",
+      "color": "#041E42",
+      "goalHorn": "data/audio/Edmonton Oilers.mp3",
+      "id": 22,
+      "abbreviation": "EDM",
+      "shortName": "Edmonton",
+      "teamName": "Oilers"
+    },
+    "away": {
+      "name": "Vancouver Canucks",
+      "logo": "data/icons/Vancouver Canucks.png",
+      "color": "#00205B",
+      "goalHorn": "data/audio/Vancouver Canucks.mp3",
+      "id": 23,
+      "abbreviation": "VAN",
+      "shortName": "Vancouver",
+      "teamName": "Canucks"
+    },
+    "id": "2022020010",
+    "allGoals": [],
+    "currentState": {
+      "period": null,
+      "periodTimeRemaining": null,
+      "home": {
+        "goals": 0,
+        "shots": 0,
+        "powerplay": false,
+        "goaliePulled": false,
+        "shootoutGoalsScored": null,
+        "shootoutAttempts": null
+      },
+      "away": {
+        "goals": 0,
+        "shots": 0,
+        "powerplay": false,
+        "goaliePulled": false,
+        "shootoutGoalsScored": null,
+        "shootoutAttempts": null
+      }
+    },
+    "playoffSeries": null,
+    "areGoalsUpdated": false
+  }
