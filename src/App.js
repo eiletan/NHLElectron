@@ -3,8 +3,9 @@ import logo from './logo.svg';
 import './css/App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import Table from './components/Table';
+import * as init from './js/init'; 
 const internalTeamData = require('./assets/teams/teams.json');
-const initFns = require('./js/init'); 
+
 
 
 function App() {
@@ -17,7 +18,11 @@ function App() {
   
   // On component mount, initialize team data                    
   useEffect(() => {
-    
+    init.initTeams(internalTeamData).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
   },[]);
 
 

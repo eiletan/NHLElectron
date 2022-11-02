@@ -25,7 +25,7 @@ function retrieveFile(path) {
  * @param {String} teamNameB Second team name to be compared
  * @returns True if the teams are the same, false otherwise
  */
- function matchTeamName(teamNameA, teamNameB) {
+ export function matchTeamName(teamNameA, teamNameB) {
     try {
         teamNameA = decodeURIComponent(escape(teamNameA));
         teamNameB = decodeURIComponent(escape(teamNameB));
@@ -51,9 +51,4 @@ function retrieveFile(path) {
         }
     }
     return false;
-}
-
-module.exports = {
-    retrieveFile: retrieveFile,
-    matchTeamName: matchTeamName
 }

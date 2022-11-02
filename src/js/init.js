@@ -1,17 +1,15 @@
 // A collection of functions used to initalize data stored in files into the application.
-const nhlApi = require('./NhlApi.js');
-const util = require('./util.js');
+import * as nhlApi from './NhlApi'; 
+
 
 /**
  * Initializes team directory as a JSON object by combining data from
  * a local json file and the NHL API
  * Returns a promise
  */
-function initTeams(path) {
+export function initTeams(localTeamsJson) {
     let finalTeamsPromise = new Promise((resolve,reject) => {
-        util.retrieveFile(path).then((localTeams) => {
-          return initTeamsHelper(localTeams);
-        }).then((finalTeamsJson) => {
+        initTeamsHelper(localTeamsJson).then((finalTeamsJson) => {
           resolve(finalTeamsJson);
         }).catch((err) => {
           reject(err);
@@ -71,6 +69,3 @@ function initTeamsHelper(localTeamsJson) {
 
 
 
-module.exports = {
-    initTeams: initTeams
-}
