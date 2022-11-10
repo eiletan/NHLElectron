@@ -4,10 +4,20 @@ const game = require('./game');
 class GameController {
 
     activeGame;
+    games;
     internalTeams;
     
     constructor(teams) {
         this.internalTeams = teams;
+    }
+
+    initializeGames(date) {
+        return game.findGames(date).then((games) => {
+            this.games = games;
+            return this.games;
+        }).catch((err) => {
+            throw err;
+        })
     }
 
     createActiveGame(id) {
