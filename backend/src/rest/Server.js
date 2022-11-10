@@ -17,7 +17,7 @@ class Server {
         const that = this;
         return new Promise(function(resolve,reject) {
             try {
-                that.#server.get("/game", that.#postGame);
+                that.#server.get("/game", that.postGame);
                 that.#server.listen(that.#port, () => {
                     console.log("Server started successfully at port: "   + that.#port);
                     resolve(true);
@@ -28,7 +28,7 @@ class Server {
         });
     }
 
-    #postGame(req, res) {
+    postGame(req, res) {
         console.log("REQUEST RECEIVED");
     }
 
