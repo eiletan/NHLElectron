@@ -3,8 +3,6 @@ import logo from './logo.svg';
 import './css/App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import Table from './components/Table';
-import * as init from './js/init'; 
-const internalTeamData = require('./assets/teams/teams.json');
 
 
 
@@ -18,11 +16,7 @@ function App() {
   
   // On component mount, initialize team data                    
   useEffect(() => {
-    init.initTeams(internalTeamData).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-    })
+    
   },[]);
 
 
@@ -31,7 +25,7 @@ function App() {
       <ErrorBoundary>
         <Table 
           rows={[map1]}
-          cellClassNames={["class1","class2", "class3", "class4", "class5", "class6"]}
+          cellClassNames={["class1","class1", "class1", "class1", "class1", "class1"]}
           rowClassNames={["VAN"]}
           />
       </ErrorBoundary>

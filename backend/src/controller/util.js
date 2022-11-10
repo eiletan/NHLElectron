@@ -1,5 +1,5 @@
 // A collection of utility functions
-
+const fs = require('fs');
 
 /**
  * 
@@ -7,14 +7,20 @@
  * @param {Boolean} needParse True by default. If true, parses the file as JSON before returning
  * @returns 
  */
-function retrieveFile(path) {
+function retrieveFile(path, needParse=true) {
     let filePromise = new Promise((resolve,reject) => {
-        try {
-            let file = require(path);
-            resolve(file);
-        } catch (err) {
-            reject(err);
-        }
+        fs.readFile(path,(err,data) => {
+            if (err) {
+                reject(err);
+                return;
+            } else {
+                if (needParse) {
+                    data = JSON.parse(data);
+                }
+                resolve(data);
+                return;   
+            }
+        });
     })
     return filePromise;
 }
@@ -25,7 +31,7 @@ function retrieveFile(path) {
  * @param {String} teamNameB Second team name to be compared
  * @returns True if the teams are the same, false otherwise
  */
- export function matchTeamName(teamNameA, teamNameB) {
+ function matchTeamName(teamNameA, teamNameB) {
     try {
         teamNameA = decodeURIComponent(escape(teamNameA));
         teamNameB = decodeURIComponent(escape(teamNameB));
@@ -51,4 +57,9 @@ function retrieveFile(path) {
         }
     }
     return false;
+}
+
+module.exports = {
+    retrieveFile: retrieveFile,
+    matchTeamName: matchTeamName
 }
