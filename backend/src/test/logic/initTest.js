@@ -1,16 +1,16 @@
 const chai = require('chai');
 const assert = chai.assert;
 const path = require('path');
-const init = require('../../js/init.js');
-const util = require("../../js/util.js");
-const api = require('../../js/NhlApi.js');
+const init = require('../../controller/init.js');
+const util = require("../../controller/util.js");
+const api = require('../../controller/NhlApi.js');
 
 
 describe("Init", function() {
     let localTeams;
     let apiTeams;
     before(function() {
-        localTeamsPromise = util.retrieveFile(path.join(__dirname, "../", "../", "assets", "teams", "teams.json"));
+        localTeamsPromise = util.retrieveFile(path.join(__dirname,"../","../","json","teams.json"));
         apiTeamsPromise = api.GetFromNHLApi("/teams");
         return Promise.all([localTeamsPromise,apiTeamsPromise]).then((values) => {
             localTeams = values[0];
@@ -21,7 +21,7 @@ describe("Init", function() {
     })
 
     it("should initialize teams correctly", function() {
-        return init.initTeams().then((internalTeams) => {
+        return init.initTeams(path.join(__dirname,"../","../","json","teams.json")).then((internalTeams) => {
             let finalKeys = Object.keys(internalTeams);
             // Save copy of localTeams array for use in this test
             let localTeamsCopy = JSON.parse(JSON.stringify(localTeams));

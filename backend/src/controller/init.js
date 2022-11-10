@@ -10,21 +10,7 @@ const util = require('./util.js');
  * a local json file and the NHL API
  * Returns a promise
  */
-function initTeams() {
-    let pathToFile = path.join(__dirname, "..", "assets", "teams", "teams.json")
-    // let localTeamsPromise = new Promise((resolve,reject) => {
-    //     fs.readFile(pathToFile,(err,data) => {
-    //         if (err) {
-    //             console.log(err);
-    //             reject(err);
-    //             return;
-    //         } else {
-    //             data = JSON.parse(data);
-    //             resolve(data);
-    //             return;   
-    //         }
-    //     });
-    // })
+function initTeams(pathToFile) {
     let finalTeamsPromise = new Promise((resolve,reject) => {
         util.retrieveFile(pathToFile).then((localTeams) => {
           return initTeamsHelper(localTeams);

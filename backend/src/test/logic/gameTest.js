@@ -1,9 +1,9 @@
 const chai = require('chai');
 const assert = chai.assert;
 const path = require('path');
-const game = require('../../js/game.js');
-const util = require("../../js/util.js");
-const init = require("../../js/init.js");
+const game = require('../../controller/game.js');
+const util = require("../../controller/util.js");
+const init = require("../../controller/init.js");
 
 describe('Game', function() {
     let regularSchedule;
@@ -25,7 +25,7 @@ describe('Game', function() {
         let regularGameDuringPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameDuring.json"));
         let regularGameAfterPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameAfter.json"));
         let playoffGamePromise = util.retrieveFile(path.join(__dirname, "../","json","game","playoffGame.json"));
-        let internalTeamsPromise = init.initTeams();
+        let internalTeamsPromise = init.initTeams(path.join(__dirname,"../","../","json","teams.json"));
         let promArr = [regularSchedulePromise, playoffSchedulePromise, regularGameAfterPromise, playoffGamePromise, internalTeamsPromise,
             regularGameBeforeMockPromise, regularGameBeforePromise, regularGameDuringPromise, regularGameDuringMockPromise];
         return Promise.all(promArr).then((values) => {
