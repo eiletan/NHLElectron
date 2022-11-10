@@ -30,7 +30,10 @@ class GameController {
     }
 
     updateActiveGame() {
-        return game.updateGameStatus().then((updatedGame) => {
+        if (!this.activeGame) {
+            throw "Active game not set";
+        } 
+        return game.updateGameStatus(this.activeGame).then((updatedGame) => {
             this.activeGame = updatedGame;
             return this.activeGame;
         }).catch((err) => {

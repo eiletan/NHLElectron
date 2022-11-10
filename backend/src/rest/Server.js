@@ -32,7 +32,9 @@ class Server {
         const that = this;
         return new Promise(function(resolve,reject) {
             that.initController().then(() => {
-                that.#server.get("/game", that.postGame);
+                that.#server.get("/games", that.getGames.bind(that));
+                that.#server.get("/game", that.getGame.bind(that));
+                that.#server.get("/gameUpdate", that.getUpdatedGame.bind(that));
                 that.#server.listen(that.#port, () => {
                     console.log("Server started successfully at port: "   + that.#port);
                     resolve(true);
@@ -43,8 +45,28 @@ class Server {
         });
     }
 
-    postGame(req, res) {
-        console.log("REQUEST RECEIVED");
+    getGames(req, res) {
+        this.#GameController.initializeGames("2022-11-09").then((games) => {
+            res.status(200).json(games);
+        }).catch((err) => {
+            res.status(400).json({"errorMessage": err});
+        })
+    }
+
+    getGame(req,res) {
+        this.#GameController.createActiveGame(2019020956).then((game) => {
+            res.status(200).json(game);
+        }).catch((err) => {
+            res.status(400).json({"errorMessage": err});
+        });
+    }
+
+    getUpdatedGame(req,res) {
+        this.#GameController.updateActiveGame().then((game) => {
+            res.status(200).json(game);
+        }).catch((err) => {
+            res.status(400).json({"errorMessage": err});
+        })
     }
 
 }
