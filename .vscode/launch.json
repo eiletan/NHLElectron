@@ -18,11 +18,11 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/src/test/**/*.js"
+                "${workspaceFolder}/backend/src/test/**/*.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "name": "Mocha Tests",
-            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "program": "${workspaceFolder}/backend/node_modules/mocha/bin/_mocha",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"

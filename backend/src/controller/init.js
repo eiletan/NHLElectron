@@ -7,7 +7,7 @@ import * as nhlApi from './NhlApi';
  * a local json file and the NHL API
  * Returns a promise
  */
-export function initTeams(localTeamsJson) {
+function initTeams(pathToFile) {
     let finalTeamsPromise = new Promise((resolve,reject) => {
         initTeamsHelper(localTeamsJson).then((finalTeamsJson) => {
           resolve(finalTeamsJson);
