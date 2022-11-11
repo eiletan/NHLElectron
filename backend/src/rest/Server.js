@@ -35,6 +35,7 @@ class Server {
                 that.#server.get("/games", that.getGames.bind(that));
                 that.#server.get("/game", that.getGame.bind(that));
                 that.#server.get("/gameUpdate", that.getUpdatedGame.bind(that));
+                that.#server.get("/clearGame", that.removeActiveGame.bind(that));
                 that.#server.listen(that.#port, () => {
                     console.log("Server started successfully at port: "   + that.#port);
                     resolve(true);
@@ -49,7 +50,7 @@ class Server {
         this.#GameController.initializeGames("2022-11-09").then((games) => {
             res.status(200).json(games);
         }).catch((err) => {
-            res.status(400).json({"errorMessage": err});
+            res.status(500).json({"errorMessage": err});
         })
     }
 
@@ -57,7 +58,7 @@ class Server {
         this.#GameController.createActiveGame(2019020956).then((game) => {
             res.status(200).json(game);
         }).catch((err) => {
-            res.status(400).json({"errorMessage": err});
+            res.status(500).json({"errorMessage": err});
         });
     }
 
@@ -65,8 +66,18 @@ class Server {
         this.#GameController.updateActiveGame().then((game) => {
             res.status(200).json(game);
         }).catch((err) => {
-            res.status(400).json({"errorMessage": err});
+            res.status(500).json({"errorMessage": err});
         })
+    }
+
+    removeActiveGame(req,res) {
+        try {
+            this.#GameController.removeActiveGame();
+            res.status(200).json({"message": "Success"});    
+        } catch (err) {
+            res.status(500).json({"errorMessage": "An error occurred while clearing active game. Please try again"});
+        }
+        
     }
 
 }
