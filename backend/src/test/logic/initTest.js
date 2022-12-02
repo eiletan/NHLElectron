@@ -48,11 +48,11 @@ describe("Init", function() {
                 assert.equal(internalTeam["shortName"], apiTeam["shortName"]);
                 assert.equal(internalTeam["teamName"], apiTeam["teamName"]);
                 let teamKeysLength = Object.keys(internalTeam).length;
-                assert.equal(teamKeysLength,8);
+                assert.equal(teamKeysLength,9);
             }
             let defaultTeam = internalTeams["NHL"];
             let defaultKeys = Object.keys(defaultTeam);
-            assert.equal(defaultKeys.length,4);
+            assert.equal(defaultKeys.length,5);
             assert.notEqual(defaultKeys.indexOf("color"),-1);
             assert.notEqual(defaultKeys.indexOf("logo"),-1);
             assert.notEqual(defaultKeys.indexOf("goalHorn"),-1);
