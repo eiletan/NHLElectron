@@ -35,7 +35,7 @@ class Server {
                 that.#server.get("/games", that.getGames.bind(that));
                 that.#server.post("/game", that.postGame.bind(that));
                 that.#server.get("/gameUpdate", that.getUpdatedGame.bind(that));
-                that.#server.get("/clearGame", that.removeActiveGame.bind(that));
+                that.#server.delete("/clearGame", that.removeActiveGame.bind(that));
                 that.#server.listen(that.#port, () => {
                     console.log("Server started successfully at port: "   + that.#port);
                     resolve(true);
@@ -55,11 +55,13 @@ class Server {
     }
 
     postGame(req,res) {
-        if (!req.query.id) {
+        let gameId = req.body["gameId"]
+        if (!gameId) {
             res.status(400).json({"errorMessage": "Game ID not provided with request"});
             return;
         }
-        this.#GameController.createActiveGame(req.query.id).then((game) => {
+        
+        this.#GameController.createActiveGame(gameId).then((game) => {
             res.status(200).json(game);
         }).catch((err) => {
             res.status(500).json({"errorMessage": err});
