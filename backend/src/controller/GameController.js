@@ -41,6 +41,10 @@ class GameController {
         })
     }
 
+    removeActiveGame() {
+        this.activeGame = null;
+    }
+
 
     
     

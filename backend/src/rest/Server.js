@@ -33,8 +33,9 @@ class Server {
         return new Promise(function(resolve,reject) {
             that.initController().then(() => {
                 that.#server.get("/games", that.getGames.bind(that));
-                that.#server.get("/game", that.getGame.bind(that));
+                that.#server.post("/game", that.postGame.bind(that));
                 that.#server.get("/gameUpdate", that.getUpdatedGame.bind(that));
+                that.#server.delete("/clearGame", that.removeActiveGame.bind(that));
                 that.#server.listen(that.#port, () => {
                     console.log("Server started successfully at port: "   + that.#port);
                     resolve(true);
@@ -49,15 +50,21 @@ class Server {
         this.#GameController.initializeGames("2022-11-09").then((games) => {
             res.status(200).json(games);
         }).catch((err) => {
-            res.status(400).json({"errorMessage": err});
+            res.status(500).json({"errorMessage": err});
         })
     }
 
-    getGame(req,res) {
-        this.#GameController.createActiveGame(2019020956).then((game) => {
+    postGame(req,res) {
+        let gameId = req.body["gameId"]
+        if (!gameId) {
+            res.status(400).json({"errorMessage": "Game ID not provided with request"});
+            return;
+        }
+        
+        this.#GameController.createActiveGame(gameId).then((game) => {
             res.status(200).json(game);
         }).catch((err) => {
-            res.status(400).json({"errorMessage": err});
+            res.status(500).json({"errorMessage": err});
         });
     }
 
@@ -65,8 +72,18 @@ class Server {
         this.#GameController.updateActiveGame().then((game) => {
             res.status(200).json(game);
         }).catch((err) => {
-            res.status(400).json({"errorMessage": err});
+            res.status(500).json({"errorMessage": err});
         })
+    }
+
+    removeActiveGame(req,res) {
+        try {
+            this.#GameController.removeActiveGame();
+            res.status(200).json({"message": "Active game cleared"});    
+        } catch (err) {
+            res.status(500).json({"errorMessage": "An error occurred while clearing active game. Please try again"});
+        }
+        
     }
 
 }
