@@ -18,7 +18,7 @@ function App() {
   
   // On component mount, check date and then refresh list of games if it is outdated                    
   useEffect(() => {
-    let today = new Date().toLocaleDateString("en-CA",{timeZone: "America/Los_Angeles"});
+    let today = new Date().toLocaleDateString("en-CA");
     let gameListUpdateDate = new Date(window.localStorage.getItem("date"));
     let todayActual = new Date(today);
     // If stored date does not match today, update it and fetch list of games for today 
