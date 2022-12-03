@@ -36,7 +36,7 @@ import { allowedImageFormats } from "./allowedImageFormats";
         let extension = valStr.substring(valStr.lastIndexOf("."));
         
         if (allowedImageFormats.includes(extension)) {
-          let img = <img src={require("" + val)}></img>;
+          let img = <img src={require("../assets/logos/" + val)}></img>;
           arr.push(img);
         } else {
           arr.push(val);
