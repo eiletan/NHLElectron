@@ -28,7 +28,7 @@ function initTeamsHelper(localTeamsJson) {
         nhlApi.GetFromNHLApi("/teams").then((teams) => {
             let apiteams = teams["teams"];
             let internalTeamsJson = {};
-            for (team of localTeamsJson) {
+            for (let team of localTeamsJson) {
               if (team["name"].valueOf() != "NHL") {
                 let obj = {};
                 obj["name"] = team["name"];
@@ -42,7 +42,7 @@ function initTeamsHelper(localTeamsJson) {
               }
             }
             let keys = Object.keys(internalTeamsJson);
-            for (apiteam of apiteams) {
+            for (let apiteam of apiteams) {
               if (apiteam["active"] === true) {
                 if (keys.includes(apiteam["name"])) {
                   internalTeamsJson[apiteam["name"]]["id"] = apiteam["id"];
