@@ -11,6 +11,10 @@ class GameController {
         this.internalTeams = teams;
     }
 
+    getInternalTeams() {
+        return this.internalTeams;
+    }
+
     initializeGames(date) {
         return game.findGames(date).then((games) => {
             this.games = games;
