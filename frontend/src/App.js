@@ -13,11 +13,7 @@ function App() {
   const [date, setDate] = useState(null);
   const [gamesList, setGamesList] = useState(null);
   const [internalTeams, setInternalTeams] = useState(null); 
-  const map1 = new Map([["col1", <img src={require("./assets/logos/Boston Bruins.png")}></img>]
-                        ,["col2", "BOS"], ["col3", "@"], ["col4", "VAN"]
-                        ,["col5", <img src={require("./assets/logos/Vancouver Canucks.png")}></img>]
-                        ,["col6", "7:00PM"]
-                      ,["ROWKEYIDENTIFIER", "9-2 LOL"]]);
+
   
   // On component mount, check date and then refresh list of games if it is outdated                    
   useEffect(() => {
@@ -36,9 +32,9 @@ function App() {
         setErrorMessage(err.response.data.errorMessage);
       })
     } else {
-      console.log("else");
       setDate(window.localStorage.getItem("date"));
-      setGamesList(window.localStorage.getItem("gamesList"));
+      setGamesList(JSON.parse(window.localStorage.getItem("gamesList")));
+      setInternalTeams(JSON.parse(window.localStorage.getItem("internalTeams")));
     }
   },[]);
 
@@ -49,18 +45,18 @@ function App() {
   
   // After games list changes, store it to local storage
   useEffect(() => {
-    window.localStorage.setItem('gamesList', gamesList); 
+    window.localStorage.setItem('gamesList', JSON.stringify(gamesList)); 
   }, [gamesList]);
+
+    // After internal team list changes, store it to local storage
+    useEffect(() => {
+      window.localStorage.setItem('internalTeams', JSON.stringify(internalTeams)); 
+    }, [internalTeams]);
 
   return (
     <div className="App">
       <ErrorBoundary>
-        <Table 
-          rows={[map1]}
-          cellClassNames={["class1","class1", "class1", "class1", "class1", "class1"]}
-          rowClassNames={["VAN"]}
-          />
-        {/* <Games gamesData={gamesList}></Games> */}
+        <Games gamesData={gamesList} internalTeams={internalTeams}></Games>
       </ErrorBoundary>
     </div>
   );

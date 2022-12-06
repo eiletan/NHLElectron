@@ -5,6 +5,7 @@ export default function Table(props) {
     const rowKey = "ROWKEYIDENTIFIER";
     // Pass data for the table in the form of an array of maps, with each map representing a table row. The prop is "rows"
     // Each map must contain a ROWKEYIDENTIFIER key, if you do not want to specify row key, then set the value to null
+    // ROWKEYIDENTIFIER, if passed in, is also set in the html element as an "id" attribute.
     // Pass the class names for each data cell as an array, with the list of class names in order. The prop is "cellClassNames"
     // Pass the class names for each data row as an array, with the list of class names in order. The prop is "rowClassNames"
 
@@ -44,10 +45,13 @@ export default function Table(props) {
         props.rows.map((rowDataMap, index) => {
             let cells = [];
             let keys = Array.from(rowDataMap.keys());
+            let rowId = null;
             for (let k = 0; k < keys.length; k++) {
                 let cellData = rowDataMap.get(keys[k]);
-                // Ignore ROWKEYIDENTIFIER since it is used for identifying the row in react
+                // Ignore ROWKEYIDENTIFIER since it is used for identifying the row in react, but also set it as an extra html attribute in the row
+                // as "id"
                 if (String(keys[k]) === String(rowKey)) {
+                    rowId = cellData;
                     continue;
                 }
                 if (props.cellClassNames) {
@@ -59,11 +63,17 @@ export default function Table(props) {
             }
             let row;
             if (props.rowClassNames) {
-                row = <tr className={"tableRow " + props.rowClassNames[index]} key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}>{cells}</tr>
+                row = <tr 
+                        className={"tableRow " + props.rowClassNames[index]} 
+                        key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}
+                        id={rowId ? rowId : null}>{cells}</tr>
             } else {
-                row = <tr className="tableRow" key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}>{cells}</tr>
+                row = <tr 
+                        className="tableRow" 
+                        key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}
+                        id={rowId ? rowId : null}>{cells}</tr>
             }
-            
+                        
             rows.push(row);
         });
         return rows;
