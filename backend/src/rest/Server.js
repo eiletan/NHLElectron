@@ -34,6 +34,7 @@ class Server {
         const that = this;
         return new Promise(function(resolve,reject) {
             that.initController().then(() => {
+                that.#server.get("/internalTeams", that.getInternalTeams.bind(that));
                 that.#server.get("/games", that.getGames.bind(that));
                 that.#server.post("/game", that.postGame.bind(that));
                 that.#server.get("/gameUpdate", that.getUpdatedGame.bind(that));
@@ -46,6 +47,10 @@ class Server {
                 reject(err);
             });
         });
+    }
+
+    getInternalTeams(req,res) {
+        res.status(200).json(this.#GameController.getInternalTeams());
     }
 
     getGames(req, res) {
