@@ -2,7 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const GameController = require('../controller/GameController');
+const util = require("../controller/util");
 const init = require('../controller/init');
+const { query } = require('express');
 
 class Server {
 
@@ -47,7 +49,15 @@ class Server {
     }
 
     getGames(req, res) {
-        this.#GameController.initializeGames("2022-11-09").then((games) => {
+        if (!req.query.date) {
+            res.status(400).json({"errorMessage": "No date provided."});
+            return;
+        }
+        if (!util.checkDateFormat(String(req.query.date))) {
+            res.status(400).json({"errorMessage": "Incorrect date format. Please provide date in YYYY-MM-DD format"});
+            return;
+        };
+        this.#GameController.initializeGames(String(req.query.date)).then((games) => {
             res.status(200).json(games);
         }).catch((err) => {
             res.status(500).json({"errorMessage": err});
@@ -55,7 +65,7 @@ class Server {
     }
 
     postGame(req,res) {
-        let gameId = req.body["gameId"]
+        let gameId = req.body.gameId;
         if (!gameId) {
             res.status(400).json({"errorMessage": "Game ID not provided with request"});
             return;
