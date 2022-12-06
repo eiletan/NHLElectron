@@ -3,11 +3,13 @@ import logo from './logo.svg';
 import './css/App.css';
 import * as util from './util/util'
 import ErrorBoundary from './components/ErrorBoundary';
+import Games from './components/Games';
 import Table from './components/Table';
-
+import axios, * as others from 'axios';
 
 
 function App() {
+  const [errorMessage,setErrorMessage] = useState(null);
   const [date, setDate] = useState(null);
   const [gamesList, setGamesList] = useState(null); 
   const map1 = new Map([["col1", <img src={require("./assets/logos/Boston Bruins.png")}></img>]
@@ -23,11 +25,16 @@ function App() {
     let todayActual = new Date(today);
     // If stored date does not match today, update it and fetch list of games for today 
     if (todayActual.getTime() != gameListUpdateDate.getTime()) {
-      setDate(String(today));
-      console.log(today);
+      axios.get('http://localhost:3300/games?date=' + today).then((response) => {
+        setGamesList(response.data);
+        setDate(String(today));
+      }).catch((err) => {
+        setErrorMessage(err.response.data.errorMessage);
+      })
     } else {
       console.log("else");
-      console.log(window.localStorage.getItem("date"));
+      setDate(window.localStorage.getItem("date"));
+      setGamesList(window.localStorage.getItem("gamesList"));
     }
   },[]);
 
@@ -36,6 +43,10 @@ function App() {
     window.localStorage.setItem('date', date);
   }, [date]);
   
+  // After games list changes, store it to local storage
+  useEffect(() => {
+    window.localStorage.setItem('gamesList', gamesList); 
+  }, [gamesList]);
 
   return (
     <div className="App">
@@ -45,6 +56,7 @@ function App() {
           cellClassNames={["class1","class1", "class1", "class1", "class1", "class1"]}
           rowClassNames={["VAN"]}
           />
+        <Games gamesData={gamesList}></Games>
       </ErrorBoundary>
     </div>
   );
