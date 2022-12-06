@@ -59,7 +59,36 @@ function retrieveFile(path, needParse=true) {
     return false;
 }
 
+/**
+ * Checks whether the passed in string is in the desired format of yyyy-mm-dd
+ * @param {String} dateStr The date as a string
+ */
+function checkDateFormat(dateStr) {
+    try {
+        if (dateStr.length != 10){
+            return false;
+        }
+        let dates = [dateStr.slice(0,4),dateStr.slice(5,7),dateStr.slice(8,10)];
+        for (let d of dates) {
+            if (parseInt(d) === NaN) {
+                return false;
+            }
+        }
+        let separators = [dateStr.slice(4,5), dateStr.slice(7,8)];
+        for (let s of separators) {
+            if (s != "-") {
+                return false;
+            }
+        }
+        return true;
+    } catch (err) {
+        return false;
+    }
+    
+}
+
 module.exports = {
     retrieveFile: retrieveFile,
-    matchTeamName: matchTeamName
+    matchTeamName: matchTeamName,
+    checkDateFormat: checkDateFormat
 }
