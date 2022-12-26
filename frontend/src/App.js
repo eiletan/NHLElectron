@@ -511,23 +511,29 @@ function App() {
       }
     ];
     let map = createGamesInfoMap(json);
-    console.log(map);
-    console.log(event.currentTarget.children);
-    console.log("hover");
+    let rowElements = event.currentTarget.children;
+    let abbr = "";
+    for (let rowEl of rowElements) {
+      if (rowEl.className.search("homeTeamAbbr") != -1) {
+        abbr = rowEl.textContent;
+        break;
+      }
+    }
+    event.currentTarget.style.backgroundColor = map[abbr]["color"];
   }
 
   /**
-   * On exit hover, change row color back to default gray
+   * On exit hover, change row color to default NHL gray
    * @param {*} event 
    */
-  function gamesOnMouseLeave() {
-    console.log("hover exit");
+  function gamesOnMouseLeave(event) {
+    event.currentTarget.style.backgroundColor = internalTeams["NHL"]["color"];
   }
 
   return (
     <div className="App">
       <ErrorBoundary>
-        {/* <Games gamesData={gamesList} internalTeams={internalTeams}></Games> */}
+        {/* <Games gamesData={gamesList} date={date} internalTeams={internalTeams}></Games> */}
         <Games gamesData={[
   {
     "gamePk": 2020020483,
