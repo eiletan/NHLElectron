@@ -47,11 +47,18 @@ export default function Games(props) {
 
     return (
         <div>
-            {(props.gamesData && props.internalTeams) && (props.gamesData.length != 0) && <Table 
+            {(props.gamesData && props.internalTeams) 
+            && (props.gamesData.length != 0)
+            && <Table 
                 rows={processGames(props.gamesData,props.internalTeams)}
                 dataRowOrder={props.dataRowOrder}
-                dataRowKey={props.dataRowKey} 
+                dataRowKey={props.dataRowKey}
+                onClickHandler={props.onClickHandler}
+                onHoverHandler={props.onHoverHandler}
             />}
+            {(props.gamesData && props.internalTeams)
+            && (props.gamesData.length == 0)
+            && <span>No games scheduled for {props.date}</span>}
         </div>
         
         

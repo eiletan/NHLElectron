@@ -8,6 +8,9 @@ export default function Table(props) {
     // ROWKEYIDENTIFIER, if passed in, is also set in the html element as an "id" attribute.
     // Pass the class names for each data cell as an array, with the list of class names in order. The prop is "cellClassNames"
     // Pass the class names for each data row as an array, with the list of class names in order. The prop is "rowClassNames"
+    // Pass in onClick handler. The prop is "onClickHandler". Optional.
+    // Pass in array of functions for onMouseEnter and onMouseLeave. The prop is "onHoverHandler". Optional. 
+    
 
     function createRowsAndData() {
         // Check if every object in array is a map
@@ -63,12 +66,16 @@ export default function Table(props) {
             }
             let row;
             if (props.rowClassNames) {
-                row = <tr 
+                row = <tr onClick={props.onClickHandler ? props.onClickHandler : null}
+                        onMouseEnter={props.onHoverHandler?.[0] ? props.onHoverHandler[0] : null}
+                        onMouseLeave={props.onHoverHandler?.[1] ? props.onHoverHandler[1] : null}
                         className={"tableRow " + props.rowClassNames[index]} 
                         key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}
                         id={rowId ? rowId : null}>{cells}</tr>
             } else {
-                row = <tr 
+                row = <tr onClick={props.onClickHandler ? props.onClickHandler : null}
+                        onMouseEnter={props.onHoverHandler?.[0] ? props.onHoverHandler[0] : null}
+                        onMouseLeave={props.onHoverHandler?.[1] ? props.onHoverHandler[1] : null}
                         className="tableRow" 
                         key={rowDataMap.get(rowKey) ? rowDataMap.get(rowKey) : index}
                         id={rowId ? rowId : null}>{cells}</tr>
