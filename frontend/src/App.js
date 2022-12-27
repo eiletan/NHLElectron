@@ -85,8 +85,15 @@ function App() {
     
   }
 
-  function gamesTableOnClick() {
-    console.log(internalTeams);
+  function gamesTableOnClick(event) {
+    let gameid = event.currentTarget.id;
+    axios.post("http://localhost:3300/game", {
+      gameId: gameid
+    }).then((response) => {
+      console.log(response.data);
+    }).catch((err) => {
+      setErrorMessage(err);
+    })
   }
 
   /**

@@ -49,14 +49,18 @@ export default function Games(props) {
         <div>
             {(props.gamesData && props.internalTeams) 
             && (props.gamesData.length != 0)
-            && <Table 
-                rows={processGames(props.gamesData,props.internalTeams)}
-                dataRowOrder={props.dataRowOrder}
-                dataRowKey={props.dataRowKey}
-                cellClassNames={["awayTeamLogo","awayTeamAbbr","@","homeTeamAbbr","homeTeamLogo","startTime"]}
-                onClickHandler={props.onClickHandler}
-                onHoverHandler={props.onHoverHandler}
-            />}
+            && <React.Fragment>
+                <span>Scheduled games for {props.date}</span>
+                <Table 
+                    rows={processGames(props.gamesData,props.internalTeams)}
+                    dataRowOrder={props.dataRowOrder}
+                    dataRowKey={props.dataRowKey}
+                    cellClassNames={["awayTeamLogo","awayTeamAbbr","@","homeTeamAbbr","homeTeamLogo","startTime"]}
+                    onClickHandler={props.onClickHandler}
+                    onHoverHandler={props.onHoverHandler}
+                />
+                </React.Fragment>
+                }
             {(props.gamesData && props.internalTeams)
             && (props.gamesData.length == 0)
             && <span>No games scheduled for {props.date}</span>}
