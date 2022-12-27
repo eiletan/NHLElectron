@@ -24,16 +24,24 @@ export default function Scoreboard(props) {
 
         let arrMap = [];
         arrMap.push(["awayLogo",<img src={require('../assets/logos/' + awayLogo)}></img>]);
-        // arrMap.push(["awayAbbr", ""]);
-        
+        arrMap.push(["awayAbbr", away]);
+        arrMap.push(["awayGoals", awayGoals]);
+        arrMap.push(["homeGoals", homeGoals]);
+        arrMap.push(["homeAbbr", home]);
+        arrMap.push(["homeLogo",<img src={require('../assets/logos/' + homeLogo)}></img>]);
+        arrMap.push(["ROWKEYIDENTIFIER", null]);
+        let map = new Map(arrMap);
+        return map;
     }
 
     return (
         <React.Fragment>
-            <Table>
+            {/* <Table>
 
-            </Table>
-            <Table>
+            </Table> */}
+            <Table
+                rows={[processGameDataForScoreboard(props.gameData)]}
+            >
 
             </Table>
         </React.Fragment>
