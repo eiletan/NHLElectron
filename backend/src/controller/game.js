@@ -112,8 +112,26 @@ function createGameHelper(gameid, response, teams) {
         let awayTeam = gameData["teams"]["away"]["name"];
         let gameObj = {};
         gameObj["season"] = gameData["game"]["season"];
-        gameObj["home"] = teams[homeTeam];
-        gameObj["away"] = teams[awayTeam];
+        if (!teams[homeTeam]) {
+            gameObj["home"] = teams["NHL"];
+            gameObj["home"]["name"] = homeTeam;
+            gameObj["home"]["abbreviation"] = homeTeam.replace(/\s/g, "").substring(0,3);
+            gameObj["home"]["shortName"] = homeTeam;
+            gameObj["home"]["teamName"] = homeTeam;
+            gameObj["home"]["id"] = -1;
+        } else {
+            gameObj["home"] = teams[homeTeam];
+        }
+        if (!teams[awayTeam]) {
+            gameObj["away"] = teams["NHL"];
+            gameObj["away"]["name"] = awayTeam;
+            gameObj["away"]["abbreviation"] = awayTeam.replace(/\s/g, "").substring(0,3);
+            gameObj["away"]["shortName"] = awayTeam;
+            gameObj["away"]["teamName"] = awayTeam;
+            gameObj["away"]["id"] = -1;   
+        } else {
+            gameObj["away"] = teams[awayTeam];
+        }
         gameObj["id"] = gameid;
         gameObj["allGoals"] = goals;
         gameObj["currentState"] = extractGameState(response);
