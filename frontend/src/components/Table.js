@@ -6,10 +6,15 @@ export default function Table(props) {
     // Pass data for the table in the form of an array of maps, with each map representing a table row. The prop is "rows"
     // Each map must contain a ROWKEYIDENTIFIER key, if you do not want to specify row key, then set the value to null
     // ROWKEYIDENTIFIER, if passed in, is also set in the html element as an "id" attribute.
-    // Pass the class names for each data cell as an array, with the list of class names in order. The prop is "cellClassNames"
+    // Pass in class name for table container div. The prop is "tableContainerClassName". Optional.
+    // Pass in class name for table. The prop is "tableClassName". Optional.
+    // Pass in class name for table body. The prop is "tableBodyClassName". Optional.  
+    // Pass the class names for each data cell as an array of arrays, with the list of class names in order in each subarray. The prop is "cellClassNames"
+    // ... If the number of subarrays do not match the number of rows, it is assumed that all datacells will have the same classnames as the first array.
     // Pass the class names for each data row as an array, with the list of class names in order. The prop is "rowClassNames"
     // Pass in onClick handler. The prop is "onClickHandler". Optional.
-    // Pass in array of functions for onMouseEnter and onMouseLeave. The prop is "onHoverHandler". Optional. 
+    // Pass in array of functions for onMouseEnter and onMouseLeave. The prop is "onHoverHandler". Optional.
+ 
     
 
     function createRowsAndData() {
@@ -35,9 +40,27 @@ export default function Table(props) {
                 throw new Error(`Number of columns is not the same for each row. Expected number of columns is ${numCol}, actual number is ${arrMapKeys.length}`);
             }
         }
-        // If props.cellClassNames is not null, check that the length of the array is the same as number of columns
-        if (props.cellClassNames && (props.cellClassNames.length !== numCol-1)) {
-            throw new Error(`Number of cell class names does not match the number of columns. Expected number of cell class names is ${numCol-1}, actual number is ${props.cellClassNames.length}`);
+        // If props.cellClassNames is not null, check that it has the correct amount of class names
+        if (props.cellClassNames) {
+            // If the number of subarrays of cell class names do not match the number of rows, check only the first subarray
+            if (props.rowClassNames && (props.cellClassNames.length != props.rowClassNames)) {
+                if (props.cellClassNames[0].length != numCol-1) {
+                    throw new Error(`Number of cell class names does not match the number of columns. Expected number of cell class names is ${numCol-1}, actual number is ${props.cellClassNames[0].length}`);
+                }
+            // If the number of subarrays of cell class names match the number of rows, check all subarrays 
+            } else if (props.rowClassNames && (props.cellClassNames.length == props.rowClassNames)) {
+                for (let subarr of props.cellClassNames) {
+                    if (subarr.length != numCol-1) {
+                        throw new Error(`Number of cell class names does not match the number of columns. Expected number of cell class names is ${numCol-1}, actual number is ${subarr.length}`);
+                    }
+                }
+            // Else, check only the first subarray
+            } else {
+                if (props.cellClassNames[0].length != numCol-1) {
+                    throw new Error(`Number of cell class names does not match the number of columns. Expected number of cell class names is ${numCol-1}, actual number is ${props.cellClassNames[0].length}`);
+                }
+            }
+            
         }
         // If props.rowClassNames is not null, check that the length of the array is the same as number of columns
         if (props.rowClassNames && (props.rowClassNames.length !== numRow)) {
@@ -58,7 +81,10 @@ export default function Table(props) {
                     continue;
                 }
                 if (props.cellClassNames) {
-                    cells.push(<td className={"tableDataCell " + props.cellClassNames[k]} key={k}>{cellData}</td>);
+                    // If subarray of cell class names exist for the current row, use that. Otherwise use the corresponding cell class name from the first subarray
+                    cells.push(<td className={props.cellClassNames?.[index]?.[k] ? "tableDataCell " + props.cellClassNames[index][k] : "tableDataCell " + props.cellClassNames[0][k]}
+                                    key={k}>{cellData}
+                                </td>);
                 } else {
                     cells.push(<td className={"tableDataCell"} key={k}>{cellData}</td>);
                 }
@@ -87,9 +113,9 @@ export default function Table(props) {
     }
 
     return (
-        <div className="tableContainer">
-            <table className="table">
-                <tbody className="tableBody">
+        <div className={props.tableContainerClassName ? "tableContainer " + props.tableContainerClassName : "tableContainer"}>
+            <table className={props.tableClassName ? "table " + props.tableClassName : "table"}>
+                <tbody className={props.tableBodyClassName ? "tableBody " + props.tableBodyClassName : "tableBody"}>
                     {createRowsAndData()}
                 </tbody>
             </table>

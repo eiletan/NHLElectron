@@ -1,0 +1,25 @@
+@import "App.css";
+.gamesTable {
+    font-family: var(--universalFont);
+    border-collapse: collapse;
+    border-spacing: 15px;
+    height: 30%;
+    width: 30%;
+}
+
+.gamesTable tr{
+    border-bottom: 2px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    cursor: pointer;
+}
+
+.gamesTable tr:first-of-type {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    cursor: pointer;
+}

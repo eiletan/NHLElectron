@@ -55,7 +55,8 @@ export default function Games(props) {
                     rows={processGames(props.gamesData,props.internalTeams)}
                     dataRowOrder={props.dataRowOrder}
                     dataRowKey={props.dataRowKey}
-                    cellClassNames={["awayTeamLogo","awayTeamAbbr","@","homeTeamAbbr","homeTeamLogo","startTime"]}
+                    tableClassName={"gamesTable"}
+                    cellClassNames={[["awayTeamLogo","awayTeamAbbr","@","homeTeamAbbr","homeTeamLogo","startTime"]]}
                     onClickHandler={props.onClickHandler}
                     onHoverHandler={props.onHoverHandler}
                 />

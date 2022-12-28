@@ -1,0 +1,27 @@
+@import "App.css";
+
+:root {
+    --scoreboardRowHeight: 75px;
+    --borderRadius: 3px;
+}
+
+
+.gameScoreBoardTable {
+    font-family: var(--universalFont);
+    border: none;
+    font-size: 20px;
+    border-spacing: 0px;
+}
+
+
+.gameScoreBoardStatusInfoRow {
+    font-size: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.gameScoreBoardStatusInfo {
+    border-top: var(--borderRadius) solid;
+    border-right: var(--borderRadius) solid;
+    border-bottom: var(--borderRadius) solid;
+}
