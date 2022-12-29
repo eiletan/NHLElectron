@@ -5,9 +5,9 @@ export default function Scoreboard(props) {
     const scoreboardStatusClassNames = ["gameScoreBoardStatusInfo awayTeamShotsOnGoal", "gameScoreBoardStatusInfo awayTeamStrength",
                                     "gameScoreBoardStatusInfo gameTime", "gameScoreBoardStatusInfo gamePeriod",
                                     "gameScoreBoardStatusInfo awayTeamStrength", "gameScoreBoardStatusInfo homeTeamShotsOnGoal"];
-    const scoreboardClassNames = ["gameScoreBoardInfo teamScoreboardLogo awayTeamScoreboardLogo", "gameScoreBoardInfo awayTeamScoreboardAbbr",
-                                  "gameScoreBoardInfo awayTeamScoreboardGoals", "gameScoreBoardInfo homeTeamScoreboardGoals",
-                                  "gameScoreBoardInfo awayTeamScoreboardAbbr", "gameScoreBoardInfo teamScoreboardLogo awayTeamScoreboardLogo"];
+    const scoreboardClassNames = ["gameScoreBoardInfo teamScoreboardLogo awayTeamScoreboardLogo", "gameScoreBoardInfo gameScoreBoardInfoAbbr awayTeamScoreboardAbbr",
+                                  "gameScoreBoardInfo gameScoreBoardInfoGoals awayTeamScoreboardGoals", "gameScoreBoardInfo gameScoreBoardInfoGoals homeTeamScoreboardGoals",
+                                  "gameScoreBoardInfo gameScoreBoardInfoAbbr homeTeamScoreboardAbbr", "gameScoreBoardInfo teamScoreboardLogo homeTeamScoreboardLogo"];
     
     function processGameDataForScoreboard(gameData) {
         let gameState = gameData["currentState"];
@@ -23,12 +23,12 @@ export default function Scoreboard(props) {
         let homeLogo = gameData["home"]["logo"];
 
         let arrMap = [];
-        arrMap.push(["awayLogo",<img src={require('../assets/logos/' + awayLogo)}></img>]);
+        arrMap.push(["awayLogo",<img className={"scoreboardLogoImg"} src={require('../assets/logos/' + awayLogo)}></img>]);
         arrMap.push(["awayAbbr", away]);
         arrMap.push(["awayGoals", awayGoals]);
         arrMap.push(["homeGoals", homeGoals]);
         arrMap.push(["homeAbbr", home]);
-        arrMap.push(["homeLogo",<img src={require('../assets/logos/' + homeLogo)}></img>]);
+        arrMap.push(["homeLogo",<img className={"scoreboardLogoImg"} src={require('../assets/logos/' + homeLogo)}></img>]);
         arrMap.push(["ROWKEYIDENTIFIER", null]);
         let map = new Map(arrMap);
         return map;

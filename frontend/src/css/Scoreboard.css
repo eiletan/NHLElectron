@@ -11,17 +11,80 @@
     border: none;
     font-size: 20px;
     border-spacing: 0px;
+    height: 50%;
+    width: 50%;
 }
 
 
-.gameScoreBoardStatusInfoRow {
+.gameScoreBoardStatusInfoRow, .gameScoreBoardRow {
+    height: var(--scoreboardRowHeight);
     font-size: 15px;
     text-align: center;
     font-weight: bold;
+}
+
+.gameScoreBoardStatusInfoRow {
+    height: calc(var(--scoreboardRowHeight)/2);
 }
 
 .gameScoreBoardStatusInfo {
     border-top: var(--borderRadius) solid;
     border-right: var(--borderRadius) solid;
     border-bottom: var(--borderRadius) solid;
+    min-width: calc(var(--scoreboardRowHeight)/2);
+}
+
+.awayTeamShotsOnGoal{
+    border-top-left-radius: 13px;
+    border-left: var(--borderRadius) solid;
+    border-bottom-left-radius: 13px;
+}
+
+.homeTeamShotsOnGoal{
+    border-top-right-radius: 13px;
+    border-right: var(--borderRadius) solid;
+    border-bottom-right-radius: 13px;
+}
+
+.awayTeamScoreboardLogo {
+    background-color: white;
+    border-right: var(--borderRadius) solid;
+    border: var(--borderRadius) solid;
+    width: var(--scoreboardRowHeight);
+    height: var(--scoreboardRowHeight);
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden
+}
+
+.homeTeamScoreboardLogo {
+    background-color: white;
+    border: var(--borderRadius) solid;
+    border-left: none;
+    width: var(--scoreboardRowHeight);
+    height: var(--scoreboardRowHeight);
+    border-top-right-radius: 13px;
+    border-bottom-right-radius: 13px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden
+}
+
+.gameScoreBoardInfoAbbr {
+    width: var(--scoreboardRowHeight);
+}
+
+.scoreboardLogoImg {
+    object-fit: contain;
+    display: block;
+    width: auto;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gameScoreBoardInfoGoals {
+    width: 75px;
 }
