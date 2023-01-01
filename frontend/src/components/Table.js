@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/Table.css';
 
-export default function Table(props) {
+export const Table = React.forwardRef((props,ref) => {
     const rowKey = "ROWKEYIDENTIFIER";
     // Pass data for the table in the form of an array of maps, with each map representing a table row. The prop is "rows"
     // Each map must contain a ROWKEYIDENTIFIER key, if you do not want to specify row key, then set the value to null
@@ -113,7 +113,7 @@ export default function Table(props) {
     }
 
     return (
-        <div className={props.tableContainerClassName ? "tableContainer " + props.tableContainerClassName : "tableContainer"}>
+        <div className={props.tableContainerClassName ? "tableContainer " + props.tableContainerClassName : "tableContainer"} ref={ref}>
             <table className={props.tableClassName ? "table " + props.tableClassName : "table"}>
                 <tbody className={props.tableBodyClassName ? "tableBody " + props.tableBodyClassName : "tableBody"}>
                     {createRowsAndData()}
@@ -121,4 +121,4 @@ export default function Table(props) {
             </table>
         </div>
     );
-}
+});

@@ -3,24 +3,40 @@
 :root {
     --scoreboardRowHeight: 75px;
     --borderRadius: 3px;
+    --borderColor: black;
 }
 
 
 .gameScoreBoardTable {
     font-family: var(--universalFont);
     border: none;
-    font-size: 20px;
     border-spacing: 0px;
     height: 50%;
     width: 50%;
 }
 
 
-.gameScoreBoardStatusInfoRow, .gameScoreBoardRow {
+.gameScoreBoardStatusInfoRow, .gameScoreBoardRow, .gameScoreboardStatusPlayoffInfoRow{
     height: var(--scoreboardRowHeight);
-    font-size: 15px;
     text-align: center;
     font-weight: bold;
+}
+
+
+.gameScoreBoardRow, .gameScoreboardStatusPlayoffInfoRow {
+    font-weight: normal;
+}
+
+
+.playoffSeriesInfo {
+    white-space: nowrap;
+    overflow: visible;
+}
+
+
+.gameScoreboardStatusPlayoffInfoRow {
+    height: calc(var(--scoreboardRowHeight)/3);
+    background-color: rgba(0,0,0,0);
 }
 
 .gameScoreBoardStatusInfoRow {
@@ -28,28 +44,39 @@
 }
 
 .gameScoreBoardStatusInfo {
-    border-top: var(--borderRadius) solid;
-    border-right: var(--borderRadius) solid;
-    border-bottom: var(--borderRadius) solid;
+    border-top: var(--borderRadius) solid var(--borderColor);
+    border-right: var(--borderRadius) solid var(--borderColor);
+    border-bottom: var(--borderRadius) solid var(--borderColor);
     min-width: calc(var(--scoreboardRowHeight)/2);
 }
 
 .awayTeamShotsOnGoal{
     border-top-left-radius: 13px;
-    border-left: var(--borderRadius) solid;
+    border-left: var(--borderRadius) solid var(--borderColor);
     border-bottom-left-radius: 13px;
 }
 
 .homeTeamShotsOnGoal{
     border-top-right-radius: 13px;
-    border-right: var(--borderRadius) solid;
+    border-right: var(--borderRadius) solid var(--borderColor);
     border-bottom-right-radius: 13px;
+}
+
+.gameScoreBoardInfoAbbr {
+    text-shadow: var(--textShadowForAbbr);
+    color: var(--universalFontColor);
+}
+
+.gameScoreBoardInfoAbbr, .gameScoreBoardInfoGoals {
+    border: var(--borderRadius) solid var(--borderColor);
+    border-left: none;
+    font-weight: bold;
 }
 
 .awayTeamScoreboardLogo {
     background-color: white;
-    border-right: var(--borderRadius) solid;
-    border: var(--borderRadius) solid;
+    border: var(--borderRadius) solid var(--borderColor);
+    border-right: var(--borderRadius) solid var(--borderColor);
     width: var(--scoreboardRowHeight);
     height: var(--scoreboardRowHeight);
     border-top-left-radius: 13px;
@@ -61,7 +88,7 @@
 
 .homeTeamScoreboardLogo {
     background-color: white;
-    border: var(--borderRadius) solid;
+    border: var(--borderRadius) solid var(--borderColor);
     border-left: none;
     width: var(--scoreboardRowHeight);
     height: var(--scoreboardRowHeight);

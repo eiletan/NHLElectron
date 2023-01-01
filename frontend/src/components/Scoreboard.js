@@ -1,14 +1,24 @@
-import React from 'react';
-import Table from './Table';
+import {React,useRef,useEffect} from 'react';
+import {Table} from './Table';
 
 export default function Scoreboard(props) {
+    const scoreboardPlayoffsClassNames = ["playoffSeriesInfo"];
     const scoreboardStatusClassNames = ["gameScoreBoardStatusInfo awayTeamShotsOnGoal", "gameScoreBoardStatusInfo awayTeamStrength",
                                     "gameScoreBoardStatusInfo gameTime", "gameScoreBoardStatusInfo gamePeriod",
                                     "gameScoreBoardStatusInfo awayTeamStrength", "gameScoreBoardStatusInfo homeTeamShotsOnGoal"];
     const scoreboardClassNames = ["gameScoreBoardInfo teamScoreboardLogo awayTeamScoreboardLogo", "gameScoreBoardInfo gameScoreBoardInfoAbbr awayTeamScoreboardAbbr",
                                   "gameScoreBoardInfo gameScoreBoardInfoGoals awayTeamScoreboardGoals", "gameScoreBoardInfo gameScoreBoardInfoGoals homeTeamScoreboardGoals",
                                   "gameScoreBoardInfo gameScoreBoardInfoAbbr homeTeamScoreboardAbbr", "gameScoreBoardInfo teamScoreboardLogo homeTeamScoreboardLogo"];
-    
+    const containerRef = useRef(null);
+                                  
+    useEffect(() => {
+        let awayAbbrElement = containerRef.current.getElementsByClassName("awayTeamScoreboardAbbr")[0];
+        let homeAbbrElement = containerRef.current.getElementsByClassName("homeTeamScoreboardAbbr")[0]; 
+        awayAbbrElement.style.backgroundColor = props.gameData["away"]["color"];
+        homeAbbrElement.style.backgroundColor = props.gameData["home"]["color"];
+    },[containerRef]);
+
+
     function processGameDataForScoreboard(gameData) {
         let gameState = gameData["currentState"];
 
@@ -103,16 +113,38 @@ export default function Scoreboard(props) {
 
     }
 
+
+    function processGameDataForPlayoffs(gameData) {
+        let playoffSeries = gameData["playoffSeries"] 
+        if (playoffSeries) {
+            let arrMap = [];
+            let playoffInfo = playoffSeries["round"] + " | " + playoffSeries["gamenum"] + " | " + playoffSeries["seriesStatus"];
+            arrMap.push(["playoffInfo", playoffInfo],["ROWKEYIDENTIFIER", null]);
+            return new Map(arrMap);
+        } else {
+            return null;
+        }   
+    }
+
     return (
-        <React.Fragment>
+        <div className={"scoreboardContainer"}>
+            {processGameDataForPlayoffs(props.gameData)
+            && <Table
+                    rows={[processGameDataForPlayoffs(props.gameData)]}
+                    tableClassName={"gameScoreBoardTable"}
+                    cellClassNames={[scoreboardPlayoffsClassNames]}
+                    rowClassNames={["gameScoreboardStatusPlayoffInfoRow"]}
+                >
+                </Table>}
             <Table
                 rows={[processGameStatusForScoreboard(props.gameData),processGameDataForScoreboard(props.gameData)]}
                 tableClassName={"gameScoreBoardTable"}
                 cellClassNames={[scoreboardStatusClassNames,scoreboardClassNames]}
                 rowClassNames={["gameScoreBoardStatusInfoRow","gameScoreBoardRow"]}
+                ref={containerRef}
             >
             </Table>
-        </React.Fragment>
+        </div>
         
     );
 }

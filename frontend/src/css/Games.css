@@ -1,6 +1,11 @@
 @import "App.css";
+:root {
+    --height: 75px;
+}
 .gamesTable {
     font-family: var(--universalFont);
+    text-shadow: var(--textShadowForAbbr);
+    color: var(--universalFontColor);
     border-collapse: collapse;
     border-spacing: 15px;
     height: 30%;
@@ -11,9 +16,16 @@
 .gamesTable tr{
     border-bottom: 2px solid black;
     padding-left: 5px;
+    height: var(--height);
     padding-right: 5px;
     padding-bottom: 2px;
     cursor: pointer;
+}
+
+.gamesPreviewInfo {
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 50px;
 }
 
 .gamesTable tr:first-of-type {
@@ -28,4 +40,6 @@
 .awayTeamLogo, .homeTeamLogo {
     min-width: 50px;
     min-height: 50px;
+    width: var(--height);
+    height: var(--height);
 }

@@ -1,8 +1,10 @@
 import React from 'react';
-import Table from './Table';
+import {Table} from './Table';
 // Component to display a list of games for the given day
 
 export default function Games(props) {
+    const gamesCellClassNames = ["gamesPreviewInfo awayTeamLogo","gamesPreviewInfo awayTeamAbbr",
+                            "gamesPreviewInfo at","gamesPreviewInfo homeTeamAbbr","gamesPreviewInfo homeTeamLogo","gamesPreviewInfo startTime"];
 
     function processGames(gamesData, internalTeams) {
         let arrOfMaps = [];
@@ -56,7 +58,7 @@ export default function Games(props) {
                     dataRowOrder={props.dataRowOrder}
                     dataRowKey={props.dataRowKey}
                     tableClassName={"gamesTable"}
-                    cellClassNames={[["awayTeamLogo","awayTeamAbbr","@","homeTeamAbbr","homeTeamLogo","startTime"]]}
+                    cellClassNames={[gamesCellClassNames]}
                     onClickHandler={props.onClickHandler}
                     onHoverHandler={props.onHoverHandler}
                 />
