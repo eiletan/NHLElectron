@@ -1,6 +1,9 @@
 import React , {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './css/App.css';
+import './css/Games.css';
+import './css/Table.css';
+import './css/Scoreboard.css';
 import * as util from './util/util'
 import ErrorBoundary from './components/ErrorBoundary';
 import Games from './components/Games';
@@ -15,7 +18,7 @@ function App() {
   const [internalTeams, setInternalTeams] = useState(null);
   // A map which contains information about the teams involved in the current games, indexed by their abbreviations
   const [gamesInfoMap, setGamesInfoMap] = useState(null);
-
+  
 
   
   // On component mount, check date and then refresh list of games if it is outdated                    
