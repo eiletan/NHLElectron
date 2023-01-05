@@ -12,10 +12,13 @@ export default function Scoreboard(props) {
     const containerRef = useRef(null);
                                   
     useEffect(() => {
-        let awayAbbrElement = containerRef.current.getElementsByClassName("awayTeamScoreboardAbbr")[0];
-        let homeAbbrElement = containerRef.current.getElementsByClassName("homeTeamScoreboardAbbr")[0]; 
-        awayAbbrElement.style.backgroundColor = props.gameData["away"]["color"];
-        homeAbbrElement.style.backgroundColor = props.gameData["home"]["color"];
+        if (containerRef?.current) {
+            let awayAbbrElement = containerRef.current.getElementsByClassName("awayTeamScoreboardAbbr")[0];
+            let homeAbbrElement = containerRef.current.getElementsByClassName("homeTeamScoreboardAbbr")[0]; 
+            awayAbbrElement.style.backgroundColor = props.gameData["away"]["color"];
+            homeAbbrElement.style.backgroundColor = props.gameData["home"]["color"];
+        }
+        
     },[containerRef]);
 
 
@@ -64,7 +67,7 @@ export default function Scoreboard(props) {
         let awayGoaliePulled = gameState?.["away"]?.["goaliePulled"] ? gameState?.["away"]?.["goaliePulled"] : false;
         let homeGoaliePulled = gameState?.["home"]?.["goaliePulled"] ? gameState?.["home"]?.["goaliePulled"] : false;
 
-        let periodTime = gameState?.["periodTimeRemaining"] ? gameState?.["periodTimeRemaining"] : "SCHEDULED";
+        let periodTime = gameState?.["periodTimeRemaining"] ? gameState?.["periodTimeRemaining"] : "--";
         let gamePeriod = gameState?.["period"] ? gameState?.["period"] : "1st";
         
         if (awaySO) {
@@ -128,7 +131,7 @@ export default function Scoreboard(props) {
 
     return (
         <div className={"scoreboardContainer"}>
-            {processGameDataForPlayoffs(props.gameData)
+            {props.gameData && processGameDataForPlayoffs(props.gameData)
             && <Table
                     rows={[processGameDataForPlayoffs(props.gameData)]}
                     tableClassName={"gameScoreBoardTable"}
@@ -136,14 +139,16 @@ export default function Scoreboard(props) {
                     rowClassNames={["gameScoreboardStatusPlayoffInfoRow"]}
                 >
                 </Table>}
-            <Table
+            {props.gameData && <Table
                 rows={[processGameStatusForScoreboard(props.gameData),processGameDataForScoreboard(props.gameData)]}
                 tableClassName={"gameScoreBoardTable"}
                 cellClassNames={[scoreboardStatusClassNames,scoreboardClassNames]}
                 rowClassNames={["gameScoreBoardStatusInfoRow","gameScoreBoardRow"]}
                 ref={containerRef}
             >
-            </Table>
+            </Table>}
+            {!props.gameData && <span>Something went wrong. Please exit this page and try again</span>}
+            <button className="button backButton" type="button" onClick={props.onClickHandler}>Return to Home Page</button>
         </div>
         
     );

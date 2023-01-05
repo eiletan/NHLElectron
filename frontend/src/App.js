@@ -4,23 +4,31 @@ import './css/App.css';
 import './css/Games.css';
 import './css/Table.css';
 import './css/Scoreboard.css';
-import * as util from './util/util'
 import ErrorBoundary from './components/ErrorBoundary';
 import Games from './components/Games';
-import Table from './components/Table';
 import axios, * as others from 'axios';
 import Scoreboard from './components/Scoreboard';
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 
 function App() {
+  // STATE VARIABLES SECTION //
   const [errorMessage,setErrorMessage] = useState(null);
   const [date, setDate] = useState(null);
   const [gamesList, setGamesList] = useState(null);
   const [internalTeams, setInternalTeams] = useState(null);
   // A map which contains information about the teams involved in the current games, indexed by their abbreviations
   const [gamesInfoMap, setGamesInfoMap] = useState(null);
+  const [activeGame, setActiveGame] = useState(null);
+
+  // END OF STATE VARIABLES SECTION //
+  
+  // OTHER VARIABLES SECTION //
+  const navigate = useNavigate();
+
+  // END OF OTHER VARIABLES SECTION //
   
 
-  
+  // EFFECT HOOKS SECTION //
   // On component mount, check date and then refresh list of games if it is outdated                    
   useEffect(() => {
     let today = new Date().toLocaleDateString("en-CA");
@@ -74,7 +82,17 @@ function App() {
     window.localStorage.setItem('gamesInfoMap', JSON.stringify(gamesInfoMap)); 
   }, [gamesInfoMap]);
 
-  
+  // After active game is set, redirect to scoreboard/game page
+  useEffect(() => {
+    if (activeGame) {
+        navigate("/game");
+    }
+  },[activeGame]);
+
+  // END OF EFFECT HOOKS SECTION //
+
+
+  // HELPER FUNCTIONS SECTION //
   function createGamesInfoMap(gamesList) {
     if (gamesList && gamesList.length != 0) {
       let map = {};
@@ -97,7 +115,7 @@ function App() {
     axios.post("http://localhost:3300/game", {
       gameId: gameid
     }).then((response) => {
-      console.log(response.data);
+      setActiveGame(response.data);
     }).catch((err) => {
       setErrorMessage(err);
     })
@@ -127,11 +145,20 @@ function App() {
     event.currentTarget.style.backgroundColor = internalTeams["NHL"]["color"];
   }
 
+
+  function scoreboardBackButtonOnClick() {
+    navigate("/");
+  }
+
+  // END OF HELPER FUNCTIONS SECTION //
+
   return (
     <div className="App">
       <ErrorBoundary>
-        <Games gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></Games>
-        
+        <Routes>
+            <Route path="/" element={<Games gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></Games>}/>
+            <Route path="/game" element={<Scoreboard gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>
+        </Routes>
       </ErrorBoundary>
     </div>
   );

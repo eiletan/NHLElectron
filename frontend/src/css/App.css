@@ -32,6 +32,20 @@
     animation: gradientAnimation 15s ease infinite;
   }
 
+  .button {
+    border-radius: 8px;
+    border: none;
+    margin: 10px;
+    font-family: var(--universalFont);
+    font-size: 20px;
+    background-color: skyblue;
+    cursor: pointer;
+  }
+
+  .button:hover {
+    background-color: Tomato
+  }
+
   @keyframes gradientAnimation {
     0% {
       background-position: 0% 50%;
