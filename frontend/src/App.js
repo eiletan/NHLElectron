@@ -1,5 +1,4 @@
 import React , {useState, useEffect} from 'react';
-import logo from './logo.svg';
 import './css/App.css';
 import './css/Games.css';
 import './css/Table.css';
@@ -8,7 +7,9 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Games from './components/Games';
 import axios, * as others from 'axios';
 import Scoreboard from './components/Scoreboard';
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
+
+const apiBase = "http://localhost:3300"
 
 function App() {
   // STATE VARIABLES SECTION //
@@ -19,6 +20,7 @@ function App() {
   // A map which contains information about the teams involved in the current games, indexed by their abbreviations
   const [gamesInfoMap, setGamesInfoMap] = useState(null);
   const [activeGame, setActiveGame] = useState(null);
+  const [activeGameTimer, setActiveGameTimer] = useState(null);
 
   // END OF STATE VARIABLES SECTION //
   
@@ -36,7 +38,7 @@ function App() {
     let todayActual = new Date(today);
     // If stored date does not match today, update it and fetch list of games for today and the internal representation of NHL teams 
     if (todayActual.getTime() != gameListUpdateDate.getTime()) {
-      axios.all([axios.get('http://localhost:3300/games?date=' + today),axios.get('http://localhost:3300/internalTeams')]).then(
+      axios.all([axios.get(apiBase + "/games?date=" + today),axios.get(apiBase + "/internalTeams")]).then(
         axios.spread((gamesListResponse,internalTeamsResponse) => {
           setGamesList(gamesListResponse.data);
           setDate(String(today));
@@ -50,7 +52,6 @@ function App() {
       setGamesList(JSON.parse(window.localStorage.getItem("gamesList")));
       setInternalTeams(JSON.parse(window.localStorage.getItem("internalTeams")));
       setGamesInfoMap(JSON.parse(window.localStorage.getItem("gamesInfoMap")));
-      console.log(JSON.parse(window.localStorage.getItem("gamesInfoMap")));
     }
   },[]);
 
@@ -112,10 +113,11 @@ function App() {
 
   function gamesTableOnClick(event) {
     let gameid = event.currentTarget.id;
-    axios.post("http://localhost:3300/game", {
+    axios.post(apiBase+"/game", {
       gameId: gameid
     }).then((response) => {
       setActiveGame(response.data);
+      window.api.invokeNotificationWithSound();
     }).catch((err) => {
       setErrorMessage(err);
     })
@@ -149,6 +151,7 @@ function App() {
   function scoreboardBackButtonOnClick() {
     navigate("/");
   }
+
 
   // END OF HELPER FUNCTIONS SECTION //
 

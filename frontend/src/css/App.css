@@ -26,10 +26,10 @@
   }
 
   body {
-    background-size: 400% 400%;
+    background-size: cover;
     /* text-align: center; */
-    background-image: linear-gradient(20deg,aliceblue,lightgreen, violet,tomato);
-    animation: gradientAnimation 15s ease infinite;
+    background-image: url("../assets/images/DALLE Rogers Arena.png");
+    background-repeat: no-repeat
   }
 
   .button {
@@ -45,16 +45,3 @@
   .button:hover {
     background-color: Tomato
   }
-
-  @keyframes gradientAnimation {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  
