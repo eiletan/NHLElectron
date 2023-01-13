@@ -33,6 +33,7 @@ function App() {
   // EFFECT HOOKS SECTION //
   // On component mount, check date and then refresh list of games if it is outdated                    
   useEffect(() => {
+    setErrorMessage(null);
     let today = new Date().toLocaleDateString("en-CA");
     let gameListUpdateDate = new Date(window.localStorage.getItem("date"));
     let todayActual = new Date(today);
@@ -53,6 +54,7 @@ function App() {
       setInternalTeams(JSON.parse(window.localStorage.getItem("internalTeams")));
       setGamesInfoMap(JSON.parse(window.localStorage.getItem("gamesInfoMap")));
     }
+    window.localStorage.setItem('apiBase',apiBase);
   },[]);
 
   // After date state changes, store it to local storage

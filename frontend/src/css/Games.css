@@ -11,6 +11,7 @@
     height: 30%;
     width: 30%;
     font-weight: bold;
+    text-align: center;
 }
 
 .gamesTable tr{
@@ -20,6 +21,7 @@
     padding-right: 5px;
     padding-bottom: 2px;
     cursor: pointer;
+    
 }
 
 .gamesPreviewInfo {
@@ -42,4 +44,8 @@
     min-height: 50px;
     width: var(--height);
     height: var(--height);
+}
+
+.gamesPreviewInfo {
+    width: var(--height);
 }

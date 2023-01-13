@@ -1,25 +1,58 @@
-import {React,useRef,useEffect} from 'react';
+import {React,useRef,useEffect, useState} from 'react';
 import {Table} from './Table';
+import axios, * as others from 'axios';
 
 export default function Scoreboard(props) {
     const scoreboardPlayoffsClassNames = ["playoffSeriesInfo"];
     const scoreboardStatusClassNames = ["gameScoreBoardStatusInfo awayTeamShotsOnGoal", "gameScoreBoardStatusInfo awayTeamStrength",
                                     "gameScoreBoardStatusInfo gameTime", "gameScoreBoardStatusInfo gamePeriod",
-                                    "gameScoreBoardStatusInfo awayTeamStrength", "gameScoreBoardStatusInfo homeTeamShotsOnGoal"];
+                                    "gameScoreBoardStatusInfo homeTeamStrength", "gameScoreBoardStatusInfo homeTeamShotsOnGoal"];
     const scoreboardClassNames = ["gameScoreBoardInfo teamScoreboardLogo awayTeamScoreboardLogo", "gameScoreBoardInfo gameScoreBoardInfoAbbr awayTeamScoreboardAbbr",
                                   "gameScoreBoardInfo gameScoreBoardInfoGoals awayTeamScoreboardGoals", "gameScoreBoardInfo gameScoreBoardInfoGoals homeTeamScoreboardGoals",
                                   "gameScoreBoardInfo gameScoreBoardInfoAbbr homeTeamScoreboardAbbr", "gameScoreBoardInfo teamScoreboardLogo homeTeamScoreboardLogo"];
     const containerRef = useRef(null);
-                                  
+
+    const [gameData, setGameData] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [apiBase, setApiBase] = useState(null);
+
+
+    // On component mount, if props.gameData is not defined, call the API and store the result in local storage
+    // .. before rendering it in the component
     useEffect(() => {
-        if (containerRef?.current) {
+        setErrorMessage(null);
+        if (!props.gameData) {
+            let game = JSON.parse(window.localStorage.getItem("activeGameData"));
+            let gameId = game["id"];
+            // apiBase is set in local storage from the App component
+            let apiBase = window.localStorage.getItem("apiBase");
+            // Make post call to local server
+            axios.post(apiBase+"/game", {
+                gameId: gameId
+              }).then((response) => {
+                setGameData(response.data);
+                // window.api.invokeNotificationWithSound();
+              }).catch((err) => {
+                console.log(err);
+                setErrorMessage(err);
+              })
+        } else {
+            setGameData(props.gameData);
+        }
+    },[]);
+    
+    // This hook accomplishes two things: colors the team abbreviation on the scoreboard and sets active game data to local storage
+    // .. each time the game data gets updated 
+    useEffect(() => {
+        if (containerRef?.current && gameData) {
             let awayAbbrElement = containerRef.current.getElementsByClassName("awayTeamScoreboardAbbr")[0];
             let homeAbbrElement = containerRef.current.getElementsByClassName("homeTeamScoreboardAbbr")[0]; 
-            awayAbbrElement.style.backgroundColor = props.gameData["away"]["color"];
-            homeAbbrElement.style.backgroundColor = props.gameData["home"]["color"];
+            awayAbbrElement.style.backgroundColor = gameData["away"]["color"];
+            homeAbbrElement.style.backgroundColor = gameData["home"]["color"];
         }
-        
-    },[containerRef]);
+        window.localStorage.setItem('activeGameData', JSON.stringify(gameData));
+    },[gameData]);
+
 
 
     function processGameDataForScoreboard(gameData) {
@@ -131,24 +164,24 @@ export default function Scoreboard(props) {
 
     return (
         <div className={"scoreboardContainer"}>
-            {props.gameData && processGameDataForPlayoffs(props.gameData)
+            {gameData && processGameDataForPlayoffs(gameData)
             && <Table
-                    rows={[processGameDataForPlayoffs(props.gameData)]}
+                    rows={[processGameDataForPlayoffs(gameData)]}
                     tableClassName={"gameScoreBoardTable"}
                     cellClassNames={[scoreboardPlayoffsClassNames]}
                     rowClassNames={["gameScoreboardStatusPlayoffInfoRow"]}
                 >
                 </Table>}
-            {props.gameData && <Table
-                rows={[processGameStatusForScoreboard(props.gameData),processGameDataForScoreboard(props.gameData)]}
+            {gameData && <Table
+                rows={[processGameStatusForScoreboard(gameData),processGameDataForScoreboard(gameData)]}
                 tableClassName={"gameScoreBoardTable"}
                 cellClassNames={[scoreboardStatusClassNames,scoreboardClassNames]}
                 rowClassNames={["gameScoreBoardStatusInfoRow","gameScoreBoardRow"]}
                 ref={containerRef}
             >
             </Table>}
-            {!props.gameData && <span>Something went wrong. Please exit this page and try again</span>}
-            <button className="button backButton" type="button" onClick={props.onClickHandler}>Return to Home Page</button>
+            {errorMessage && <span>Something went wrong. Please reload or exit this page and try again. {errorMessage}</span>}
+            <button className="button backButton" type="button" onClick={props.onClickHandler}>Return To Home Page</button>
         </div>
         
     );
