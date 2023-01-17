@@ -6,7 +6,7 @@ import './css/Scoreboard.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import Games from './components/Games';
 import axios, * as others from 'axios';
-import Scoreboard from './components/Scoreboard';
+import GamePage from './components/GamePage';
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 const apiBase = "http://localhost:3300"
@@ -162,7 +162,7 @@ function App() {
       <ErrorBoundary>
         <Routes>
             <Route path="/" element={<Games gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></Games>}/>
-            <Route path="/game" element={<Scoreboard gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>
+            <Route path="/game" element={<GamePage gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>
         </Routes>
       </ErrorBoundary>
     </div>

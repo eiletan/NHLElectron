@@ -1,6 +1,5 @@
 import {React,useRef,useEffect, useState} from 'react';
 import {Table} from './Table';
-import axios, * as others from 'axios';
 
 export default function Scoreboard(props) {
     const scoreboardPlayoffsClassNames = ["playoffSeriesInfo"];
@@ -12,46 +11,15 @@ export default function Scoreboard(props) {
                                   "gameScoreBoardInfo gameScoreBoardInfoAbbr homeTeamScoreboardAbbr", "gameScoreBoardInfo teamScoreboardLogo homeTeamScoreboardLogo"];
     const containerRef = useRef(null);
 
-    const [gameData, setGameData] = useState(null);
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [apiBase, setApiBase] = useState(null);
-
-
-    // On component mount, if props.gameData is not defined, call the API and store the result in local storage
-    // .. before rendering it in the component
+    // This hook colors the team abbreviation on the scoreboard each time the game data gets updated 
     useEffect(() => {
-        setErrorMessage(null);
-        if (!props.gameData) {
-            let game = JSON.parse(window.localStorage.getItem("activeGameData"));
-            let gameId = game["id"];
-            // apiBase is set in local storage from the App component
-            let apiBase = window.localStorage.getItem("apiBase");
-            // Make post call to local server
-            axios.post(apiBase+"/game", {
-                gameId: gameId
-              }).then((response) => {
-                setGameData(response.data);
-                // window.api.invokeNotificationWithSound();
-              }).catch((err) => {
-                console.log(err);
-                setErrorMessage(err);
-              })
-        } else {
-            setGameData(props.gameData);
-        }
-    },[]);
-    
-    // This hook accomplishes two things: colors the team abbreviation on the scoreboard and sets active game data to local storage
-    // .. each time the game data gets updated 
-    useEffect(() => {
-        if (containerRef?.current && gameData) {
+        if (containerRef?.current && props.gameData) {
             let awayAbbrElement = containerRef.current.getElementsByClassName("awayTeamScoreboardAbbr")[0];
             let homeAbbrElement = containerRef.current.getElementsByClassName("homeTeamScoreboardAbbr")[0]; 
-            awayAbbrElement.style.backgroundColor = gameData["away"]["color"];
-            homeAbbrElement.style.backgroundColor = gameData["home"]["color"];
+            awayAbbrElement.style.backgroundColor = props.gameData["away"]["color"];
+            homeAbbrElement.style.backgroundColor = props.gameData["home"]["color"];
         }
-        window.localStorage.setItem('activeGameData', JSON.stringify(gameData));
-    },[gameData]);
+    },[props.gameData]);
 
 
 
@@ -164,23 +132,22 @@ export default function Scoreboard(props) {
 
     return (
         <div className={"scoreboardContainer"}>
-            {gameData && processGameDataForPlayoffs(gameData)
+            {props.gameData && processGameDataForPlayoffs(props.gameData)
             && <Table
-                    rows={[processGameDataForPlayoffs(gameData)]}
+                    rows={[processGameDataForPlayoffs(props.gameData)]}
                     tableClassName={"gameScoreBoardTable"}
                     cellClassNames={[scoreboardPlayoffsClassNames]}
                     rowClassNames={["gameScoreboardStatusPlayoffInfoRow"]}
                 >
                 </Table>}
-            {gameData && <Table
-                rows={[processGameStatusForScoreboard(gameData),processGameDataForScoreboard(gameData)]}
+            {props.gameData && <Table
+                rows={[processGameStatusForScoreboard(props.gameData),processGameDataForScoreboard(props.gameData)]}
                 tableClassName={"gameScoreBoardTable"}
                 cellClassNames={[scoreboardStatusClassNames,scoreboardClassNames]}
                 rowClassNames={["gameScoreBoardStatusInfoRow","gameScoreBoardRow"]}
                 ref={containerRef}
             >
             </Table>}
-            {errorMessage && <span>Something went wrong. Please reload or exit this page and try again. {errorMessage}</span>}
             <button className="button backButton" type="button" onClick={props.onClickHandler}>Return To Home Page</button>
         </div>
         
