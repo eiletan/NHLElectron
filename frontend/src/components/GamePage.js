@@ -1,9 +1,10 @@
 import {React,useEffect, useState} from 'react';
 import Scoreboard from './Scoreboard';
 import axios, * as others from 'axios';
+import {useParams} from 'react-router-dom';
 
 export default function GamePage(props) {
-
+    let {id} = useParams();
     const [gameData, setGameData] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -12,13 +13,11 @@ export default function GamePage(props) {
     useEffect(() => {
         setErrorMessage(null);
         if (!props.gameData) {
-            let game = JSON.parse(window.localStorage.getItem("activeGameData"));
-            let gameId = game["id"];
             // apiBase is set in local storage from the App component
             let apiBase = window.localStorage.getItem("apiBase");
             // Make post call to local server
             axios.post(apiBase+"/game", {
-                gameId: gameId
+                gameId: id
               }).then((response) => {
                 setGameData(response.data);
                 // window.api.invokeNotificationWithSound();
@@ -37,6 +36,11 @@ export default function GamePage(props) {
 
 
     return (
-        <Scoreboard gameData={gameData} onClickHandler={props.onClickHandler}/>
+        <div className="gamePageContainer">
+            <Scoreboard gameData={gameData} onClickHandler={props.onClickHandler}/>
+            <button className="button backButton" type="button" onClick={props.onClickHandler}>Return To Home Page</button>
+        </div>
+        
+        
     )
 }

@@ -148,7 +148,6 @@ export default function Scoreboard(props) {
                 ref={containerRef}
             >
             </Table>}
-            <button className="button backButton" type="button" onClick={props.onClickHandler}>Return To Home Page</button>
         </div>
         
     );

@@ -88,7 +88,7 @@ function App() {
   // After active game is set, redirect to scoreboard/game page
   useEffect(() => {
     if (activeGame) {
-        navigate("/game");
+        navigate("/game/" + activeGame["id"]);
     }
   },[activeGame]);
 
@@ -119,7 +119,7 @@ function App() {
       gameId: gameid
     }).then((response) => {
       setActiveGame(response.data);
-      window.api.invokeNotificationWithSound();
+      // window.api.invokeNotificationWithSound();
     }).catch((err) => {
       setErrorMessage(err);
     })
@@ -162,7 +162,7 @@ function App() {
       <ErrorBoundary>
         <Routes>
             <Route path="/" element={<Games gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></Games>}/>
-            <Route path="/game" element={<GamePage gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>
+            <Route path="/game/:id" element={<GamePage gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>
         </Routes>
       </ErrorBoundary>
     </div>
