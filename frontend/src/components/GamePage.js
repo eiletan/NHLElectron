@@ -6,6 +6,7 @@ import {useParams} from 'react-router-dom';
 export default function GamePage(props) {
     let {id} = useParams();
     const [gameData, setGameData] = useState(null);
+    const [gameInterval, setGameInterval] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
 
     // On component mount, if props.gameData is not defined, call the API and store the result in local storage
@@ -28,11 +29,37 @@ export default function GamePage(props) {
         } else {
             setGameData(props.gameData);
         }
+
+        if (!gameInterval) {
+            let gameInte = setInterval(getGameUpdate,60000);
+            console.log("printing");
+            console.log(gameInte);
+            setGameInterval(gameInte);
+        }
+
+        return function cleanup() {
+            console.log("clearing");
+            console.log(gameInterval);
+            clearInterval(gameInterval);
+        }
+
     },[]);
 
     useEffect(() => {
         window.localStorage.setItem('activeGameData',JSON.stringify(gameData));
     },[gameData]);
+
+
+    function getGameUpdate() {
+        let apiBase = window.localStorage.getItem("apiBase");
+        axios.get(apiBase+"/gameUpdate").then((response) => {
+            console.log("print interval");
+            console.log(response.data);
+            setGameData(response.data);
+        }).catch((err) => {
+            setErrorMessage(err);
+        });
+    }
 
 
     return (
