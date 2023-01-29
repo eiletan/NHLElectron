@@ -8,8 +8,7 @@
 
 .goalsTable {
     font-family: var(--universalFont);
-    text-shadow: var(--textShadowForAbbr);
-    color: var(--universalFontColor);
+    font-size: 15px;
     border-collapse: collapse;
     border-spacing: 15px;
     height: 30%;
@@ -41,12 +40,18 @@
 }
 
 .goalDescription {
-    width: 150px;
+    min-width: 150px;
+    white-space: pre-wrap;
 }
 
-/* .goalTeamLogo {
+.goalCurrentScore {
+    min-width: 75px;
+    white-space: pre-wrap;
+}
+
+.goalLogo {
     min-width: 50px;
     min-height: 50px;
     width: 75px;
     height: 75px;
-} */
+}

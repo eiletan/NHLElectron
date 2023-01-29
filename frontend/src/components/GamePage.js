@@ -3,6 +3,7 @@ import Scoreboard from './Scoreboard';
 import {Table} from './Table';
 import axios, * as others from 'axios';
 import {useParams} from 'react-router-dom';
+import ErrorBoundary from './ErrorBoundary';
 import '../css/GamePage.css';
 
 export default function GamePage(props) {
@@ -79,7 +80,7 @@ export default function GamePage(props) {
                 let goalDesc = goal["result"]["description"].replace(/ \((.*?)\)/g,"");
                 goalDesc = goalDesc + " \n" + goal["about"]["ordinalNum"] + " @ " + goal["about"]["periodTime"]
                 + " (" + strength + ")" ;
-                let score = gameData["away"]["abbreviation"] + ": " + goal["about"]["goals"]["away"] + " | " 
+                let score = gameData["away"]["abbreviation"] + ": " + goal["about"]["goals"]["away"] + "\n" 
                 + gameData["home"]["abbreviation"] + ": " + goal["about"]["goals"]["home"];
 
                 arrMap.push(["logo", <img className={"goalTeamLogoImg"} src={require('../assets/logos/' + logo)}></img>]);
@@ -95,14 +96,18 @@ export default function GamePage(props) {
 
     return (
         <div className="gamePageContainer">
-            <Scoreboard gameData={gameData} onClickHandler={props.onClickHandler}/>
-            {gameData
-            && <Table
-                rows={processGoalsData(gameData)}
-                tableClassName={"goalsTable"}
-                cellClassNames={[["goalRow goalLogo","goalRow goalDescription","goalRow goalCurrentScore"]]}
-                >
-                </Table>}
+            <ErrorBoundary>
+                <Scoreboard gameData={gameData} onClickHandler={props.onClickHandler}/>
+                {gameData?.["allGoals"].length > 0
+                    && <Table
+                            rows={processGoalsData(gameData)}
+                            tableClassName={"goalsTable"}
+                            cellClassNames={[["goalRow goalLogo","goalRow goalDescription","goalRow goalCurrentScore"]]}
+                        >
+                        </Table>
+                }
+            </ErrorBoundary>
+            
             <button className="button backButton" type="button" onClick={props.onClickHandler}>Return To Home Page</button>
         </div>
         
