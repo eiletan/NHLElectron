@@ -330,6 +330,7 @@ function extractAllGoalsScored(game,prevGame = null) {
                 }
             } 
         }
+        // TODO: Fix bug where goals will not update when goals are at zero
     } else {
         // If game has no goals, push all goal events into the array
         for (let i = gameData.length - 1; i >= 0; i--) {

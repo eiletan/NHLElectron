@@ -586,9 +586,10 @@
     "away": {
         "abbreviation": "TOR",
         "color": "#00205B",
-        "goalHorn": "data/audio/Toronto Maple Leafs.mp3",
+        "goalHorn": "Toronto Maple Leafs.mp3",
+        "hornLength": 64000,
         "id": 10,
-        "logo": "data/icons/Toronto Maple Leafs.png",
+        "logo": "Toronto Maple Leafs.png",
         "name": "Toronto Maple Leafs",
         "shortName": "Toronto",
         "teamName": "Maple Leafs"
@@ -616,9 +617,10 @@
     "home": {
         "abbreviation": "VAN",
         "color": "#00205B",
-        "goalHorn": "data/audio/Vancouver Canucks.mp3",
+        "goalHorn": "Vancouver Canucks.mp3",
+        "hornLength": 71000,
         "id": 23,
-        "logo": "data/icons/Vancouver Canucks.png",
+        "logo": "Vancouver Canucks.png",
         "name": "Vancouver Canucks",
         "shortName": "Vancouver",
         "teamName": "Canucks"

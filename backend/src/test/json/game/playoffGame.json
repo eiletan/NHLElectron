@@ -510,9 +510,10 @@
     "away": {
         "abbreviation": "TBL",
         "color": "#002868",
-        "goalHorn": "data/audio/Tampa Bay Lightning.mp3",
+        "goalHorn": "Tampa Bay Lightning.mp3",
+        "hornLength": 61000,
         "id": 14,
-        "logo": "data/icons/Tampa Bay Lightning.png",
+        "logo": "Tampa Bay Lightning.png",
         "name": "Tampa Bay Lightning",
         "shortName": "Tampa Bay",
         "teamName": "Lightning"
@@ -540,9 +541,10 @@
     "home": {
         "abbreviation": "COL",
         "color": "#6F263D",
-        "goalHorn": "data/audio/Colorado Avalanche.mp3",
+        "goalHorn": "Colorado Avalanche.mp3",
+        "hornLength": 53000,
         "id": 21,
-        "logo": "data/icons/Colorado Avalanche.png",
+        "logo": "Colorado Avalanche.png",
         "name": "Colorado Avalanche",
         "shortName": "Colorado",
         "teamName": "Avalanche"
