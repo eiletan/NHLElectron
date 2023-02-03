@@ -115,7 +115,7 @@ function createGameHelper(gameid, response, teams) {
         if (!teams[homeTeam]) {
             gameObj["home"] = teams["NHL"];
             gameObj["home"]["name"] = homeTeam;
-            gameObj["home"]["abbreviation"] = homeTeam.replace(/\s/g, "").substring(0,3);
+            gameObj["home"]["abbreviation"] = homeTeam;
             gameObj["home"]["shortName"] = homeTeam;
             gameObj["home"]["teamName"] = homeTeam;
             gameObj["home"]["id"] = -1;
@@ -125,7 +125,7 @@ function createGameHelper(gameid, response, teams) {
         if (!teams[awayTeam]) {
             gameObj["away"] = teams["NHL"];
             gameObj["away"]["name"] = awayTeam;
-            gameObj["away"]["abbreviation"] = awayTeam.replace(/\s/g, "").substring(0,3);
+            gameObj["away"]["abbreviation"] = awayTeam;
             gameObj["away"]["shortName"] = awayTeam;
             gameObj["away"]["teamName"] = awayTeam;
             gameObj["away"]["id"] = -1;   
