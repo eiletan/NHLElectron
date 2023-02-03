@@ -102,8 +102,12 @@ function App() {
       for (let game of gamesList) {
         let awayTeam = game["teams"]["away"]["team"]["name"];
         let homeTeam = game["teams"]["home"]["team"]["name"];
-        let awayTeamInfo = internalTeams[awayTeam];
-        let homeTeamInfo = internalTeams[homeTeam];
+        let awayTeamInfo = internalTeams?.[awayTeam];
+        let homeTeamInfo = internalTeams?.[homeTeam];
+        // Skip if either team is not a NHL team
+        if (!awayTeamInfo || !homeTeamInfo) {
+          continue;
+        }
         map[awayTeamInfo["abbreviation"]] = awayTeamInfo;
         map[homeTeamInfo["abbreviation"]] = homeTeamInfo;
       }

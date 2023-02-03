@@ -13,12 +13,26 @@ export default function Games(props) {
             let arrMap = [];
             let away = game["teams"]["away"]["team"]["name"];
             let home = game["teams"]["home"]["team"]["name"];
-            let awayLogo = internalTeams[away]["logo"];
-            let homeLogo = internalTeams[home]["logo"];
+            let awayLogo = internalTeams?.[away]?.["logo"];
+            let homeLogo = internalTeams?.[home]?.["logo"];
+            if (!awayLogo) {
+                awayLogo = "NHL.png";
+            }
+            if (!homeLogo) {
+                homeLogo = "NHL.png";
+            }
+            let awayAbbr = internalTeams?.[away]?.["abbreviation"];
+            let homeAbbr = internalTeams?.[home]?.["abbreviation"];
+            if (!awayAbbr) {
+                awayAbbr = away;
+            }
+            if (!homeAbbr) {
+                homeAbbr = home;
+            }
             arrMap.push(["awayLogo",<img src={require('../assets/logos/' + awayLogo)}></img>]);
-            arrMap.push(["awayAbbr",internalTeams[away]["abbreviation"]]);
+            arrMap.push(["awayAbbr",awayAbbr]);
             arrMap.push(["at", "@"]);
-            arrMap.push(["homeAbbr",internalTeams[home]["abbreviation"]]);
+            arrMap.push(["homeAbbr",homeAbbr]);
             arrMap.push(["homeLogo",<img src={require('../assets/logos/' + homeLogo)}></img>]);
             let startTime = new Date(game["gameDate"]);
             startTime = startTime.toLocaleString('en-US', { hour: 'numeric',minute: 'numeric', hour12: true });
