@@ -1,0 +1,49 @@
+{
+    "season": "20222023",
+    "home": {
+      "name": "Team Pacific",
+      "logo": "NHL.png",
+      "color": "#0000FF",
+      "goalHorn": "Vancouver Canucks.mp3",
+      "hornLength": 71000,
+      "id": -1,
+      "abbreviation": "Team Pacific",
+      "shortName": "Team Pacific",
+      "teamName": "Team Pacific"
+    },
+    "away": {
+      "name": "Team Central",
+      "logo": "NHL.png",
+      "color": "#FF0000",
+      "goalHorn": "Vancouver Canucks.mp3",
+      "hornLength": 71000,
+      "id": -1,
+      "abbreviation": "Team Central",
+      "shortName": "Team Central",
+      "teamName": "Team Central"
+    },
+    "id": "2022040671",
+    "allGoals": [],
+    "currentState": {
+      "period": null,
+      "periodTimeRemaining": null,
+      "home": {
+        "goals": 0,
+        "shots": 0,
+        "powerplay": false,
+        "goaliePulled": false,
+        "shootoutGoalsScored": null,
+        "shootoutAttempts": null
+      },
+      "away": {
+        "goals": 0,
+        "shots": 0,
+        "powerplay": false,
+        "goaliePulled": false,
+        "shootoutGoalsScored": null,
+        "shootoutAttempts": null
+      }
+    },
+    "playoffSeries": null,
+    "areGoalsUpdated": false
+  }

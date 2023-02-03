@@ -15,6 +15,7 @@ describe('Game', function() {
     let regularGameDuring;
     let regularGameDuringZero;
     let regularGameAfter;
+    let allStarsGame;
     let playoffGame;
     let internalTeams;
 
@@ -22,6 +23,7 @@ describe('Game', function() {
         console.log(typeof path.join(__dirname, "../","json","schedule","scheduleRegular.json"));
         let regularSchedulePromise = util.retrieveFile(path.join(__dirname, "../","json","schedule","scheduleRegular.json"));
         let playoffSchedulePromise = util.retrieveFile(path.join(__dirname, "../","json","schedule","schedulePlayoffs.json"));
+        let allStarsGamePromise = util.retrieveFile(path.join(__dirname, "../","json","game","allStarsGame.json"));
         let regularGameBeforeMockPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameBeforeMockResponse.json"));
         let regularGameBeforePromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameBefore.json"));
         let regularGameDuringMockPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameDuringMockResponse.json"));
@@ -33,7 +35,7 @@ describe('Game', function() {
         let internalTeamsPromise = init.initTeams(path.join(__dirname,"../","../","json","teams.json"));
         let promArr = [regularSchedulePromise, playoffSchedulePromise, regularGameAfterPromise, playoffGamePromise, internalTeamsPromise,
             regularGameBeforeMockPromise, regularGameBeforePromise, regularGameDuringPromise, regularGameDuringMockPromise, regularGameDuringMockZeroPromise
-            ,regularGameDuringZeroPromise];
+            ,regularGameDuringZeroPromise, allStarsGamePromise];
         return Promise.all(promArr).then((values) => {
             regularSchedule = values[0];
             playoffSchedule = values[1];
@@ -46,6 +48,7 @@ describe('Game', function() {
             regularGameDuringMockResponse = values[8];
             regularGameDuringMockResponseZero = values[9];
             regularGameDuringZero = values[10];
+            allStarsGame = values[11];
         }).catch((err) => {
             let errStr = "Setup failed: " + err; 
             assert.fail(errStr);
@@ -111,6 +114,13 @@ describe('Game', function() {
             assert.deepEqual(game,playoffGame);
         }).catch((err) => {
             assert.fail(err);
+        })
+    });
+
+    it('should create game with no NHL teams', function () {
+        // 2022040671 is the id of an all stars game from 2023-02-04
+        return game.createGame("2022040671", internalTeams).then((game) => {
+            assert.deepEqual(game,allStarsGame);
         })
     });
 

@@ -113,7 +113,8 @@ function createGameHelper(gameid, response, teams) {
         let gameObj = {};
         gameObj["season"] = gameData["game"]["season"];
         if (!teams[homeTeam]) {
-            gameObj["home"] = teams["NHL"];
+            let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
+            gameObj["home"] = nhlTeamCopy;
             gameObj["home"]["name"] = homeTeam;
             gameObj["home"]["abbreviation"] = homeTeam;
             gameObj["home"]["shortName"] = homeTeam;
@@ -124,7 +125,8 @@ function createGameHelper(gameid, response, teams) {
             gameObj["home"] = teams[homeTeam];
         }
         if (!teams[awayTeam]) {
-            gameObj["away"] = teams["NHL"];
+            let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
+            gameObj["away"] = nhlTeamCopy;
             gameObj["away"]["name"] = awayTeam;
             gameObj["away"]["abbreviation"] = awayTeam;
             gameObj["away"]["shortName"] = awayTeam;
