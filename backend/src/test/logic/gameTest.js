@@ -11,7 +11,9 @@ describe('Game', function() {
     let regularGameBeforeMockResponse;
     let regularGameBefore;
     let regularGameDuringMockResponse;
+    let regularGameDuringMockResponseZero;
     let regularGameDuring;
+    let regularGameDuringZero;
     let regularGameAfter;
     let playoffGame;
     let internalTeams;
@@ -23,12 +25,15 @@ describe('Game', function() {
         let regularGameBeforeMockPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameBeforeMockResponse.json"));
         let regularGameBeforePromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameBefore.json"));
         let regularGameDuringMockPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameDuringMockResponse.json"));
+        let regularGameDuringMockZeroPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameDuringMockResponseZero.json"));
         let regularGameDuringPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameDuring.json"));
+        let regularGameDuringZeroPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameDuringZero.json"));
         let regularGameAfterPromise = util.retrieveFile(path.join(__dirname, "../","json","game","regularGameAfter.json"));
         let playoffGamePromise = util.retrieveFile(path.join(__dirname, "../","json","game","playoffGame.json"));
         let internalTeamsPromise = init.initTeams(path.join(__dirname,"../","../","json","teams.json"));
         let promArr = [regularSchedulePromise, playoffSchedulePromise, regularGameAfterPromise, playoffGamePromise, internalTeamsPromise,
-            regularGameBeforeMockPromise, regularGameBeforePromise, regularGameDuringPromise, regularGameDuringMockPromise];
+            regularGameBeforeMockPromise, regularGameBeforePromise, regularGameDuringPromise, regularGameDuringMockPromise, regularGameDuringMockZeroPromise
+            ,regularGameDuringZeroPromise];
         return Promise.all(promArr).then((values) => {
             regularSchedule = values[0];
             playoffSchedule = values[1];
@@ -39,6 +44,8 @@ describe('Game', function() {
             regularGameBefore = values[6];
             regularGameDuring = values[7];
             regularGameDuringMockResponse = values[8];
+            regularGameDuringMockResponseZero = values[9];
+            regularGameDuringZero = values[10];
         }).catch((err) => {
             let errStr = "Setup failed: " + err; 
             assert.fail(errStr);
@@ -120,6 +127,21 @@ describe('Game', function() {
             assert.fail(err);
         });
     });
+
+    it('should update game when first goal is scored', function() {
+        // 2020020710 is the id of a regular season game from 2021-04-20, the game will be created with a modified response from the NHL API to simulate it being in progress
+        return game.createGame("2020020710",internalTeams, regularGameDuringMockResponseZero).then((gameToUpdate) => {
+            assert.deepEqual(gameToUpdate,regularGameDuringZero);
+            return game.updateGameStatus(gameToUpdate);
+        }).then((finalGame) => {
+            let updatedGame = JSON.parse(JSON.stringify(regularGameAfter));
+            updatedGame["areGoalsUpdated"] = true;
+            assert.deepEqual(finalGame,updatedGame);
+        }).catch((err) => {
+            assert.fail(err);
+        });
+    });
+
 
     it('should return home team winner in regulation', function() {
         let winnerObj = game.determineWinner(regularGameAfter);
