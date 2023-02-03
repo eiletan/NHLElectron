@@ -118,6 +118,7 @@ function createGameHelper(gameid, response, teams) {
             gameObj["home"]["abbreviation"] = homeTeam;
             gameObj["home"]["shortName"] = homeTeam;
             gameObj["home"]["teamName"] = homeTeam;
+            gameObj["home"]["color"] = "#0000FF";
             gameObj["home"]["id"] = -1;
         } else {
             gameObj["home"] = teams[homeTeam];
@@ -128,6 +129,7 @@ function createGameHelper(gameid, response, teams) {
             gameObj["away"]["abbreviation"] = awayTeam;
             gameObj["away"]["shortName"] = awayTeam;
             gameObj["away"]["teamName"] = awayTeam;
+            gameObj["away"]["color"] = "#FF0000";
             gameObj["away"]["id"] = -1;   
         } else {
             gameObj["away"] = teams[awayTeam];
