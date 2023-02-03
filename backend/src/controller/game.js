@@ -313,32 +313,21 @@ function createGameHelper(gameid, response, teams) {
 function extractAllGoalsScored(game,prevGame = null) {
     gameData = game["liveData"]["plays"]["allPlays"];
     let goals = [];
-    if (prevGame) {
-        if (prevGame["allGoals"] && (prevGame["allGoals"].length > 0)) {
-            // If current game is defined, then there is no need to check every single goal in the API response
-            for (let i = gameData.length-1; i >= 0; i--) {
-                let gameEvent = gameData[i];
-                let gameEventType = gameEvent["result"]["eventTypeId"];
-                if (gameEventType.valueOf() === "GOAL") {
-                    if (prevGame["allGoals"][0]["about"]["eventId"] == gameEvent["about"]["eventId"]) {
-                        // If the first goal found matches the first goal of the internal game state, then merge goals and locally stored goals and return
-                        let retGoals = goals.concat(prevGame["allGoals"]);
-                        return retGoals;
-                    } else {
-                        goals.push(gameEvent);
-                    }
-                }
-            } 
-        } else {
-            // If game has no goals, push all goal events into the array
-            for (let i = gameData.length - 1; i >= 0; i--) {
-                let gameEvent = gameData[i];
-                let gameEventType = gameEvent["result"]["eventTypeId"];
-                if (gameEventType.valueOf() === "GOAL") {
+    if (prevGame?.["allGoals"]?.length > 0) {
+        // If current game is defined, then there is no need to check every single goal in the API response
+        for (let i = gameData.length-1; i >= 0; i--) {
+            let gameEvent = gameData[i];
+            let gameEventType = gameEvent["result"]["eventTypeId"];
+            if (gameEventType.valueOf() === "GOAL") {
+                if (prevGame["allGoals"][0]["about"]["eventId"] == gameEvent["about"]["eventId"]) {
+                    // If the first goal found matches the first goal of the internal game state, then merge goals and locally stored goals and return
+                    let retGoals = goals.concat(prevGame["allGoals"]);
+                    return retGoals;
+                } else {
                     goals.push(gameEvent);
                 }
             }
-        }
+        } 
     } else {
         // If game has no goals, push all goal events into the array
         for (let i = gameData.length - 1; i >= 0; i--) {
