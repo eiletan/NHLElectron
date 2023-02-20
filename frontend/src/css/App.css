@@ -32,6 +32,10 @@
     background-repeat: no-repeat
   }
 
+  .buttonDiv {
+    text-align: center;
+  }
+
   .button {
     border-radius: 8px;
     border: none;

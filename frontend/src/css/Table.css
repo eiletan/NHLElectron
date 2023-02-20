@@ -16,6 +16,10 @@
     }
 }
 
+.table {
+    margin: 0 auto;
+}
+
 
 .tableRow {
     background-color: gainsboro;

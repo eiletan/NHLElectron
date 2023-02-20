@@ -107,8 +107,10 @@ export default function GamePage(props) {
                         </Table>
                 }
             </ErrorBoundary>
+            <div className="buttonDiv">
+                <button className="button backButton" type="button" onClick={props.onClickHandler}>Return To Home Page</button>
+            </div>
             
-            <button className="button backButton" type="button" onClick={props.onClickHandler}>Return To Home Page</button>
         </div>
         
         
