@@ -27,7 +27,7 @@
 
   body {
     background-size: cover;
-    /* text-align: center; */
+    text-align: center;
     background-image: url("../assets/images/DALLE Rogers Arena.png");
     background-repeat: no-repeat
   }
@@ -48,4 +48,17 @@
 
   .button:hover {
     background-color: Tomato
+  }
+
+  .componentText {
+    font-family: var(--universalFont);
+    text-shadow: var(--textShadowForAbbr);
+    color: var(--universalFontColor);
+    font-weight: bold;
+  }
+
+  .buttonText {
+    color: black;
+    font-weight: normal;
+    text-shadow: none
   }

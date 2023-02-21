@@ -3,6 +3,8 @@ import './css/App.css';
 import './css/Games.css';
 import './css/Table.css';
 import './css/Scoreboard.css';
+import './css/Goals.css';
+import './css/GamePage.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import Games from './components/Games';
 import axios, * as others from 'axios';
@@ -163,7 +165,7 @@ function App() {
 
   return (
     <div className="App">
-      <ErrorBoundary>
+      <ErrorBoundary onClickHandler={scoreboardBackButtonOnClick}>
         <Routes>
             <Route path="/" element={<Games gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></Games>}/>
             <Route path="/game/:id" element={<GamePage gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>

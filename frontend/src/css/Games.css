@@ -2,6 +2,15 @@
 :root {
     --height: 75px;
 }
+
+.gamesContainer {
+    overflow-y: scroll;
+    min-height: 100px;
+    height: 50vh;
+    transform: translate(0%, 50%);
+}
+
+
 .gamesTable {
     font-family: var(--universalFont);
     text-shadow: var(--textShadowForAbbr);

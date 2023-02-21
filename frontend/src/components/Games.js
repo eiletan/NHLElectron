@@ -62,11 +62,11 @@ export default function Games(props) {
     }
 
     return (
-        <div>
+        <div className="gamesContainer">
             {(props.gamesData && props.internalTeams) 
             && (props.gamesData.length != 0)
             && <React.Fragment>
-                <span>Scheduled games for {props.date}</span>
+                <p className="componentText scheduledGamesDescriptor">Scheduled games for {props.date}</p>
                 <Table 
                     rows={processGames(props.gamesData,props.internalTeams)}
                     dataRowOrder={props.dataRowOrder}
@@ -80,7 +80,7 @@ export default function Games(props) {
                 }
             {(props.gamesData && props.internalTeams)
             && (props.gamesData.length == 0)
-            && <span>No games scheduled for {props.date}</span>}
+            && <p className="componentText scheduledGamesDescriptor">No games scheduled for {props.date}</p>}
         </div>
         
         
