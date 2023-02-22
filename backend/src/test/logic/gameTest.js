@@ -20,7 +20,6 @@ describe('Game', function() {
     let internalTeams;
 
     before(function () {
-        console.log(typeof path.join(__dirname, "../","json","schedule","scheduleRegular.json"));
         let regularSchedulePromise = util.retrieveFile(path.join(__dirname, "../","json","schedule","scheduleRegular.json"));
         let playoffSchedulePromise = util.retrieveFile(path.join(__dirname, "../","json","schedule","schedulePlayoffs.json"));
         let allStarsGamePromise = util.retrieveFile(path.join(__dirname, "../","json","game","allStarsGame.json"));

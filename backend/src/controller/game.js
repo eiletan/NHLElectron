@@ -1,6 +1,7 @@
 // A collection of functions used to retrieve and process game schedules and game data.
 const nhlApi = require('./NhlApi.js');
 const util = require('./util.js');
+const jp = require('jsonpath');
 
 var NOTIFLENGTH = 20000;
 
@@ -143,7 +144,7 @@ function createGameHelper(gameid, response, teams) {
         gameObj["areGoalsUpdated"] = false;
         if (gameData["game"]["type"] == "P") {
             nhlApi.GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary&season=" +  gameData["game"]["season"]).then((response) => {
-                let pogame = findPlayoffGame(response, homeTeam, awayTeam);
+                let pogame = findPlayoffGame(response, homeTeam);
                 gameObj["playoffSeries"] = pogame;
                 if (pogame != null) {
                     resolve(gameObj);
@@ -170,49 +171,28 @@ function createGameHelper(gameid, response, teams) {
    * @param {String} teamB Team name of the other team
    * @returns JSON object containing the playoff round, game number, and game series status
    */
-  function findPlayoffGame(response, teamA, teamB) {
-      let rounds = response["rounds"].length;
-      for (let i = rounds-1; i >= 0; i--) {
-          let seriesnum = response["rounds"][i]["series"].length;
-          for (let j = 0; j < seriesnum; j++) {
-            let pogame = response["rounds"][i]["series"][j];
-            if (pogame["matchupTeams"] != undefined) {
-                let respTeamA = pogame["matchupTeams"][0]["team"]["name"];
-                let respTeamB = pogame["matchupTeams"][1]["team"]["name"];
-                if (util.matchTeamName(respTeamA,teamA)) {
-                    if (util.matchTeamName(respTeamB, teamB)) {
-                        let round = i+1;
-                        let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
-                        let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
-                        if (seriesStatus == "") {
-                            seriesStatus = "Tied 0-0";
-                        }
-                        let pogameObj = {};
-                        pogameObj["round"] = response["rounds"][i]["names"]["name"];
-                        pogameObj["gamenum"] = gamenum;
-                        pogameObj["seriesStatus"] = seriesStatus;
-                        return pogameObj;
-                    }
-                } else if (util.matchTeamName(respTeamB,teamA)) {
-                    if (util.matchTeamName(respTeamA,teamB)) {
-                        let round = i+1;
-                        let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
-                        let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
-                        if (seriesStatus == "") {
-                            seriesStatus = "Tied 0-0";
-                        }
-                        let pogameObj = {};
-                        pogameObj["round"] = response["rounds"][i]["names"]["name"];
-                        pogameObj["gamenum"] = gamenum;
-                        pogameObj["seriesStatus"] = seriesStatus;
-                        return pogameObj;
-                    }
-                }
-
-            }
-          }
+  function findPlayoffGame(response, team) {
+      let jpexpr = `$.rounds[*].series[?(@.matchupTeams[0].team.name == "${team}" || @.matchupTeams[1].team.name == "${team}")]`;
+      let playoffArr = jp.query(response, jpexpr);
+      
+      if (playoffArr.length == 0) {
+        return null;
+      } else {
+        // Reverse the array so that the latest playoff series information is the first element
+        playoffArr = playoffArr.reverse();
+        let pogame = playoffArr[0];
+        let round = pogame["round"]["number"];
+        let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
+        let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
+        if (seriesStatus == "") {
+            seriesStatus = "Tied 0-0";
+        }
+        let pogameObj = {};
+        pogameObj["round"] = response["rounds"][round-1]["names"]["name"];
+        pogameObj["gamenum"] = gamenum;
+        pogameObj["seriesStatus"] = seriesStatus;
+        return pogameObj;
       }
-      return null;
   }
 
 /**
@@ -316,32 +296,9 @@ function createGameHelper(gameid, response, teams) {
  */
 function extractAllGoalsScored(game,prevGame = null) {
     gameData = game["liveData"]["plays"]["allPlays"];
-    let goals = [];
-    if (prevGame?.["allGoals"]?.length > 0) {
-        // If current game is defined, then there is no need to check every single goal in the API response
-        for (let i = gameData.length-1; i >= 0; i--) {
-            let gameEvent = gameData[i];
-            let gameEventType = gameEvent["result"]["eventTypeId"];
-            if (gameEventType.valueOf() === "GOAL") {
-                if (prevGame["allGoals"][0]["about"]["eventId"] == gameEvent["about"]["eventId"]) {
-                    // If the first goal found matches the first goal of the internal game state, then merge goals and locally stored goals and return
-                    let retGoals = goals.concat(prevGame["allGoals"]);
-                    return retGoals;
-                } else {
-                    goals.push(gameEvent);
-                }
-            }
-        } 
-    } else {
-        // If game has no goals, push all goal events into the array
-        for (let i = gameData.length - 1; i >= 0; i--) {
-            let gameEvent = gameData[i];
-            let gameEventType = gameEvent["result"]["eventTypeId"];
-            if (gameEventType.valueOf() === "GOAL") {
-                goals.push(gameEvent);
-            }
-        }
-    }
+    let jspexpr = "$.liveData.plays.allPlays[?(@.result.eventTypeId == 'GOAL')]";
+    let goals = jp.query(game, jspexpr);
+    goals = goals.reverse();
     return goals;
 }
 
