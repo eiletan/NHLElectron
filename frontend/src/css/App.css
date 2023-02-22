@@ -1,8 +1,12 @@
 :root {
-    --textShadowForAbbr: black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px,
-    black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px, black 0px 0px 1px;
+    --textShadowForAbbr: black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px,
+    black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px;
     --universalFont: 'Pragati Narrow', sans-serif;
     --universalFontColor: aliceblue;
+    --defaultGrayR: 220;
+    --backgroundBlueR: 30;
+    --backgroundBlueG: 144;
+    --backgroundBlueB: 255;
 }
 
 /* width */
