@@ -18,8 +18,30 @@ export default function Games(props) {
                     logo = gameData["home"]["logo"];
                 }
                 let strength = goal["result"]["strength"]["code"];
-                // Strip point totals from the goal description
-                let goalDesc = goal["result"]["description"].replace(/ \((.*?)\)/g,"");
+                let scorer = "";
+                let goalType = goal["result"]["secondaryType"];
+                let assists = [];
+                // Find scorer
+                for (let player of goal["players"]) {
+                    if (player["playerType"] == "Scorer") {
+                        scorer = player["player"]["fullName"];
+                    } else if (player["playerType"] == "Assist") {
+                        assists.push(player["player"]["fullName"]);
+                    }
+                }
+                // Construct goal description
+                let goalDesc = scorer + " (" + goalType + ")" + "\n" + "Assists:";
+                if (assists.length == 0) {
+                    goalDesc = goalDesc + " None";
+                } else {
+                    for (let i = 0; i < assists.length; i++) {
+                        if (i == assists.length-1) {
+                            goalDesc = goalDesc + " " + assists[i];
+                        } else {
+                            goalDesc = goalDesc + " " + assists[i] + ",";
+                        }  
+                    } 
+                }
                 goalDesc = goalDesc + " \n" + goal["about"]["ordinalNum"] + " @ " + goal["about"]["periodTime"]
                 + " (" + strength + ")" ;
                 let score = gameData["away"]["abbreviation"] + ": " + goal["about"]["goals"]["away"] + "\n" 

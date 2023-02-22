@@ -26,10 +26,14 @@
   }
 
   body {
-    background-size: cover;
     text-align: center;
-    background-image: url("../assets/images/DALLE Rogers Arena.png");
-    background-repeat: no-repeat
+  }
+
+  .App {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../assets/images/DALLE hockey stick gradient.png");
+    background-size: 100% 100%;
   }
 
   .buttonDiv {

@@ -1,9 +1,10 @@
 @import "App.css";
 
 .goalsContainer {
-    overflow-y: scroll;
+    overflow-y: auto;
     min-height: 50px;
     height: 30vh;
+    display: inline-block;
 }
 
 
@@ -13,7 +14,6 @@
     border-collapse: collapse;
     border-spacing: 15px;
     height: 30%;
-    width: 30%;
     font-weight: bold;
     text-align: center;
 }
@@ -21,7 +21,6 @@
 .goalRow {
     padding-left: 5px;
     padding-right: 5px;
-    /* width: 50px; */
 }
 
 .goalsTable tr {
@@ -55,4 +54,8 @@
     min-height: 50px;
     width: 75px;
     height: 75px;
+}
+
+.goalListDescriptor {
+    display: inline-block;
 }
