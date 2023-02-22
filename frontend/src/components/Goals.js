@@ -66,12 +66,15 @@ export default function Games(props) {
                 <p className="componentText goalListDescriptor">No goal breakdown available</p>
             }
             {(props.gameData?.["allGoals"].length > 0) &&
-                <Table
-                rows={processGoalsData(props.gameData)}
-                tableClassName={"goalsTable"}
-                cellClassNames={[goalsCellClassNames]}
-                >
-                </Table>
+                <div className="goalsTableContainer">
+                    <Table
+                        rows={processGoalsData(props.gameData)}
+                        tableClassName={"goalsTable"}
+                        cellClassNames={[goalsCellClassNames]}
+                    >
+                    </Table>
+                </div>
+                
             }
         </div>
     );

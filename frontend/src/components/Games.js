@@ -67,15 +67,18 @@ export default function Games(props) {
             && (props.gamesData.length != 0)
             && <React.Fragment>
                 <p className="componentText scheduledGamesDescriptor">Scheduled games for {props.date}</p>
-                <Table 
-                    rows={processGames(props.gamesData,props.internalTeams)}
-                    dataRowOrder={props.dataRowOrder}
-                    dataRowKey={props.dataRowKey}
-                    tableClassName={"gamesTable"}
-                    cellClassNames={[gamesCellClassNames]}
-                    onClickHandler={props.onClickHandler}
-                    onHoverHandler={props.onHoverHandler}
-                />
+                <div className="gamesTableContainer">
+                    <Table 
+                        rows={processGames(props.gamesData,props.internalTeams)}
+                        dataRowOrder={props.dataRowOrder}
+                        dataRowKey={props.dataRowKey}
+                        tableClassName={"gamesTable"}
+                        cellClassNames={[gamesCellClassNames]}
+                        onClickHandler={props.onClickHandler}
+                        onHoverHandler={props.onHoverHandler}
+                    />
+                </div>
+                
                 </React.Fragment>
                 }
             {(props.gamesData && props.internalTeams)

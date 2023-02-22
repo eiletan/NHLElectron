@@ -4,13 +4,18 @@
 }
 
 .gamesContainer {
-    overflow-y: auto;
     min-height: 100px;
+    width: 50%;
     height: 50vh;
     transform: translate(0%, 50%);
     display: inline-block;
 }
 
+.gamesTableContainer {
+    overflow-y: auto;
+    min-height: 100px;
+    height: 70%;
+}
 
 .gamesTable {
     font-family: var(--universalFont);
@@ -18,6 +23,7 @@
     color: var(--universalFontColor);
     border-collapse: collapse;
     border-spacing: 15px;
+    width: 100%;
     height: 30%;
     font-weight: bold;
     text-align: center;
