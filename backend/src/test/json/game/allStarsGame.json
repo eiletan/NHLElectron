@@ -1,49 +1,634 @@
 {
-    "season": "20222023",
+  "season": "20222023",
+  "home": {
+    "name": "Team Central",
+    "color": "#0000FF",
+    "logo": "NHL.png",
+    "goalHorn": "Vancouver Canucks.mp3",
+    "hornLength": 71000,
+    "abbreviation": "Team Central",
+    "shortName": "Team Central",
+    "teamName": "Team Central",
+    "id": -1
+  },
+  "away": {
+    "name": "Team Pacific",
+    "color": "#FF0000",
+    "logo": "NHL.png",
+    "goalHorn": "Vancouver Canucks.mp3",
+    "hornLength": 71000,
+    "abbreviation": "Team Pacific",
+    "shortName": "Team Pacific",
+    "teamName": "Team Pacific",
+    "id": -1
+  },
+  "id": "2022040671",
+  "allGoals": [
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8479343,
+            "fullName": "Clayton Keller",
+            "link": "/api/v1/people/8479343"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 2
+        },
+        {
+          "player": {
+            "id": 8477495,
+            "fullName": "Seth Jones",
+            "link": "/api/v1/people/8477495"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 2
+        },
+        {
+          "player": {
+            "id": 8475765,
+            "fullName": "Vladimir Tarasenko",
+            "link": "/api/v1/people/8475765"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 3
+        },
+        {
+          "player": {
+            "id": 8479973,
+            "fullName": "Stuart Skinner",
+            "link": "/api/v1/people/8479973"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN369",
+        "eventTypeId": "GOAL",
+        "description": "Clayton Keller (2) Wrist Shot, assists: Seth Jones (2), Vladimir Tarasenko (3)",
+        "secondaryType": "Wrist Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 91,
+        "eventId": 369,
+        "period": 2,
+        "periodType": "REGULAR",
+        "ordinalNum": "2nd",
+        "periodTime": "08:07",
+        "periodTimeRemaining": "01:53",
+        "dateTime": "2023-02-04T20:55:36Z",
+        "goals": { "away": 4, "home": 6 }
+      },
+      "coordinates": { "x": 74, "y": 14 },
+      "team": { "id": 89, "name": "Team Central", "link": "/api/v1/teams/89" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8474578,
+            "fullName": "Erik Karlsson",
+            "link": "/api/v1/people/8474578"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8477934,
+            "fullName": "Leon Draisaitl",
+            "link": "/api/v1/people/8477934"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8477424,
+            "fullName": "Juuse Saros",
+            "link": "/api/v1/people/8477424"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN365",
+        "eventTypeId": "GOAL",
+        "description": "Erik Karlsson (1) Wrist Shot, assists: Leon Draisaitl (1)",
+        "secondaryType": "Wrist Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 87,
+        "eventId": 365,
+        "period": 2,
+        "periodType": "REGULAR",
+        "ordinalNum": "2nd",
+        "periodTime": "07:27",
+        "periodTimeRemaining": "02:33",
+        "dateTime": "2023-02-04T20:54:13Z",
+        "goals": { "away": 4, "home": 5 }
+      },
+      "coordinates": { "x": -65, "y": 9 },
+      "team": { "id": 90, "name": "Team Pacific", "link": "/api/v1/teams/90" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8480012,
+            "fullName": "Elias Pettersson",
+            "link": "/api/v1/people/8480012"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 2
+        },
+        {
+          "player": {
+            "id": 8477942,
+            "fullName": "Kevin Fiala",
+            "link": "/api/v1/people/8477942"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 2
+        },
+        {
+          "player": {
+            "id": 8479973,
+            "fullName": "Stuart Skinner",
+            "link": "/api/v1/people/8479973"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8477424,
+            "fullName": "Juuse Saros",
+            "link": "/api/v1/people/8477424"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN359",
+        "eventTypeId": "GOAL",
+        "description": "Elias Pettersson (2) Wrist Shot, assists: Kevin Fiala (2), Stuart Skinner (1)",
+        "secondaryType": "Wrist Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 81,
+        "eventId": 359,
+        "period": 2,
+        "periodType": "REGULAR",
+        "ordinalNum": "2nd",
+        "periodTime": "06:22",
+        "periodTimeRemaining": "03:38",
+        "dateTime": "2023-02-04T20:52:27Z",
+        "goals": { "away": 3, "home": 5 }
+      },
+      "coordinates": { "x": -66, "y": 18 },
+      "team": { "id": 90, "name": "Team Pacific", "link": "/api/v1/teams/90" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8475765,
+            "fullName": "Vladimir Tarasenko",
+            "link": "/api/v1/people/8475765"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8479343,
+            "fullName": "Clayton Keller",
+            "link": "/api/v1/people/8479343"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8477424,
+            "fullName": "Juuse Saros",
+            "link": "/api/v1/people/8477424"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8479973,
+            "fullName": "Stuart Skinner",
+            "link": "/api/v1/people/8479973"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN354",
+        "eventTypeId": "GOAL",
+        "description": "Vladimir Tarasenko (1) Wrist Shot, assists: Clayton Keller (1), Juuse Saros (1)",
+        "secondaryType": "Wrist Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": true,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 75,
+        "eventId": 354,
+        "period": 2,
+        "periodType": "REGULAR",
+        "ordinalNum": "2nd",
+        "periodTime": "05:32",
+        "periodTimeRemaining": "04:28",
+        "dateTime": "2023-02-04T20:48:31Z",
+        "goals": { "away": 2, "home": 5 }
+      },
+      "coordinates": { "x": 81, "y": 6 },
+      "team": { "id": 89, "name": "Team Central", "link": "/api/v1/teams/89" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8479343,
+            "fullName": "Clayton Keller",
+            "link": "/api/v1/people/8479343"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8475765,
+            "fullName": "Vladimir Tarasenko",
+            "link": "/api/v1/people/8475765"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 2
+        },
+        {
+          "player": {
+            "id": 8477495,
+            "fullName": "Seth Jones",
+            "link": "/api/v1/people/8477495"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8479973,
+            "fullName": "Stuart Skinner",
+            "link": "/api/v1/people/8479973"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN86",
+        "eventTypeId": "GOAL",
+        "description": "Clayton Keller (1) Backhand, assists: Vladimir Tarasenko (2), Seth Jones (1)",
+        "secondaryType": "Backhand",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 61,
+        "eventId": 86,
+        "period": 2,
+        "periodType": "REGULAR",
+        "ordinalNum": "2nd",
+        "periodTime": "00:18",
+        "periodTimeRemaining": "09:42",
+        "dateTime": "2023-02-04T20:42:34Z",
+        "goals": { "away": 2, "home": 4 }
+      },
+      "coordinates": { "x": 79, "y": 1 },
+      "team": { "id": 89, "name": "Team Central", "link": "/api/v1/teams/89" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8477492,
+            "fullName": "Nathan MacKinnon",
+            "link": "/api/v1/people/8477492"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 2
+        },
+        {
+          "player": {
+            "id": 8478420,
+            "fullName": "Mikko Rantanen",
+            "link": "/api/v1/people/8478420"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 2
+        },
+        {
+          "player": {
+            "id": 8480069,
+            "fullName": "Cale Makar",
+            "link": "/api/v1/people/8480069"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8480313,
+            "fullName": "Logan Thompson",
+            "link": "/api/v1/people/8480313"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN78",
+        "eventTypeId": "GOAL",
+        "description": "Nathan MacKinnon (2) Wrist Shot, assists: Mikko Rantanen (2), Cale Makar (1)",
+        "secondaryType": "Wrist Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 48,
+        "eventId": 78,
+        "period": 1,
+        "periodType": "REGULAR",
+        "ordinalNum": "1st",
+        "periodTime": "08:38",
+        "periodTimeRemaining": "01:22",
+        "dateTime": "2023-02-04T20:36:23Z",
+        "goals": { "away": 2, "home": 3 }
+      },
+      "coordinates": { "x": -80, "y": 3 },
+      "team": { "id": 89, "name": "Team Central", "link": "/api/v1/teams/89" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8480012,
+            "fullName": "Elias Pettersson",
+            "link": "/api/v1/people/8480012"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8477500,
+            "fullName": "Bo Horvat",
+            "link": "/api/v1/people/8477500"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8477942,
+            "fullName": "Kevin Fiala",
+            "link": "/api/v1/people/8477942"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8476945,
+            "fullName": "Connor Hellebuyck",
+            "link": "/api/v1/people/8476945"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN75",
+        "eventTypeId": "GOAL",
+        "description": "Elias Pettersson (1) Wrist Shot, assists: Bo Horvat (1), Kevin Fiala (1)",
+        "secondaryType": "Wrist Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 45,
+        "eventId": 75,
+        "period": 1,
+        "periodType": "REGULAR",
+        "ordinalNum": "1st",
+        "periodTime": "07:55",
+        "periodTimeRemaining": "02:05",
+        "dateTime": "2023-02-04T20:34:47Z",
+        "goals": { "away": 2, "home": 2 }
+      },
+      "coordinates": { "x": 74, "y": 2 },
+      "team": { "id": 90, "name": "Team Pacific", "link": "/api/v1/teams/90" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8477495,
+            "fullName": "Seth Jones",
+            "link": "/api/v1/people/8477495"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8475765,
+            "fullName": "Vladimir Tarasenko",
+            "link": "/api/v1/people/8475765"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8480313,
+            "fullName": "Logan Thompson",
+            "link": "/api/v1/people/8480313"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN72",
+        "eventTypeId": "GOAL",
+        "description": "Seth Jones (1) Snap Shot, assists: Vladimir Tarasenko (1)",
+        "secondaryType": "Snap Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 40,
+        "eventId": 72,
+        "period": 1,
+        "periodType": "REGULAR",
+        "ordinalNum": "1st",
+        "periodTime": "06:52",
+        "periodTimeRemaining": "03:08",
+        "dateTime": "2023-02-04T20:32:59Z",
+        "goals": { "away": 1, "home": 2 }
+      },
+      "coordinates": { "x": -75, "y": -5 },
+      "team": { "id": 89, "name": "Team Central", "link": "/api/v1/teams/89" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8478402,
+            "fullName": "Connor McDavid",
+            "link": "/api/v1/people/8478402"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8474578,
+            "fullName": "Erik Karlsson",
+            "link": "/api/v1/people/8474578"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8476945,
+            "fullName": "Connor Hellebuyck",
+            "link": "/api/v1/people/8476945"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN62",
+        "eventTypeId": "GOAL",
+        "description": "Connor McDavid (1) Wrist Shot, assists: Erik Karlsson (1)",
+        "secondaryType": "Wrist Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 24,
+        "eventId": 62,
+        "period": 1,
+        "periodType": "REGULAR",
+        "ordinalNum": "1st",
+        "periodTime": "03:48",
+        "periodTimeRemaining": "06:12",
+        "dateTime": "2023-02-04T20:24:51Z",
+        "goals": { "away": 1, "home": 1 }
+      },
+      "coordinates": { "x": 77, "y": 8 },
+      "team": { "id": 90, "name": "Team Pacific", "link": "/api/v1/teams/90" }
+    },
+    {
+      "players": [
+        {
+          "player": {
+            "id": 8477492,
+            "fullName": "Nathan MacKinnon",
+            "link": "/api/v1/people/8477492"
+          },
+          "playerType": "Scorer",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8478420,
+            "fullName": "Mikko Rantanen",
+            "link": "/api/v1/people/8478420"
+          },
+          "playerType": "Assist",
+          "seasonTotal": 1
+        },
+        {
+          "player": {
+            "id": 8480313,
+            "fullName": "Logan Thompson",
+            "link": "/api/v1/people/8480313"
+          },
+          "playerType": "Goalie"
+        }
+      ],
+      "result": {
+        "event": "Goal",
+        "eventCode": "CEN59",
+        "eventTypeId": "GOAL",
+        "description": "Nathan MacKinnon (1) Wrist Shot, assists: Mikko Rantanen (1)",
+        "secondaryType": "Wrist Shot",
+        "strength": { "code": "EVEN", "name": "Even" },
+        "gameWinningGoal": false,
+        "emptyNet": false
+      },
+      "about": {
+        "eventIdx": 19,
+        "eventId": 59,
+        "period": 1,
+        "periodType": "REGULAR",
+        "ordinalNum": "1st",
+        "periodTime": "03:15",
+        "periodTimeRemaining": "06:45",
+        "dateTime": "2023-02-04T20:23:34Z",
+        "goals": { "away": 0, "home": 1 }
+      },
+      "coordinates": { "x": -62, "y": 11 },
+      "team": { "id": 89, "name": "Team Central", "link": "/api/v1/teams/89" }
+    }
+  ],
+  "currentState": {
+    "period": "2nd",
+    "periodTimeRemaining": "Final",
     "home": {
-      "name": "Team Pacific",
-      "logo": "NHL.png",
-      "color": "#0000FF",
-      "goalHorn": "Vancouver Canucks.mp3",
-      "hornLength": 71000,
-      "id": -1,
-      "abbreviation": "Team Pacific",
-      "shortName": "Team Pacific",
-      "teamName": "Team Pacific"
+      "goals": 6,
+      "shots": 14,
+      "powerplay": false,
+      "goaliePulled": false,
+      "shootoutGoalsScored": null,
+      "shootoutAttempts": null
     },
     "away": {
-      "name": "Team Central",
-      "logo": "NHL.png",
-      "color": "#FF0000",
-      "goalHorn": "Vancouver Canucks.mp3",
-      "hornLength": 71000,
-      "id": -1,
-      "abbreviation": "Team Central",
-      "shortName": "Team Central",
-      "teamName": "Team Central"
-    },
-    "id": "2022040671",
-    "allGoals": [],
-    "currentState": {
-      "period": null,
-      "periodTimeRemaining": null,
-      "home": {
-        "goals": 0,
-        "shots": 0,
-        "powerplay": false,
-        "goaliePulled": false,
-        "shootoutGoalsScored": null,
-        "shootoutAttempts": null
-      },
-      "away": {
-        "goals": 0,
-        "shots": 0,
-        "powerplay": false,
-        "goaliePulled": false,
-        "shootoutGoalsScored": null,
-        "shootoutAttempts": null
-      }
-    },
-    "playoffSeries": null,
-    "areGoalsUpdated": false
-  }
+      "goals": 4,
+      "shots": 22,
+      "powerplay": false,
+      "goaliePulled": false,
+      "shootoutGoalsScored": null,
+      "shootoutAttempts": null
+    }
+  },
+  "playoffSeries": null,
+  "areGoalsUpdated": false
+}
