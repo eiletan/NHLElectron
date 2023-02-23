@@ -5,6 +5,7 @@ import {Table} from './Table';
 export default function Games(props) {
     const gamesCellClassNames = ["gamesPreviewInfo awayTeamLogo","gamesPreviewInfo awayTeamAbbr",
                             "gamesPreviewInfo at","gamesPreviewInfo homeTeamAbbr","gamesPreviewInfo homeTeamLogo","gamesPreviewInfo startTime"];
+    const dateOptions = {month: "short", day: "numeric", year: "numeric"};
 
     function processGames(gamesData, internalTeams) {
         let arrOfMaps = [];
@@ -66,7 +67,7 @@ export default function Games(props) {
             {(props.gamesData && props.internalTeams) 
             && (props.gamesData.length != 0)
             && <React.Fragment>
-                <p className="componentText scheduledGamesDescriptor">Scheduled games for {props.date}</p>
+                <p className="componentText scheduledGamesDescriptor">Scheduled games for {new Date(props.date + "T00:00:00").toLocaleDateString("en-CA",dateOptions)}</p>
                 <div className="gamesTableContainer">
                     <Table 
                         rows={processGames(props.gamesData,props.internalTeams)}
@@ -83,7 +84,7 @@ export default function Games(props) {
                 }
             {(props.gamesData && props.internalTeams)
             && (props.gamesData.length == 0)
-            && <p className="componentText scheduledGamesDescriptor">No games scheduled for {props.date}</p>}
+            && <p className="componentText scheduledGamesDescriptor">No games scheduled for {new Date(props.date + "T00:00:00").toLocaleDateString("en-CA",dateOptions)}</p>}
         </div>
         
         

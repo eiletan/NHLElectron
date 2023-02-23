@@ -2,7 +2,7 @@ import {React,useRef,useEffect, useState} from 'react';
 import {Table} from './Table';
 
 export default function Scoreboard(props) {
-    const scoreboardPlayoffsClassNames = ["playoffSeriesInfo"];
+    const scoreboardPlayoffsClassNames = ["playoffSeriesInfo componentText"];
     const scoreboardStatusClassNames = ["gameScoreBoardStatusInfo awayTeamShotsOnGoal", "gameScoreBoardStatusInfo awayTeamStrength",
                                     "gameScoreBoardStatusInfo gameTime", "gameScoreBoardStatusInfo gamePeriod",
                                     "gameScoreBoardStatusInfo homeTeamStrength", "gameScoreBoardStatusInfo homeTeamShotsOnGoal"];
