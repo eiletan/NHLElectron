@@ -3,3 +3,7 @@
 .gamePageContainer {
     transform: translate(0%, 50%);
 }
+
+.gameScoreBoardStatusInfo {
+    white-space: pre-wrap;
+}

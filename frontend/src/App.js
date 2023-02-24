@@ -1,12 +1,13 @@
 import React , {useState, useEffect} from 'react';
 import './css/App.css';
+import './css/HomePage.css';
 import './css/Games.css';
 import './css/Table.css';
 import './css/Scoreboard.css';
 import './css/Goals.css';
 import './css/GamePage.css';
 import ErrorBoundary from './components/ErrorBoundary';
-import Games from './components/Games';
+import HomePage from './components/HomePage';
 import axios, * as others from 'axios';
 import GamePage from './components/GamePage';
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -167,7 +168,7 @@ function App() {
     <div className="App">
       <ErrorBoundary onClickHandler={scoreboardBackButtonOnClick}>
         <Routes>
-            <Route path="/" element={<Games gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></Games>}/>
+            <Route path="/" element={<HomePage gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></HomePage>}/>
             <Route path="/game/:id" element={<GamePage gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>
         </Routes>
       </ErrorBoundary>
