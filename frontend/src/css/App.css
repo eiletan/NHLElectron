@@ -71,4 +71,14 @@
     text-shadow: none
   }
 
-  
+  .banner {
+    position: absolute;
+    margin: 0 auto;
+    width: 50%;
+    display: inline-block;
+    top: 15%;
+}
+
+  .title {
+    font-size: 2rem;
+  }
