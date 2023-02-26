@@ -24,7 +24,6 @@ export default function GamePage(props) {
                 gameId: id
               }).then((response) => {
                 setGameData(response.data);
-                // window.api.invokeNotificationWithSound();
               }).catch((err) => {
                 console.log(err);
                 setErrorMessage(err);
@@ -51,7 +50,6 @@ export default function GamePage(props) {
         if (gameData?.["currentState"]?.["periodTimeRemaining"] == "Final") {
             stopInterval();
             let winner = util.determineWinner(gameData);
-            console.log(winner);
             let winnerTitle = winner["winnerShort"] + " win in " + winner["winType"] + "!";
             let winnerMsg = winner["awayShort"] + ": " + winner["awayGoals"] + "\n" + winner["homeShort"] + ": " + winner["homeGoals"];
             let teamObj = gameData[winner["winnerLoc"]];
@@ -68,28 +66,32 @@ export default function GamePage(props) {
             };
             window.api.invokeNotificationWithSound(args);
         } else if (gameData?.["areGoalsUpdated"]) {
-            // If a new goal is detected, send message to display notification and play audio
-            let goalObj = gameData["allGoals"][0];
-            // Get the team who scored the goal
-            let team = goalObj["team"]["name"];
-            // Get goal information for notification
-            let goalTitle = gameData["away"]["abbreviation"] + ": " + goalObj["about"]["goals"]["away"] + " | " + gameData["home"]["abbreviation"] + ": " + goalObj["about"]["goals"]["home"]
-            + " (" + goalObj["team"]["triCode"] + " GOAL)";
-            let goalMsg = goalObj["about"]["ordinalNum"] + " @ " + goalObj["about"]["periodTime"] + " (" + goalObj["result"]["strength"]["code"] + ")"
-            // Get the object containing team data
-            let teamObj = gameData["away"]["name"] == team ? gameData["away"] : gameData["home"];
-            let goalHorn = teamObj["goalHorn"];
-            let duration = 20000;
-            let logo = teamObj["logo"];
-            let args = {
-                "title": goalTitle,
-                "msg": goalMsg,
-                "audio": goalHorn,
-                "length": duration,
-                "logo": logo,
-                "volume": 0.6
-            };
-            window.api.invokeNotificationWithSound(args);
+            // This handles the edge case where the first goal can be called back, resulting in areGoalsUpdated being true but
+            // no goals are actually present in the array 
+            if (gameData["allGoals"].length != 0) {
+                // If a new goal is detected, send message to display notification and play audio
+                let goalObj = gameData["allGoals"][0];
+                // Get the team who scored the goal
+                let team = goalObj["team"]["name"];
+                // Get goal information for notification
+                let goalTitle = gameData["away"]["abbreviation"] + ": " + goalObj["about"]["goals"]["away"] + " | " + gameData["home"]["abbreviation"] + ": " + goalObj["about"]["goals"]["home"]
+                + " (" + goalObj["team"]["triCode"] + " GOAL)";
+                let goalMsg = goalObj["about"]["ordinalNum"] + " @ " + goalObj["about"]["periodTime"] + " (" + goalObj["result"]["strength"]["code"] + ")"
+                // Get the object containing team data
+                let teamObj = gameData["away"]["name"] == team ? gameData["away"] : gameData["home"];
+                let goalHorn = teamObj["goalHorn"];
+                let duration = 20000;
+                let logo = teamObj["logo"];
+                let args = {
+                    "title": goalTitle,
+                    "msg": goalMsg,
+                    "audio": goalHorn,
+                    "length": duration,
+                    "logo": logo,
+                    "volume": 0.6
+                };
+                window.api.invokeNotificationWithSound(args);
+            }
         }
     },[gameData]);
 
