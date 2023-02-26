@@ -142,6 +142,14 @@ function createGameHelper(gameid, response, teams) {
         gameObj["currentState"] = extractGameState(response);
         gameObj["playoffSeries"] = null;
         gameObj["areGoalsUpdated"] = false;
+        // The NHL API does not have an accurate score in the goal object if it is the game winning goal scored in a shootout
+        // so this fixes it
+        if (gameObj["currentState"]["period"] == "SO" && gameObj["currentState"]["periodTimeRemaining"] == "Final") {
+            let awayGoals = gameObj["currentState"]["away"]["goals"];
+            let homeGoals = gameObj["currentState"]["home"]["goals"];
+            gameObj["allGoals"][0]["about"]["goals"]["away"] = awayGoals;
+            gameObj["allGoals"][0]["about"]["goals"]["home"] = homeGoals;
+        }
         if (gameData["game"]["type"] == "P") {
             nhlApi.GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary&season=" +  gameData["game"]["season"]).then((response) => {
                 let pogame = findPlayoffGame(response, homeTeam);
@@ -329,9 +337,8 @@ function extractAllGoalsScored(game,prevGame = null) {
                 if (game["currentState"]["period"] == "SO" && game["currentState"]["periodTimeRemaining"] == "Final") {
                     let awayGoals = game["currentState"]["away"]["goals"];
                     let homeGoals = game["currentState"]["home"]["goals"];
-                    let goalObj = game["allGoals"][0];
-                    goalObj["about"]["goals"]["away"] = awayGoals;
-                    goalObj["about"]["goals"]["home"] = homeGoals;
+                    game["allGoals"][0]["about"]["goals"]["away"] = awayGoals;
+                    game["allGoals"][0]["about"]["goals"]["home"] = homeGoals;
                 }
                 resolve(game);
                 return;
