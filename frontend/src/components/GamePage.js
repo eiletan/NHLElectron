@@ -15,6 +15,7 @@ export default function GamePage(props) {
     // .. before rendering it in the component
     useEffect(() => {
         setErrorMessage(null);
+        // window.api.invokeNotificationWithSound();
         if (!props.gameData) {
             // apiBase is set in local storage from the App component
             let apiBase = window.localStorage.getItem("apiBase");
