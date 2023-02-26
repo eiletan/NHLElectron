@@ -324,6 +324,15 @@ function extractAllGoalsScored(game,prevGame = null) {
                 return getGameState(gameId);
             }}).then((gameState) => {
                 game["currentState"] = gameState;
+                // The NHL API does not have an accurate score in the goal object if it is the game winning goal scored in a shootout
+                // so this fixes it
+                if (game["currentState"]["period"] == "SO" && game["currentState"]["periodTimeRemaining"] == "Final") {
+                    let awayGoals = game["currentState"]["away"]["goals"];
+                    let homeGoals = game["currentState"]["home"]["goals"];
+                    let goalObj = game["allGoals"][0];
+                    goalObj["about"]["goals"]["away"] = awayGoals;
+                    goalObj["about"]["goals"]["home"] = homeGoals;
+                }
                 resolve(game);
                 return;
             }).catch((err) => {
