@@ -26,6 +26,9 @@ function createWindow (windowSettings,url) {
   })
   audioWindow.loadURL(path.join(__dirname, "audio.html"));
 
+  mainWindow.on("close", function () {
+    audioWindow.close();
+  });
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }
@@ -52,6 +55,7 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 ipcMain.handle("invoke-Notification-With-Sound", (events, args) => {
@@ -60,7 +64,21 @@ ipcMain.handle("invoke-Notification-With-Sound", (events, args) => {
   if (args?.["stop"]) {
     audioWindow.loadURL(path.join(__dirname, `audio.html?stop=${args["stop"]}`));  
   } else {
+    // Play audio
     audioWindow.loadURL(path.join(__dirname, `audio.html?volume=${args["volume"]}&src=src/assets/audio/${args["audio"]}&length=${args["length"]}`));
+    // Send notification
+    let iconpath = path.join(__dirname,`src/assets/logos/${args["logo"]}`);
+    let notif = new Notification({
+      title: args["title"],
+      body: args["msg"],
+      icon: iconpath,
+      silent: true 
+    });
+    notif.show();
+    // Automatically close notification after audio stops playing
+    setTimeout(() => {
+      notif.close();
+    },args["length"]);
   }
   
 });

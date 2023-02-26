@@ -53,7 +53,7 @@ export default function GamePage(props) {
             let winner = util.determineWinner(gameData);
             console.log(winner);
             let winnerTitle = winner["winnerShort"] + " win in " + winner["winType"] + "!";
-            let winnerMsg = winner["awayShort"] + ": " + winner["awayGoals"] + " | " + winner["homeShort"] + winner["homeGoals"];
+            let winnerMsg = winner["awayShort"] + ": " + winner["awayGoals"] + "\n" + winner["homeShort"] + ": " + winner["homeGoals"];
             let teamObj = gameData[winner["winnerLoc"]];
             let logo = teamObj["logo"];
             let goalHorn = teamObj["goalHorn"];
