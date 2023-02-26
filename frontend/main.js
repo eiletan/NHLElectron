@@ -24,7 +24,7 @@ function createWindow (windowSettings,url) {
     title: "AudioWindow",
     show: false
   })
-  audioWindow.loadURL(path.join(__dirname, "audio.html?volume=0.6&src=src/assets/audio/Vancouver Canucks.mp3&length=10000"));
+  audioWindow.loadURL(path.join(__dirname, "audio.html"));
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -55,5 +55,12 @@ app.on('window-all-closed', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 ipcMain.handle("invoke-Notification-With-Sound", (events, args) => {
+  console.log("INVOKED");
+  console.log(args);
+  if (args?.["stop"]) {
+    audioWindow.loadURL(path.join(__dirname, `audio.html?stop=${args["stop"]}`));  
+  } else {
+    audioWindow.loadURL(path.join(__dirname, `audio.html?volume=${args["volume"]}&src=src/assets/audio/${args["audio"]}&length=${args["length"]}`));
+  }
   
 });
