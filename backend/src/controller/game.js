@@ -152,7 +152,7 @@ function createGameHelper(gameid, response, teams) {
         }
         if (gameData["game"]["type"] == "P") {
             nhlApi.GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary&season=" +  gameData["game"]["season"]).then((response) => {
-                let pogame = findPlayoffGame(response, homeTeam);
+                let pogame = findPlayoffGame(response, homeTeam, awayTeam);
                 gameObj["playoffSeries"] = pogame;
                 if (pogame != null) {
                     resolve(gameObj);
@@ -179,8 +179,8 @@ function createGameHelper(gameid, response, teams) {
    * @param {String} teamB Team name of the other team
    * @returns JSON object containing the playoff round, game number, and game series status
    */
-  function findPlayoffGame(response, team) {
-      let jpexpr = `$.rounds[*].series[?(@.matchupTeams[0].team.name == "${team}" || @.matchupTeams[1].team.name == "${team}")]`;
+  function findPlayoffGame(response, teamA, teamB) {
+      let jpexpr = `$.rounds[*].series[?((@.matchupTeams[0].team.name == "${teamA}" && @.matchupTeams[1].team.name == "${teamB}") || (@.matchupTeams[1].team.name == "${teamA}" && @.matchupTeams[0].team.name == "${teamB}"))]`;
       let playoffArr = jp.query(response, jpexpr);
       
       if (playoffArr.length == 0) {
