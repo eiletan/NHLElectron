@@ -99,7 +99,6 @@ export default function GamePage(props) {
     function getGameUpdate(gameData) {
         let apiBase = window.localStorage.getItem("apiBase");
         axios.get(apiBase+"/gameUpdate").then((response) => {
-            console.log(response.data);
             setGameData(response.data);
         }).catch((err) => {
             setErrorMessage(err);

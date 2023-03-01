@@ -59,8 +59,6 @@ app.on('window-all-closed', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 ipcMain.handle("invoke-Notification-With-Sound", (events, args) => {
-  console.log("INVOKED");
-  console.log(args);
   if (args?.["stop"]) {
     audioWindow.loadURL(path.join(__dirname, `audio.html?stop=${args["stop"]}`));  
   } else {

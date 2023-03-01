@@ -125,7 +125,6 @@ export default function Scoreboard(props) {
             arrOfMaps.push(new Map([["playoffRound", playoffSeries["round"]],["ROWKEYIDENTIFIER", null]]));
             arrOfMaps.push(new Map([["playoffGameNum", playoffSeries["gamenum"]],["ROWKEYIDENTIFIER", null]]));
             arrOfMaps.push(new Map([["currentPlayoffSeriesStatus", playoffSeries["seriesStatus"]],["ROWKEYIDENTIFIER", null]]));
-            console.log(arrOfMaps);
             return arrOfMaps;
         } else {
             return null;
