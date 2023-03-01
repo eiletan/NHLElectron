@@ -121,10 +121,12 @@ export default function Scoreboard(props) {
     function processGameDataForPlayoffs(gameData) {
         let playoffSeries = gameData["playoffSeries"] 
         if (playoffSeries) {
-            let arrMap = [];
-            let playoffInfo = playoffSeries["round"] + " | " + playoffSeries["gamenum"] + " | " + playoffSeries["seriesStatus"];
-            arrMap.push(["playoffInfo", playoffInfo],["ROWKEYIDENTIFIER", null]);
-            return new Map(arrMap);
+            let arrOfMaps = [];
+            arrOfMaps.push(new Map([["playoffRound", playoffSeries["round"]],["ROWKEYIDENTIFIER", null]]));
+            arrOfMaps.push(new Map([["playoffGameNum", playoffSeries["gamenum"]],["ROWKEYIDENTIFIER", null]]));
+            arrOfMaps.push(new Map([["currentPlayoffSeriesStatus", playoffSeries["seriesStatus"]],["ROWKEYIDENTIFIER", null]]));
+            console.log(arrOfMaps);
+            return arrOfMaps;
         } else {
             return null;
         }   
@@ -134,10 +136,10 @@ export default function Scoreboard(props) {
         <div className={"scoreboardContainer"}>
             {props.gameData && processGameDataForPlayoffs(props.gameData)
             && <Table
-                    rows={[processGameDataForPlayoffs(props.gameData)]}
+                    rows={processGameDataForPlayoffs(props.gameData)}
                     tableClassName={"gameScoreBoardTable"}
                     cellClassNames={[scoreboardPlayoffsClassNames]}
-                    rowClassNames={["gameScoreboardStatusPlayoffInfoRow"]}
+                    rowClassNames={["gameScoreboardStatusPlayoffInfoRow","gameScoreboardStatusPlayoffInfoRow","gameScoreboardStatusPlayoffInfoRow"]}
                 >
                 </Table>}
             {props.gameData && <Table
