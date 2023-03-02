@@ -1,0 +1,1 @@
+export const allowedImageFormats = [".png" , ".jpg" , ".jpeg" , ".bmp" , ".gif" , ".webp" , ".psd"];

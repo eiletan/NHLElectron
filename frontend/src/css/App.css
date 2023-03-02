@@ -1,0 +1,84 @@
+:root {
+    --textShadowForAbbr: black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px,
+    black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px;
+    --universalFont: 'Pragati Narrow', sans-serif;
+    --universalFontColor: aliceblue;
+    --defaultGrayR: 220;
+    --backgroundBlueR: 30;
+    --backgroundBlueG: 144;
+    --backgroundBlueB: 255;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  body {
+    text-align: center;
+  }
+
+  .App {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../assets/images/DALLE hockey stick gradient.png");
+    background-size: 100% 100%;
+  }
+
+  .buttonDiv {
+    text-align: center;
+  }
+
+  .button {
+    border-radius: 8px;
+    border: none;
+    margin: 10px;
+    font-family: var(--universalFont);
+    font-size: 20px;
+    background-color: skyblue;
+    cursor: pointer;
+  }
+
+  .button:hover {
+    background-color: Tomato
+  }
+
+  .componentText {
+    font-family: var(--universalFont);
+    text-shadow: var(--textShadowForAbbr);
+    color: var(--universalFontColor);
+    font-weight: bold;
+  }
+
+  .buttonText {
+    color: black;
+    font-weight: normal;
+    text-shadow: none
+  }
+
+  .banner {
+    position: absolute;
+    margin: 0 auto;
+    width: 50%;
+    display: inline-block;
+    top: 15%;
+}
+
+  .title {
+    font-size: 2rem;
+  }

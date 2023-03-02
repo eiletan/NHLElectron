@@ -1,0 +1,49 @@
+{
+    "season": "20202021",
+    "allGoals": [],
+    "away": {
+        "abbreviation": "TOR",
+        "color": "#00205B",
+        "goalHorn": "Toronto Maple Leafs.mp3",
+        "hornLength": 64000,
+        "id": 10,
+        "logo": "Toronto Maple Leafs.png",
+        "name": "Toronto Maple Leafs",
+        "shortName": "Toronto",
+        "teamName": "Maple Leafs"
+    },
+    "currentState": {
+        "away": {
+            "goaliePulled": false,
+            "goals": 3,
+            "powerplay": false,
+            "shootoutAttempts": null,
+            "shootoutGoalsScored": null,
+            "shots": 40
+        },
+        "home": {
+            "goaliePulled": false,
+            "goals": 5,
+            "powerplay": false,
+            "shootoutAttempts": null,
+            "shootoutGoalsScored": null,
+            "shots": 29
+        },
+        "period": "3rd",
+        "periodTimeRemaining": "06:24"
+    },
+    "home": {
+        "abbreviation": "VAN",
+        "color": "#00205B",
+        "goalHorn": "Vancouver Canucks.mp3",
+        "hornLength": 71000,
+        "id": 23,
+        "logo": "Vancouver Canucks.png",
+        "name": "Vancouver Canucks",
+        "shortName": "Vancouver",
+        "teamName": "Canucks"
+    },
+    "id": "2020020710",
+    "playoffSeries": null,
+    "areGoalsUpdated": false
+}

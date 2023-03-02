@@ -1,0 +1,121 @@
+@import "App.css";
+
+:root {
+    --scoreboardRowHeight: 75px;
+    --borderRadius: 3px;
+    --borderColor: black;
+}
+
+
+.gameScoreBoardTable {
+    font-family: var(--universalFont);
+    border: none;
+    border-spacing: 0px;
+    height: 50%;
+    width: 50%;
+}
+
+
+.gameScoreBoardStatusInfoRow, .gameScoreBoardRow, .gameScoreboardStatusPlayoffInfoRow{
+    height: var(--scoreboardRowHeight);
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.gameScoreBoardRow, .gameScoreboardStatusPlayoffInfoRow {
+    font-weight: normal;
+}
+
+
+.playoffSeriesInfo {
+    white-space: nowrap;
+    overflow: visible;
+}
+
+.gameScoreBoardInfo {
+    font-size: 25px;
+}
+
+
+.gameScoreboardStatusPlayoffInfoRow {
+    height: calc(var(--scoreboardRowHeight)/3);
+    background-color: rgba(0,0,0,0);
+}
+
+.gameScoreBoardStatusInfoRow {
+    height: calc(var(--scoreboardRowHeight)/2);
+}
+
+.gameScoreBoardStatusInfo {
+    border-top: var(--borderRadius) solid var(--borderColor);
+    border-right: var(--borderRadius) solid var(--borderColor);
+    border-bottom: var(--borderRadius) solid var(--borderColor);
+    min-width: calc(var(--scoreboardRowHeight)/2);
+}
+
+.awayTeamShotsOnGoal{
+    border-top-left-radius: 13px;
+    border-left: var(--borderRadius) solid var(--borderColor);
+    border-bottom-left-radius: 13px;
+}
+
+.homeTeamShotsOnGoal{
+    border-top-right-radius: 13px;
+    border-right: var(--borderRadius) solid var(--borderColor);
+    border-bottom-right-radius: 13px;
+}
+
+.gameScoreBoardInfoAbbr {
+    text-shadow: var(--textShadowForAbbr);
+    color: var(--universalFontColor);
+}
+
+.gameScoreBoardInfoAbbr, .gameScoreBoardInfoGoals {
+    border: var(--borderRadius) solid var(--borderColor);
+    border-left: none;
+    font-weight: bold;
+}
+
+.awayTeamScoreboardLogo {
+    background-color: white;
+    border: var(--borderRadius) solid var(--borderColor);
+    border-right: var(--borderRadius) solid var(--borderColor);
+    width: var(--scoreboardRowHeight);
+    height: var(--scoreboardRowHeight);
+    border-top-left-radius: 13px;
+    border-bottom-left-radius: 13px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden
+}
+
+.homeTeamScoreboardLogo {
+    background-color: white;
+    border: var(--borderRadius) solid var(--borderColor);
+    border-left: none;
+    width: var(--scoreboardRowHeight);
+    height: var(--scoreboardRowHeight);
+    border-top-right-radius: 13px;
+    border-bottom-right-radius: 13px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden
+}
+
+.gameScoreBoardInfoAbbr {
+    width: var(--scoreboardRowHeight);
+}
+
+.scoreboardLogoImg {
+    object-fit: contain;
+    display: block;
+    width: auto;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gameScoreBoardInfoGoals {
+    width: 75px;
+}

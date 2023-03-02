@@ -1,0 +1,70 @@
+@import "App.css";
+:root {
+    --height: 75px;
+}
+
+.gamesContainer {
+    min-height: 100px;
+    width: 50%;
+    height: 50vh;
+    transform: translate(0%, 50%);
+    display: inline-block;
+}
+
+.gamesTableContainer {
+    overflow-y: auto;
+    min-height: 100px;
+    height: 70%;
+}
+
+.gamesTable {
+    font-family: var(--universalFont);
+    text-shadow: var(--textShadowForAbbr);
+    color: var(--universalFontColor);
+    border-collapse: collapse;
+    border-spacing: 15px;
+    width: 100%;
+    height: 30%;
+    font-weight: bold;
+    text-align: center;
+}
+
+.gamesTable tr{
+    border-bottom: 2px solid black;
+    padding-left: 5px;
+    height: var(--height);
+    padding-right: 5px;
+    padding-bottom: 2px;
+    cursor: pointer;
+    
+}
+
+.gamesPreviewInfo {
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 50px;
+}
+
+.gamesTable tr:first-of-type {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    cursor: pointer;
+}
+
+.awayTeamLogo, .homeTeamLogo {
+    min-width: 50px;
+    min-height: 50px;
+    width: var(--height);
+    height: var(--height);
+}
+
+.gamesPreviewInfo {
+    width: var(--height);
+}
+
+.scheduledGamesDescriptor {
+    display: inline-block;
+}
