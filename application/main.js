@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, Notification, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
+const Server = require('../backend/src/rest/Server');
 
 const windowSettings = {
   title: "NHLElectron",
@@ -39,6 +40,12 @@ function createWindow (windowSettings,url) {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow(windowSettings,'http://localhost:3000');
+  const server = new Server(port);
+        server.start().then((res) => {
+            console.log("server started successfully from app");
+        }).catch((err) => {
+            console.log("Error occurred: " + err);
+        });
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
