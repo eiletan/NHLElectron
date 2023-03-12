@@ -42,15 +42,19 @@ function App() {
     let todayActual = new Date(today);
     // If stored date does not match today, update it and fetch list of games for today and the internal representation of NHL teams 
     if (todayActual.getTime() != gameListUpdateDate.getTime()) {
-      axios.all([axios.get(apiBase + "/games?date=" + today),axios.get(apiBase + "/internalTeams")]).then(
-        axios.spread((gamesListResponse,internalTeamsResponse) => {
-          setGamesList(gamesListResponse.data);
-          setDate(String(today));
-          setInternalTeams(internalTeamsResponse.data);
-        })
-      ).catch((err) => {
-        setErrorMessage(err.response.data.errorMessage);
+      let games = window.api.getGamesList({date: today});
+      let internalTeams = window.api.getInternalTeams();
+      games.then((gamesToday) => {
+        setGamesList(gamesToday);
+      }).catch((err) => {
+        setErrorMessage(err);
       })
+      internalTeams.then((teams) => {
+        setInternalTeams(teams);
+      }).catch((err) => {
+        setErrorMessage(err);
+      });
+      setDate(String(today));
     } else {
       setDate(window.localStorage.getItem("date"));
       setGamesList(JSON.parse(window.localStorage.getItem("gamesList")));

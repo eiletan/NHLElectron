@@ -1,7 +1,9 @@
 // Modules to control application life and create native browser window
 const {app, Notification, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
-const Server = require('../backend/src/rest/Server');
+const game = require('./logic/src/controller/game');
+const init = require('./logic/src/controller/init');
+const util = require('./logic/src/controller/util');
 
 const windowSettings = {
   title: "NHLElectron",
@@ -10,7 +12,9 @@ const windowSettings = {
   webPreferences: {
     preload: path.join(__dirname, 'preload.js')
   }
-}
+};
+
+let internalTeams;
 
 let mainWindow;
 let audioWindow;
@@ -40,12 +44,10 @@ function createWindow (windowSettings,url) {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow(windowSettings,'http://localhost:3000');
-  const server = new Server(port);
-        server.start().then((res) => {
-            console.log("server started successfully from app");
-        }).catch((err) => {
-            console.log("Error occurred: " + err);
-        });
+  // Init internal teams list
+  init.initTeams(path.join(__dirname, "logic", "src", "json","teams.json")).then((finalTeams) => {
+    internalTeams = finalTeams;
+  })
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
@@ -85,5 +87,22 @@ ipcMain.handle("invoke-Notification-With-Sound", (events, args) => {
       notif.close();
     },args["length"]);
   }
-  
 });
+
+ipcMain.handle("get-Internal-Teams", async (events, args) => {
+  return internalTeams;
+})
+
+ipcMain.handle("create-Game", async (events, args) => {
+  return game.createGame(args["id"], internalTeams);
+});
+
+ipcMain.handle("get-Games", async (events, args) => {
+  if (!args?.["date"]) {
+    return new Promise((resolve,reject) => {reject({"errorMessage": "No date provided"})});
+  } else if (!util.checkDateFormat(String(args["date"]))) {
+    return new Promise((resolve,reject) => {reject({"errorMessage": "Incorret date format. Correct format is YYYY-MM-DD"})});
+  } else {
+    return game.findGames(args["date"]);
+  }
+})
