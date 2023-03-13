@@ -9,6 +9,7 @@
     "concurrently": "^7.3.0",
     "cross-env": "^7.0.3",
     "electron": "^20.0.3",
+    "jsonpath": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
@@ -21,9 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "testMocha": "mocha src/test/**/*.js",
+    "testMocha": "mocha logic/src/test/**/*.js",
     "eject": "react-scripts eject",
-    "electron-react": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron . \" \"node ../backend/src/controller/App.js\"",
     "electron-start": "electron ."
   },
   "eslintConfig": {
@@ -45,7 +45,7 @@
     ]
   },
   "devDependencies": {
-    "chai": "^4.3.6",
-    "mocha": "^10.0.0"
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
   }
 }
