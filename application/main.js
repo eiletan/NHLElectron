@@ -16,6 +16,8 @@ const windowSettings = {
 
 let internalTeams;
 
+let gamesData = {};
+
 let mainWindow;
 let audioWindow;
 
@@ -89,20 +91,45 @@ ipcMain.handle("invoke-Notification-With-Sound", (events, args) => {
   }
 });
 
-ipcMain.handle("get-Internal-Teams", async (events, args) => {
+ipcMain.handle("get-Internal-Teams", (events, args) => {
   return internalTeams;
 })
 
-ipcMain.handle("create-Game", async (events, args) => {
-  return game.createGame(args["id"], internalTeams);
+ipcMain.handle("create-Game", (events, args) => {
+  let gameProm = game.createGame(args["id"], internalTeams);
+  gameProm.then((res) => {
+    gamesData[res["id"]] = res;
+  }).catch((err) => {
+    console.log(err);
+  })
+  return gameProm;
 });
 
-ipcMain.handle("get-Games", async (events, args) => {
+ipcMain.handle("update-Game", (events, args) => {
+  let id = args?.["id"];
+  if (!id) {
+    return new Promise((resolve,reject) => {reject({"errorMessage": "Game id not provided"})});
+  } else {
+    let updateProm = game.updateGameStatus(gamesData[id]);
+    updateProm.then((res) => {
+      gamesData[res["id"]] = res;
+    }).catch((err) => {
+      console.log(err);
+    })
+    return updateProm;
+  }
+  
+});
+
+ipcMain.handle("get-Games", (events, args) => {
   if (!args?.["date"]) {
     return new Promise((resolve,reject) => {reject({"errorMessage": "No date provided"})});
   } else if (!util.checkDateFormat(String(args["date"]))) {
     return new Promise((resolve,reject) => {reject({"errorMessage": "Incorret date format. Correct format is YYYY-MM-DD"})});
   } else {
+    if (args?.["reset"] == true) {
+      gamesData = {};
+    }
     return game.findGames(args["date"]);
   }
 })

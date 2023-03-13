@@ -8,7 +8,6 @@ import './css/Goals.css';
 import './css/GamePage.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import HomePage from './components/HomePage';
-import axios, * as others from 'axios';
 import GamePage from './components/GamePage';
 import { Route, Routes, useNavigate } from "react-router-dom";
 
@@ -42,7 +41,7 @@ function App() {
     let todayActual = new Date(today);
     // If stored date does not match today, update it and fetch list of games for today and the internal representation of NHL teams 
     if (todayActual.getTime() != gameListUpdateDate.getTime()) {
-      let games = window.api.getGamesList({date: today});
+      let games = window.api.getGamesList({date: today, reset: true});
       let internalTeams = window.api.getInternalTeams();
       games.then((gamesToday) => {
         setGamesList(gamesToday);
@@ -126,14 +125,12 @@ function App() {
 
   function gamesTableOnClick(event) {
     let gameid = event.currentTarget.id;
-    axios.post(apiBase+"/game", {
-      gameId: gameid
-    }).then((response) => {
-      setActiveGame(response.data);
-      // window.api.invokeNotificationWithSound();
+    let activeGame = window.api.createGame({id: gameid});
+    activeGame.then((game) => {
+      setActiveGame(game);
     }).catch((err) => {
       setErrorMessage(err);
-    })
+    });
   }
 
   /**
