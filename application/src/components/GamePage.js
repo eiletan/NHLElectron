@@ -1,7 +1,6 @@
 import {React, useEffect, useState, useRef} from 'react';
 import Scoreboard from './Scoreboard';
 import Goals from './Goals';
-import axios, * as others from 'axios';
 import {useParams} from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 import * as util from '../util/util';
