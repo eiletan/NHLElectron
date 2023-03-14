@@ -90,6 +90,18 @@
     background-color: rgba(255, 99, 71, 0.6);
   }
 
+  .titlebarminimize:hover {
+    background-color: rgba(34, 139, 34, 1);
+  }
+
+  .titlebarmaximize:hover {
+    background-color: rgba(218, 165, 32, 1);
+  }
+
+  .titlebarclose:hover {
+    background-color: rgba(255, 99, 71, 1);
+  }
+
   .App {
     width: 100vw;
     height: 100vh;
