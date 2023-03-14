@@ -162,11 +162,45 @@ function App() {
     navigate("/");
   }
 
+  function minimizeWindow() {
+    window.api.minimizeWindow();
+  }
+
+  function maximizeWindow() {
+    window.api.maximizeWindow();
+  }
+
+  function closeWindow() {
+    window.api.closeWindow();
+  }
 
   // END OF HELPER FUNCTIONS SECTION //
 
   return (
     <div className="App">
+      <div class="titlebar">
+        <div class="titlebarcircle">
+          <button class="titlebarbutton titlebarclose" type="button" onClick={closeWindow}>
+            <span class="titlebarcircletext componentText tbc">
+              x
+            </span>
+          </button>
+        </div>
+        <div class="titlebarcircle">
+          <button class="titlebarbutton titlebarmaximize" type="button" onClick={maximizeWindow}>
+            <span class="titlebarcircletext componentText tbmax">
+              o
+            </span>
+          </button>
+        </div>
+        <div class="titlebarcircle">
+          <button class="titlebarbutton titlebarminimize" type="button" onClick={minimizeWindow}>
+            <span class="titlebarcircletext componentText tbmin">
+              -
+            </span>
+          </button>
+        </div>
+      </div>
       <ErrorBoundary onClickHandler={scoreboardBackButtonOnClick}>
         <Routes>
             <Route path="/" element={<HomePage gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></HomePage>}/>
