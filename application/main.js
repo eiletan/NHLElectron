@@ -15,6 +15,8 @@ const windowSettings = {
   frame: false
 };
 
+const startUrl = process.env.ELECTRON_START_URL
+
 let internalTeams;
 
 let gamesData = {};
@@ -46,7 +48,7 @@ function createWindow (windowSettings,url) {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  createWindow(windowSettings,'http://localhost:3000');
+  createWindow(windowSettings,startUrl);
   // Init internal teams list
   init.initTeams(path.join(__dirname, "logic", "src", "json","teams.json")).then((finalTeams) => {
     internalTeams = finalTeams;
@@ -58,7 +60,7 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow(windowSettings,'http://localhost:3000');
+      createWindow(windowSettings,startUrl);
     }
   })
 })

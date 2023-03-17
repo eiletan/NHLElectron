@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "cross-env": "^7.0.3",
     "electron": "^20.0.3",
     "jsonpath": "^1.1.1",
     "react": "^18.2.0",
@@ -15,13 +16,14 @@
     "web-vitals": "^2.1.4"
   },
   "main": "main.js",
+  "homepage": "./",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "testMocha": "mocha logic/src/test/**/*.js",
     "eject": "react-scripts eject",
-    "electron-start": "electron ."
+    "electron-start": "cross-env ELECTRON_START_URL=http://localhost:3000 electron ."
   },
   "eslintConfig": {
     "extends": [
