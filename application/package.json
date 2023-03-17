@@ -1,20 +1,17 @@
 {
-  "name": "nhlelectron",
+  "name": "spectator",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
-    "concurrently": "^7.3.0",
-    "cross-env": "^7.0.3",
     "electron": "^20.0.3",
     "jsonpath": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
-    "wait-on": "^6.0.1",
     "web-vitals": "^2.1.4"
   },
   "main": "main.js",
