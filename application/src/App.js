@@ -41,7 +41,8 @@ function App() {
     let todayActual = new Date(today);
     // If stored date does not match today, update it and fetch list of games for today and the internal representation of NHL teams 
     if (todayActual.getTime() != gameListUpdateDate.getTime()) {
-      let games = window.api.getGamesList({date: today, reset: true});
+      let formattedDate = todayActual.toISOString().split("T")[0];
+      let games = window.api.getGamesList({date: formattedDate, reset: true});
       let internalTeams = window.api.getInternalTeams();
       games.then((gamesToday) => {
         setGamesList(gamesToday);
@@ -53,7 +54,7 @@ function App() {
       }).catch((err) => {
         setErrorMessage(err);
       });
-      setDate(String(today));
+      setDate(formattedDate);
     } else {
       setDate(window.localStorage.getItem("date"));
       setGamesList(JSON.parse(window.localStorage.getItem("gamesList")));
@@ -202,6 +203,7 @@ function App() {
         </div>
       </div>
       <ErrorBoundary onClickHandler={scoreboardBackButtonOnClick}>
+      <div className="componentText errorMessage">{errorMessage}</div>
         <Routes>
             <Route path="/" element={<HomePage gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></HomePage>}/>
             <Route path="/game/:id" element={<GamePage gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>
