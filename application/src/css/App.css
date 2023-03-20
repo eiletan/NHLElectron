@@ -31,6 +31,75 @@
 
   body {
     text-align: center;
+    overflow: hidden;
+  }
+
+  .titlebar {
+    background-color: aliceblue;
+    width: 100%;
+    position: relative;
+    height: 30px;
+    border-bottom: 1px solid #d0d0d0;
+    -webkit-app-region: drag;
+  }
+
+  .titlebarcircle {
+    position: relative;
+    float: right;
+    top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    line-height: 20px;
+    -webkit-app-region: no-drag;
+  }
+
+
+  .titlebarbutton {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: none;
+    -webkit-app-region: no-drag;
+  }
+
+  .titlebarcircletext {
+    position: relative;
+    bottom: 1px;
+    left: 0.3px;
+    font-size: 12px;
+  }
+
+  .tbmin {
+    position: relative;
+    bottom: 2px;
+  }
+
+  .titlebarminimize {
+    background-color: rgba(34, 139, 34, 0.6);
+  }
+
+  .titlebarmaximize {
+    background-color: rgba(218, 165, 32, 0.6);
+  }
+
+  .titlebarclose {
+    background-color: rgba(255, 99, 71, 0.6);
+  }
+
+  .titlebarminimize:hover {
+    background-color: rgba(34, 139, 34, 1);
+  }
+
+  .titlebarmaximize:hover {
+    background-color: rgba(218, 165, 32, 1);
+  }
+
+  .titlebarclose:hover {
+    background-color: rgba(255, 99, 71, 1);
   }
 
   .App {

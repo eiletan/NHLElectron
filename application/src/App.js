@@ -8,7 +8,6 @@ import './css/Goals.css';
 import './css/GamePage.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import HomePage from './components/HomePage';
-import axios, * as others from 'axios';
 import GamePage from './components/GamePage';
 import { Route, Routes, useNavigate } from "react-router-dom";
 
@@ -42,15 +41,20 @@ function App() {
     let todayActual = new Date(today);
     // If stored date does not match today, update it and fetch list of games for today and the internal representation of NHL teams 
     if (todayActual.getTime() != gameListUpdateDate.getTime()) {
-      axios.all([axios.get(apiBase + "/games?date=" + today),axios.get(apiBase + "/internalTeams")]).then(
-        axios.spread((gamesListResponse,internalTeamsResponse) => {
-          setGamesList(gamesListResponse.data);
-          setDate(String(today));
-          setInternalTeams(internalTeamsResponse.data);
-        })
-      ).catch((err) => {
-        setErrorMessage(err.response.data.errorMessage);
+      let formattedDate = todayActual.toISOString().split("T")[0];
+      let games = window.api.getGamesList({date: formattedDate, reset: true});
+      let internalTeams = window.api.getInternalTeams();
+      games.then((gamesToday) => {
+        setGamesList(gamesToday);
+      }).catch((err) => {
+        setErrorMessage(err);
       })
+      internalTeams.then((teams) => {
+        setInternalTeams(teams);
+      }).catch((err) => {
+        setErrorMessage(err);
+      });
+      setDate(formattedDate);
     } else {
       setDate(window.localStorage.getItem("date"));
       setGamesList(JSON.parse(window.localStorage.getItem("gamesList")));
@@ -122,14 +126,12 @@ function App() {
 
   function gamesTableOnClick(event) {
     let gameid = event.currentTarget.id;
-    axios.post(apiBase+"/game", {
-      gameId: gameid
-    }).then((response) => {
-      setActiveGame(response.data);
-      // window.api.invokeNotificationWithSound();
+    let activeGame = window.api.createGame({id: gameid});
+    activeGame.then((game) => {
+      setActiveGame(game);
     }).catch((err) => {
       setErrorMessage(err);
-    })
+    });
   }
 
   /**
@@ -161,12 +163,47 @@ function App() {
     navigate("/");
   }
 
+  function minimizeWindow() {
+    window.api.minimizeWindow();
+  }
+
+  function maximizeWindow() {
+    window.api.maximizeWindow();
+  }
+
+  function closeWindow() {
+    window.api.closeWindow();
+  }
 
   // END OF HELPER FUNCTIONS SECTION //
 
   return (
     <div className="App">
+      <div className="titlebar">
+        <div className="titlebarcircle">
+          <button className="titlebarbutton titlebarclose" type="button" onClick={closeWindow}>
+            <span className="titlebarcircletext componentText tbc">
+              x
+            </span>
+          </button>
+        </div>
+        <div className="titlebarcircle">
+          <button className="titlebarbutton titlebarmaximize" type="button" onClick={maximizeWindow}>
+            <span className="titlebarcircletext componentText tbmax">
+              o
+            </span>
+          </button>
+        </div>
+        <div className="titlebarcircle">
+          <button className="titlebarbutton titlebarminimize" type="button" onClick={minimizeWindow}>
+            <span className="titlebarcircletext componentText tbmin">
+              -
+            </span>
+          </button>
+        </div>
+      </div>
       <ErrorBoundary onClickHandler={scoreboardBackButtonOnClick}>
+      <div className="componentText errorMessage">{errorMessage}</div>
         <Routes>
             <Route path="/" element={<HomePage gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></HomePage>}/>
             <Route path="/game/:id" element={<GamePage gameData={activeGame} onClickHandler={scoreboardBackButtonOnClick}/>}/>

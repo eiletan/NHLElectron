@@ -1,7 +1,6 @@
 import {React, useEffect, useState, useRef} from 'react';
 import Scoreboard from './Scoreboard';
 import Goals from './Goals';
-import axios, * as others from 'axios';
 import {useParams} from 'react-router-dom';
 import ErrorBoundary from './ErrorBoundary';
 import * as util from '../util/util';
@@ -18,24 +17,20 @@ export default function GamePage(props) {
         setErrorMessage(null);
         if (!props.gameData) {
             // apiBase is set in local storage from the App component
-            let apiBase = window.localStorage.getItem("apiBase");
-            // Make post call to local server
-            axios.post(apiBase+"/game", {
-                gameId: id
-              }).then((response) => {
-                setGameData(response.data);
-              }).catch((err) => {
-                console.log(err);
+            let game = window.api.createGame({id: id});
+            game.then((gameRes) => {
+                setGameData(gameRes);
+            }).catch((err) => {
                 setErrorMessage(err);
-              })
+            });
         } else {
             setGameData(props.gameData);
         }
 
         if (!intervalRef.current) {
             intervalRef.current = setInterval(getGameUpdate,60000);
-
         }
+
 
         return function cleanup() {
             stopInterval();
@@ -44,6 +39,7 @@ export default function GamePage(props) {
         }
 
     },[]);
+
 
     useEffect(() => {
         window.localStorage.setItem('activeGameData',JSON.stringify(gameData));
@@ -96,10 +92,10 @@ export default function GamePage(props) {
     },[gameData]);
 
 
-    function getGameUpdate(gameData) {
-        let apiBase = window.localStorage.getItem("apiBase");
-        axios.get(apiBase+"/gameUpdate").then((response) => {
-            setGameData(response.data);
+    function getGameUpdate() {
+        let gameUpdate = window.api.updateGame({id: id});
+        gameUpdate.then((gameUpdateRes) => {
+            setGameData(gameUpdateRes);
         }).catch((err) => {
             setErrorMessage(err);
         });
