@@ -15,7 +15,7 @@ const windowSettings = {
   frame: false
 };
 
-const startUrl = process.env.ELECTRON_START_URL
+const startUrl = "http://localhost:3000";
 
 let internalTeams;
 
