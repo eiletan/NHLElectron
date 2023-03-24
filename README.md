@@ -1,70 +1,16 @@
-# Getting Started with Create React App
+# Spectator
+A standalone improved version of [NHLChrome](https://github.com/eiletan/NHLChrome). Spectator is a desktop application created with Electron and React to allow NHL fans to track NHL games in real time, complete with desktop and audio notifications, live scoreboards, and detailed goal breakdowns.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## How do I run it?
+Clone this repo, navigate to the application folder, and then simply run `npm install` and then `npm run app-start`. If that does not work, go to `package.json` and change the `http://localhost:3000` to the ip address of localhost.
 
-## Available Scripts
+## How does it work?
+Upon starting the app, there will be a list of NHL games scheduled for the current day. This list resets everyday.<br> 
+![Home Page](homepage.png "Home Page")\
+Clicking on a game will then open a scoreboard page for that game. This page has a scoreboard indicating goals for each team, shots for each team, playing strength of each team, and time and period. Additionally, there is a table below the scoreboard which lists all the goals scored in the game. Each entry includes the scorer, assisters, time and playing strength of the goal, as well as the score. Playoff series information, when applicable, is displayed on top of the scoreboard. The playoff round, game number, and current playoff series status is shown.<br>
+![Game Page](gamepage.png "Game Page")<br>
+When on the game page, the app will automatically track the game, fetching game updates every minute. Whenever a goal is scored, a desktop notification is displayed with the scoring team's logo, score, time of the goal and playing strength. Additionally, the scoring team's goal horn is played for 15 seconds. When the game ends, another desktop notification is displayed with the winning team's logo, and the final score. Like in the case of a goal, the winning team's full goal horn is played. Users can return to the home page at any time.
 
-In the project directory, you can run:
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Notes
+Team logos and team goal horns do not belong to me.
