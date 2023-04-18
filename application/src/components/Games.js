@@ -49,8 +49,8 @@ export default function Games(props) {
         for (let i = 0; i < gamesData.length; i++) {
             let minIndex = i;
             for (let j = i+1; j < gamesData.length; j++) {
-                let jDate = new Date(gamesData[j]["gamePk"]);
-                let minDate = new Date(gamesData[minIndex]["gamePk"]);
+                let jDate = new Date(gamesData[j]["gameDate"]);
+                let minDate = new Date(gamesData[minIndex]["gameDate"]);
                 if (jDate.getTime() < minDate.getTime()) {
                     minIndex = j;
                 }
