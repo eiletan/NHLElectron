@@ -61,7 +61,7 @@ export function determineWinner(game) {
   winnerJSON["away"] = game["away"]["name"];
   winnerJSON["homeShort"] = game["home"]["abbreviation"];
   winnerJSON["home"] = game["home"]["name"];
-  if (state["period"] == "3rd" || state["period"] == "OT") {
+  if (state["period"] == "3rd" || state["period"].includes("OT")) {
       if (state["period"].valueOf() == "3rd") {
           winnerJSON["winType"] = "Regulation";
       } else {
