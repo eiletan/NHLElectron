@@ -7,7 +7,6 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "cross-env": "^7.0.3",
-    "electron": "^20.0.3",
     "jsonpath": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -48,37 +47,38 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "concurrently": "^7.6.0",
+    "electron": "^20.3.12",
     "electron-builder": "^24.6.4",
     "mocha": "^10.2.0",
     "wait-on": "^7.0.1"
   },
   "build": {
     "mac": {
-        "publish": {
-            "provider": "github",
-            "owner": "eiletan",
-            "repo": "NHLElectron",
-            "private": false,
-            "token": ""
-        }
+      "publish": {
+        "provider": "github",
+        "owner": "eiletan",
+        "repo": "NHLElectron",
+        "private": false,
+        "token": ""
+      }
     },
     "win": {
-        "publish": {
-            "provider": "github",
-            "owner": "eiletan",
-            "repo": "NHLElectron",
-            "private": false,
-            "token": ""
-        }
+      "publish": {
+        "provider": "github",
+        "owner": "eiletan",
+        "repo": "NHLElectron",
+        "private": false,
+        "token": ""
+      }
     },
     "files": [
-        "build/**/*",
-        "node_modules/**/*"
+      "build/**/*",
+      "node_modules/**/*"
     ],
     "publish": {
-        "provider": "github",
-        "private": false,
-        "owner": "eiletan"
+      "provider": "github",
+      "private": false,
+      "owner": "eiletan"
     }
-}
+  }
 }

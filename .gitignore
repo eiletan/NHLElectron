@@ -10,7 +10,7 @@ application/logic/node_modules
 /coverage
 
 # production
-/build
+application/build
 
 # misc
 .DS_Store
