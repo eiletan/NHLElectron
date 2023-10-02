@@ -23,7 +23,9 @@
     "test": "react-scripts test",
     "testMocha": "mocha logic/src/test/**/*.js",
     "eject": "react-scripts eject",
-    "app-start": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron . \""
+    "start-electron": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "package": "electron-builder build --mac --win -c.extraMetadata.main=build/electron.js --publish never",
+    "publish": "electron-builder build --mac --win --publish always"
   },
   "eslintConfig": {
     "extends": [
@@ -46,7 +48,37 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "concurrently": "^7.6.0",
+    "electron-builder": "^24.6.4",
     "mocha": "^10.2.0",
     "wait-on": "^7.0.1"
-  }
+  },
+  "build": {
+    "mac": {
+        "publish": {
+            "provider": "github",
+            "owner": "eiletan",
+            "repo": "NHLElectron",
+            "private": false,
+            "token": ""
+        }
+    },
+    "win": {
+        "publish": {
+            "provider": "github",
+            "owner": "eiletan",
+            "repo": "NHLElectron",
+            "private": false,
+            "token": ""
+        }
+    },
+    "files": [
+        "build/**/*",
+        "node_modules/**/*"
+    ],
+    "publish": {
+        "provider": "github",
+        "private": false,
+        "owner": "eiletan"
+    }
+}
 }
