@@ -75,6 +75,7 @@
       "build/**/*",
       "node_modules/**/*"
     ],
+    "extraResources": ["./extraResources/**"],
     "publish": {
       "provider": "github",
       "private": false,

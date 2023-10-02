@@ -1,9 +1,9 @@
 // Modules to control application life and create native browser window
 const {app, Notification, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
-const game = require('../logic/src/controller/game');
-const init = require('../logic/src/controller/init');
-const util = require('../logic/src/controller/util');
+const game = require('../extraResources/logic/src/controller/game');
+const init = require('../extraResources/logic/src/controller/init');
+const util = require('../extraResources/logic/src/controller/util');
 
 const windowSettings = {
   title: "NHLElectron",
@@ -12,7 +12,8 @@ const windowSettings = {
   webPreferences: {
     preload: path.join(__dirname, '..', 'preload.js')
   },
-  frame: false
+  frame: false,
+  icon: path.join(__dirname, "icon.png")
 };
 
 const startUrl = "http://localhost:3000";
@@ -34,7 +35,7 @@ function createWindow (windowSettings,url) {
     title: "AudioWindow",
     show: false
   })
-  audioWindow.loadURL(path.join(__dirname, "audio.html"));
+  audioWindow.loadURL(path.join(__dirname, "..", "audio.html"));
 
   mainWindow.on("close", function () {
     audioWindow.close();
@@ -50,7 +51,7 @@ function createWindow (windowSettings,url) {
 app.whenReady().then(() => {
   createWindow(windowSettings,startUrl);
   // Init internal teams list
-  init.initTeams(path.join(__dirname, "..", "logic", "src", "json","teams.json")).then((finalTeams) => {
+  init.initTeams(path.join(__dirname, "..", "extraResources", "logic", "src", "json","teams.json")).then((finalTeams) => {
     internalTeams = finalTeams;
   });
   if (process.platform == "win32") {
