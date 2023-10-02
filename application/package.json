@@ -14,7 +14,7 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "main": "main.js",
+  "main": "public/electron.js",
   "homepage": "./",
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
@@ -23,8 +23,8 @@
     "testMocha": "mocha logic/src/test/**/*.js",
     "eject": "react-scripts eject",
     "start-electron": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "package": "electron-builder build --mac --win -c.extraMetadata.main=build/electron.js --publish never",
-    "publish": "electron-builder build --mac --win --publish always"
+    "package": "electron-builder build --win -c.extraMetadata.main=build/electron.js --publish never",
+    "publish": "electron-builder build --win --publish always"
   },
   "eslintConfig": {
     "extends": [

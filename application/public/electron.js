@@ -1,16 +1,16 @@
 // Modules to control application life and create native browser window
 const {app, Notification, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
-const game = require('./logic/src/controller/game');
-const init = require('./logic/src/controller/init');
-const util = require('./logic/src/controller/util');
+const game = require('../logic/src/controller/game');
+const init = require('../logic/src/controller/init');
+const util = require('../logic/src/controller/util');
 
 const windowSettings = {
   title: "NHLElectron",
   width: 800,
   height: 800,
   webPreferences: {
-    preload: path.join(__dirname, 'preload.js')
+    preload: path.join(__dirname, '..', 'preload.js')
   },
   frame: false
 };
@@ -50,7 +50,7 @@ function createWindow (windowSettings,url) {
 app.whenReady().then(() => {
   createWindow(windowSettings,startUrl);
   // Init internal teams list
-  init.initTeams(path.join(__dirname, "logic", "src", "json","teams.json")).then((finalTeams) => {
+  init.initTeams(path.join(__dirname, "..", "logic", "src", "json","teams.json")).then((finalTeams) => {
     internalTeams = finalTeams;
   });
   if (process.platform == "win32") {
@@ -94,12 +94,12 @@ ipcMain.handle("maximize-Window", (event) => {
 
 ipcMain.handle("invoke-Notification-With-Sound", (events, args) => {
   if (args?.["stop"]) {
-    audioWindow.loadURL(path.join(__dirname, `audio.html?stop=${args["stop"]}`));  
+    audioWindow.loadURL(path.join(__dirname, "..", `audio.html?stop=${args["stop"]}`));  
   } else {
     // Play audio
-    audioWindow.loadURL(path.join(__dirname, `audio.html?volume=${args["volume"]}&src=src/assets/audio/${args["audio"]}&length=${args["length"]}`));
+    audioWindow.loadURL(path.join(__dirname, "..", `audio.html?volume=${args["volume"]}&src=src/assets/audio/${args["audio"]}&length=${args["length"]}`));
     // Send notification
-    let iconpath = path.join(__dirname,`src/assets/logos/${args["logo"]}`);
+    let iconpath = path.join(__dirname, "..", `src/assets/logos/${args["logo"]}`);
     let notif = new Notification({
       title: args["title"],
       body: args["msg"],

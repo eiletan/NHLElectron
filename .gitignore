@@ -11,6 +11,7 @@ application/logic/node_modules
 
 # production
 application/build
+application/dist
 
 # misc
 .DS_Store
