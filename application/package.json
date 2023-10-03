@@ -1,6 +1,8 @@
 {
   "name": "spectator",
   "version": "0.1.0",
+  "author": "eiletan",
+  "description": "A desktop application created with Electron and React to allow NHL fans to track NHL games in real time, complete with desktop and audio notifications, live scoreboards, and detailed goal breakdowns.",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -53,6 +55,7 @@
     "wait-on": "^7.0.1"
   },
   "build": {
+    "productName": "Spectator",
     "mac": {
       "publish": {
         "provider": "github",
@@ -62,6 +65,7 @@
         "token": ""
       }
     },
+    "target": "NSIS",
     "win": {
       "publish": {
         "provider": "github",
@@ -71,14 +75,20 @@
         "token": ""
       }
     },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
+    },
     "files": [
       "build/**/*",
       "node_modules/**/*",
       "logic/**/*",
       "preload.js",
       "audio.html",
-      "src/**/*"
+      "src/**/*",
+      "public/icon.png"
     ],
+    "icon": "public/icon.png",
     "publish": {
       "provider": "github",
       "private": false,
