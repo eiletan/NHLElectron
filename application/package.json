@@ -73,7 +73,11 @@
     },
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "logic/**/*",
+      "preload.js",
+      "audio.html",
+      "src/**/*"
     ],
     "publish": {
       "provider": "github",

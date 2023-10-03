@@ -29,7 +29,10 @@ function createWindow (windowSettings,url) {
   mainWindow = new BrowserWindow(windowSettings);
 
   // and load the index.html of the app.
-  mainWindow.loadURL(url);
+  const windowUrl = app.isPackaged 
+    ? `file://${path.join(__dirname, "./index.html")}`
+    : url;
+  mainWindow.loadURL(windowUrl);
   audioWindow = new BrowserWindow({
     title: "AudioWindow",
     show: false
