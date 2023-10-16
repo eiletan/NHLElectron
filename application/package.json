@@ -1,13 +1,14 @@
 {
   "name": "spectator",
   "version": "0.1.0",
+  "author": "eiletan",
+  "description": "A desktop application created with Electron and React to allow NHL fans to track NHL games in real time, complete with desktop and audio notifications, live scoreboards, and detailed goal breakdowns.",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "cross-env": "^7.0.3",
-    "electron": "^20.0.3",
     "jsonpath": "^1.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -15,7 +16,7 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "main": "main.js",
+  "main": "public/electron.js",
   "homepage": "./",
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
@@ -23,7 +24,9 @@
     "test": "react-scripts test",
     "testMocha": "mocha logic/src/test/**/*.js",
     "eject": "react-scripts eject",
-    "app-start": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron . \""
+    "start-electron": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "package": "electron-builder build --win -c.extraMetadata.main=build/electron.js --publish never",
+    "publish": "electron-builder build --win --publish always"
   },
   "eslintConfig": {
     "extends": [
@@ -46,7 +49,50 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "concurrently": "^7.6.0",
+    "electron": "^20.3.12",
+    "electron-builder": "^24.6.4",
     "mocha": "^10.2.0",
     "wait-on": "^7.0.1"
+  },
+  "build": {
+    "productName": "Spectator",
+    "mac": {
+      "publish": {
+        "provider": "github",
+        "owner": "eiletan",
+        "repo": "NHLElectron",
+        "private": false,
+        "token": ""
+      }
+    },
+    "target": "NSIS",
+    "win": {
+      "publish": {
+        "provider": "github",
+        "owner": "eiletan",
+        "repo": "NHLElectron",
+        "private": false,
+        "token": ""
+      }
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true,
+      "oneClick": false
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "logic/**/*",
+      "preload.js",
+      "audio.html",
+      "src/**/*",
+      "public/icon.png"
+    ],
+    "icon": "public/icon.png",
+    "publish": {
+      "provider": "github",
+      "private": false,
+      "owner": "eiletan"
+    }
   }
 }

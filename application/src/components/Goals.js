@@ -30,7 +30,7 @@ export default function Games(props) {
                     }
                 }
                 // Construct goal description
-                let goalDesc = scorer + " (" + goalType + ")" + "\n" + "Assists:";
+                let goalDesc = `${scorer} ${goalType ? "(" + goalType + ")" : ""} \n Assists:`;
                 if (assists.length == 0) {
                     goalDesc = goalDesc + " None";
                 } else {
