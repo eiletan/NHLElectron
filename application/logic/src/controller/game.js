@@ -14,13 +14,13 @@ var NOTIFLENGTH = 20000;
 function findGames(date) {
     let gamesList = null;
     let scheduledGamesPromise = new Promise((resolve,reject) => {
-        nhlApi.GetFromNHLApi("/schedule?date=" + date).then((games) => {
-            if (games["dates"].length == 0) {
+        nhlApi.GetFromNHLApi("schedule/" + date).then((games) => {
+            if (games["gameWeek"].length == 0) {
                 let empty = [];
                 resolve(empty);
                 return;
             } else {
-                gamesList = games["dates"][0]["games"];
+                gamesList = games["gameWeek"]["games"];
                 resolve(gamesList);
                 return;
             }
@@ -32,39 +32,6 @@ function findGames(date) {
     });
     return scheduledGamesPromise;
 }
-
-/**
- * Find the NHL game involving the passed in team on the given date
- * @param {String} team Name of the team 
- * @param {String} date Date of the game - Must be in format "YYYY-MM-DD"
- * @returns a Promise that resolves with the NHL game as a JSON object, else an exception is thrown
- */
-function findGameForTeam(team, date) {
-    let gamePromise = new Promise((resolve,reject) => {
-        try {
-            findGames(date).then((retgames) => {
-                let found = false;
-                for (game of retgames) {
-                    let awayTeam = game["teams"]["away"]["team"]["name"]
-                    let homeTeam = game["teams"]["home"]["team"]["name"]
-                    if (util.matchTeamName(awayTeam, team) || util.matchTeamName(homeTeam, team)) {
-                        found = true;
-                        resolve(game);
-                    }
-                }
-                if (found == false) {
-                    reject("Game for " + team + " could not be found. Please try again.");
-                }
-            }).catch((err) => {
-                reject(err);
-            });
-        } catch (err) {
-            throw err;
-        }
-    });
-    return gamePromise;
-}
-
 
 /**
  * Creates an internal record of a NHL game and saves it to local storage.
@@ -85,7 +52,7 @@ function findGameForTeam(team, date) {
             });  
         }
         else {
-            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((response) => {
+            nhlApi.GetFromNHLApi("gamecenter/" + gameid + "/landing").then((response) => {
                 return createGameHelper(gameid, response, teams);
             }).then((gameObj)=> {
                 resolve(gameObj);
@@ -217,7 +184,7 @@ function createGameHelper(gameid, response, teams) {
             resolve(goals);
             return;
         } else {
-            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
+            nhlApi.GetFromNHLApi("/gamecenter/" + gameid + "/landing").then((game) => {
                 let goals = extractAllGoalsScored(game, prevGame);
                 resolve(goals);
                 return;
@@ -261,14 +228,13 @@ function createGameHelper(gameid, response, teams) {
    * @param {Object} game API response from the live game endpoint
    * @returns JSON object containing information about game state
    */
-  function extractGameState(game) {
-    let current = game["liveData"]["linescore"];
-    let homeTeamAPI = current["teams"]["home"];
-    let awayTeamAPI = current["teams"]["away"];
+  function extractGameState(game) {;
+    let homeTeamAPI = game["homeTeam"];
+    let awayTeamAPI = game["awayTeam"];
     let homeTeam = {};
     let awayTeam = {};
-    homeTeam["goals"] = homeTeamAPI["goals"];
-    homeTeam["shots"] = homeTeamAPI["shotsOnGoal"];
+    homeTeam["goals"] = homeTeamAPI["score"];
+    homeTeam["shots"] = homeTeamAPI["sog"];
     homeTeam["powerplay"] = homeTeamAPI["powerPlay"];
     homeTeam["goaliePulled"] = homeTeamAPI["goaliePulled"];
     awayTeam["goals"] = awayTeamAPI["goals"];
@@ -303,11 +269,18 @@ function createGameHelper(gameid, response, teams) {
  * @returns Array of all goals scored
  */
 function extractAllGoalsScored(game,prevGame = null) {
-    gameData = game["liveData"]["plays"]["allPlays"];
-    let jspexpr = "$.liveData.plays.allPlays[?(@.result.eventTypeId == 'GOAL')]";
-    let goals = jp.query(game, jspexpr);
-    goals = goals.reverse();
-    return goals;
+    let goals = game?.["summary"]?.["scoring"];
+    let goalsArr = [];
+    if (!goals) {
+        return [];
+    }
+    for (let i = goals.length-1; i <= 0; i--) {
+        let goalsInPeriod = goals[i];
+        for (let j = goalsInPeriod.length - 1; j <= 0; j--) {
+            goalsArr.push(goalsInPeriod[j]);
+        }
+    }
+    return goalsArr;
 }
 
   
@@ -398,7 +371,6 @@ function extractAllGoalsScored(game,prevGame = null) {
 
 module.exports = {
     findGames: findGames,
-    findGameForTeam: findGameForTeam,
     createGame: createGame,
     updateGameStatus: updateGameStatus,
     determineWinner: determineWinner
