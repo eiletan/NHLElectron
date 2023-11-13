@@ -75,34 +75,35 @@ function findGames(date) {
 function createGameHelper(gameid, response, teams) {
     let createGameHelperPromise = new Promise((resolve,reject) => {
         let goals = extractAllGoalsScored(response);
-        let gameData = response["gameData"];
-        let homeTeam = gameData["teams"]["home"]["name"];
-        let awayTeam = gameData["teams"]["away"]["name"];
+        let homeTeam = response["homeTeam"];
+        let awayTeam = response["awayTeam"];
+        let homeTeamName = homeTeam["placeName"]["default"] + " " + homeTeam["name"]["default"];
+        let awayTeamName = awayTeam["placeName"]["default"] + " " + awayTeam["name"]["default"];
         let gameObj = {};
-        gameObj["season"] = gameData["game"]["season"];
-        if (!teams[homeTeam]) {
+        gameObj["season"] = response["season"];
+        if (!teams[homeTeamName]) {
             let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
             gameObj["home"] = nhlTeamCopy;
-            gameObj["home"]["name"] = homeTeam;
-            gameObj["home"]["abbreviation"] = homeTeam;
-            gameObj["home"]["shortName"] = homeTeam;
-            gameObj["home"]["teamName"] = homeTeam;
+            gameObj["home"]["name"] = homeTeamName;
+            gameObj["home"]["abbreviation"] = homeTeamName;
+            gameObj["home"]["shortName"] = homeTeamName;
+            gameObj["home"]["teamName"] = homeTeamName;
             gameObj["home"]["color"] = "#0000FF";
             gameObj["home"]["id"] = -1;
         } else {
-            gameObj["home"] = teams[homeTeam];
+            gameObj["home"] = teams[homeTeamName];
         }
-        if (!teams[awayTeam]) {
+        if (!teams[awayTeamName]) {
             let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
             gameObj["away"] = nhlTeamCopy;
-            gameObj["away"]["name"] = awayTeam;
-            gameObj["away"]["abbreviation"] = awayTeam;
-            gameObj["away"]["shortName"] = awayTeam;
-            gameObj["away"]["teamName"] = awayTeam;
+            gameObj["away"]["name"] = awayTeamName;
+            gameObj["away"]["abbreviation"] = awayTeamName;
+            gameObj["away"]["shortName"] = awayTeamName;
+            gameObj["away"]["teamName"] = awayTeamName;
             gameObj["away"]["color"] = "#FF0000";
             gameObj["away"]["id"] = -1;   
         } else {
-            gameObj["away"] = teams[awayTeam];
+            gameObj["away"] = teams[awayTeamName];
         }
         gameObj["id"] = gameid;
         gameObj["allGoals"] = goals;
@@ -117,24 +118,8 @@ function createGameHelper(gameid, response, teams) {
             gameObj["allGoals"][0]["about"]["goals"]["away"] = awayGoals;
             gameObj["allGoals"][0]["about"]["goals"]["home"] = homeGoals;
         }
-        if (gameData["game"]["type"] == "P") {
-            nhlApi.GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary&season=" +  gameData["game"]["season"]).then((response) => {
-                let pogame = findPlayoffGame(response, homeTeam, awayTeam);
-                gameObj["playoffSeries"] = pogame;
-                if (pogame != null) {
-                    resolve(gameObj);
-                    return;
-                } else {
-                    throw "Playoff data could not be found for the game. Please try again";
-                }
-            }).catch((err) => {
-                reject(err);
-                return;
-            });
-        } else {
-            resolve(gameObj);
-            return;
-        }
+        resolve(gameObj);
+        return;
     });
     return createGameHelperPromise;
 }
@@ -146,29 +131,29 @@ function createGameHelper(gameid, response, teams) {
    * @param {String} teamB Team name of the other team
    * @returns JSON object containing the playoff round, game number, and game series status
    */
-  function findPlayoffGame(response, teamA, teamB) {
-      let jpexpr = `$.rounds[*].series[?((@.matchupTeams[0].team.name == "${teamA}" && @.matchupTeams[1].team.name == "${teamB}") || (@.matchupTeams[1].team.name == "${teamA}" && @.matchupTeams[0].team.name == "${teamB}"))]`;
-      let playoffArr = jp.query(response, jpexpr);
+//   function findPlayoffGame(response, teamA, teamB) {
+//       let jpexpr = `$.rounds[*].series[?((@.matchupTeams[0].team.name == "${teamA}" && @.matchupTeams[1].team.name == "${teamB}") || (@.matchupTeams[1].team.name == "${teamA}" && @.matchupTeams[0].team.name == "${teamB}"))]`;
+//       let playoffArr = jp.query(response, jpexpr);
       
-      if (playoffArr.length == 0) {
-        return null;
-      } else {
-        // Reverse the array so that the latest playoff series information is the first element
-        playoffArr = playoffArr.reverse();
-        let pogame = playoffArr[0];
-        let round = pogame["round"]["number"];
-        let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
-        let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
-        if (seriesStatus == "") {
-            seriesStatus = "Tied 0-0";
-        }
-        let pogameObj = {};
-        pogameObj["round"] = response["rounds"][round-1]["names"]["name"];
-        pogameObj["gamenum"] = gamenum;
-        pogameObj["seriesStatus"] = seriesStatus;
-        return pogameObj;
-      }
-  }
+//       if (playoffArr.length == 0) {
+//         return null;
+//       } else {
+//         // Reverse the array so that the latest playoff series information is the first element
+//         playoffArr = playoffArr.reverse();
+//         let pogame = playoffArr[0];
+//         let round = pogame["round"]["number"];
+//         let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
+//         let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
+//         if (seriesStatus == "") {
+//             seriesStatus = "Tied 0-0";
+//         }
+//         let pogameObj = {};
+//         pogameObj["round"] = response["rounds"][round-1]["names"]["name"];
+//         pogameObj["gamenum"] = gamenum;
+//         pogameObj["seriesStatus"] = seriesStatus;
+//         return pogameObj;
+//       }
+//   }
 
 /**
  * Gets a live update for the game specified by gameid and returns all goals scored in the game at the present moment as an array
@@ -210,7 +195,7 @@ function createGameHelper(gameid, response, teams) {
             resolve(gameState);
             return;
         } else {
-            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
+            nhlApi.GetFromNHLApi("gamecenter/" + gameid + "/landing").then((game) => {
                 let gameState = extractGameState(game);
                 resolve(gameState);
                 return;
@@ -235,12 +220,12 @@ function createGameHelper(gameid, response, teams) {
     let awayTeam = {};
     homeTeam["goals"] = homeTeamAPI["score"];
     homeTeam["shots"] = homeTeamAPI["sog"];
-    homeTeam["powerplay"] = homeTeamAPI["powerPlay"];
-    homeTeam["goaliePulled"] = homeTeamAPI["goaliePulled"];
-    awayTeam["goals"] = awayTeamAPI["goals"];
-    awayTeam["shots"] = awayTeamAPI["shotsOnGoal"];
-    awayTeam["powerplay"] = awayTeamAPI["powerPlay"];
-    awayTeam["goaliePulled"] = awayTeamAPI["goaliePulled"];
+    // homeTeam["powerplay"] = homeTeamAPI["powerPlay"];
+    // homeTeam["goaliePulled"] = homeTeamAPI["goaliePulled"];
+    awayTeam["goals"] = awayTeamAPI["score"];
+    awayTeam["shots"] = awayTeamAPI["sog"];
+    // awayTeam["powerplay"] = awayTeamAPI["powerPlay"];
+    // awayTeam["goaliePulled"] = awayTeamAPI["goaliePulled"];
     let gameState = {};
     gameState["period"] = current["currentPeriodOrdinal"] ? current["currentPeriodOrdinal"]: null ;
     gameState["periodTimeRemaining"] = current["currentPeriodTimeRemaining"] ? current["currentPeriodTimeRemaining"] : null;
@@ -249,10 +234,11 @@ function createGameHelper(gameid, response, teams) {
     awayTeam["shootoutGoalsScored"] = null;
     awayTeam["shootoutAttempts"] = null;
     if (gameState["period"] === "SO") {
-        let homeShootoutScore = current["shootoutInfo"]["home"]["scores"];
-        let homeShootoutAttempts = current["shootoutInfo"]["home"]["attempts"];
-        let awayShootoutScore = current["shootoutInfo"]["away"]["scores"];
-        let awayShootoutAttempts = current["shootoutInfo"]["away"]["attempts"];
+        let shootout = game["summary"]["linescore"]["shootout"]
+        let homeShootoutScore = shootout["homeConversions"];
+        let homeShootoutAttempts = shootout["homeAttempts"];
+        let awayShootoutScore = shootout["awayConversions"];
+        let awayShootoutAttempts = shootout["awayAttempts"];
         homeTeam["shootoutGoalsScored"] = homeShootoutScore;
         homeTeam["shootoutAttempts"] = homeShootoutAttempts;
         awayTeam["shootoutGoalsScored"] = awayShootoutScore;
