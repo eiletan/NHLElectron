@@ -25,8 +25,8 @@ function initTeams(pathToFile) {
 
 function initTeamsHelper(localTeamsJson) {
     let initTeamsPromise = new Promise((resolve,reject) => {
-        nhlApi.GetFromNHLApi("/teams").then((teams) => {
-            let apiteams = teams["teams"];
+        nhlApi.GetFromNHLApi("stats/rest/en/franchise?include=lastSeason.id", "https://api.nhle.com/").then((teams) => {
+            let apiteams = teams["data"];
             let internalTeamsJson = {};
             for (let team of localTeamsJson) {
               if (team["name"].valueOf() != "NHL") {
@@ -36,6 +36,7 @@ function initTeamsHelper(localTeamsJson) {
                 obj["color"] = team["color"];
                 obj["goalHorn"] = team["goalHorn"];
                 obj["hornLength"] = team["hornLength"];
+                obj["abbreviation"] = team["abbreviation"];
                 internalTeamsJson[obj["name"]] = obj;
               } else if (team["name"].valueOf() == "NHL") {
                 internalTeamsJson["NHL"] = team;
@@ -43,20 +44,21 @@ function initTeamsHelper(localTeamsJson) {
             }
             let keys = Object.keys(internalTeamsJson);
             for (let apiteam of apiteams) {
-              if (apiteam["active"] === true) {
-                if (keys.includes(apiteam["name"])) {
-                  internalTeamsJson[apiteam["name"]]["id"] = apiteam["id"];
-                  internalTeamsJson[apiteam["name"]]["abbreviation"] = apiteam["abbreviation"];
-                  internalTeamsJson[apiteam["name"]]["shortName"] = apiteam["shortName"];
-                  internalTeamsJson[apiteam["name"]]["teamName"] = apiteam["teamName"];
+              if (apiteam["lastSeason"] === null) {
+                if (keys.includes(apiteam["fullName"])) {
+                  internalTeamsJson[apiteam["fullName"]]["id"] = apiteam["id"];
+                  internalTeamsJson[apiteam["fullName"]]["shortName"] = apiteam["teamCommonName"];
+                  internalTeamsJson[apiteam["fullName"]]["teamName"] = apiteam["fullName"];
                 } else {
-                  internalTeamsJson[apiteam["name"]]["id"] = apiteam["id"];
-                  internalTeamsJson[apiteam["name"]]["abbreviation"] = apiteam["abbreviation"];
-                  internalTeamsJson[apiteam["name"]]["shortName"] = apiteam["shortName"];
-                  internalTeamsJson[apiteam["name"]]["teamName"] = apiteam["teamName"];
-                  internalTeamsJson[apiteam["name"]]["logo"] = localTeamsJson["NHL"]["logo"];
-                  internalTeamsJson[apiteam["name"]]["color"] = localTeamsJson["NHL"]["color"];
-                  internalTeamsJson[apiteam["name"]]["goalHorn"] = localTeamsJson["NHL"]["goalHorn"];
+                  internalTeamsJson[apiteam["fullName"]]["id"] = apiteam["id"];
+                  let teamNameAbr = new String(apiteam["teamPlaceName"]);
+                  teamNameAbr = teamNameAbr.substring(0,3);
+                  internalTeamsJson[apiteam["fullName"]]["abbreviation"] = teamNameAbr;
+                  internalTeamsJson[apiteam["fullName"]]["shortName"] = apiteam["teamCommonName"];
+                  internalTeamsJson[apiteam["fullName"]]["teamName"] = apiteam["fullName"];
+                  internalTeamsJson[apiteam["fullName"]]["logo"] = localTeamsJson["NHL"]["logo"];
+                  internalTeamsJson[apiteam["fullName"]]["color"] = localTeamsJson["NHL"]["color"];
+                  internalTeamsJson[apiteam["fullName"]]["goalHorn"] = localTeamsJson["NHL"]["goalHorn"];
                 }
               }
             }
