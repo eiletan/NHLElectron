@@ -107,8 +107,8 @@ function App() {
     if (gamesList && gamesList.length != 0) {
       let map = {};
       for (let game of gamesList) {
-        let awayTeam = game["teams"]["away"]["team"]["name"];
-        let homeTeam = game["teams"]["home"]["team"]["name"];
+        let awayTeam = game["awayTeam"]["fullName"];
+        let homeTeam = game["homeTeam"]["fullName"];;
         let awayTeamInfo = internalTeams?.[awayTeam];
         let homeTeamInfo = internalTeams?.[homeTeam];
         // Skip if either team is not a NHL team

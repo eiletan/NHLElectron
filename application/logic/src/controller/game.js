@@ -20,10 +20,12 @@ function findGames(date) {
                 resolve(empty);
                 return;
             } else {
-                gamesList = games["gameWeek"]["games"];
-                resolve(gamesList);
-                return;
+                gamesList = games["gameWeek"][0]["games"];
+                return supplementGamesData(gamesList);
             }
+        }).then((gamesList) => {
+            resolve(gamesList);
+            return;
         }).catch((err) => {
             reject("An error occurred: Games for " + date + " could not be retrieved. Please try again");
             console.log(err);
@@ -31,6 +33,46 @@ function findGames(date) {
         });
     });
     return scheduledGamesPromise;
+}
+
+
+function supplementGamesData(gamesList) {
+    
+    let promise = new Promise((resolve,reject) => {
+        nhlApi.GetFromNHLApi("stats/rest/en/team", "https://api.nhle.com/").then((response) => {
+            let teams = response["data"];
+            for (let game of gamesList) {
+                let awayFound = false;
+                let homeFound = false;
+                let awayId = game["awayTeam"]["id"];
+                let homeId = game["homeTeam"]["id"];
+                for (let team of teams) {
+                    if (awayFound && homeFound) {
+                        break;
+                    }
+                    let teamId = team["id"];
+                    if (teamId == awayId) {
+                        let gameAwayObject = {...game["awayTeam"],...team};
+                        game["awayTeam"] = gameAwayObject;
+                        awayFound = true;
+                        continue;
+                    }
+                    if (teamId == homeId) {
+                        let gameHomeObject = {...game["homeTeam"],...team};
+                        game["homeTeam"] = gameHomeObject;
+                        homeFound = true;
+                        continue;
+                    }
+                }
+            }
+            resolve(gamesList);
+            return;
+        }).catch((err) => {
+            console.log("Could not retrive teams due to: " + err);
+            reject(err);
+        });
+    });
+    return promise;
 }
 
 /**

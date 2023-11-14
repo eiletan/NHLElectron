@@ -1,0 +1,365 @@
+{
+    "id": 2023020227,
+    "season": 20232024,
+    "gameType": 2,
+    "gameDate": "2023-11-13",
+    "venue": {
+      "default": "Rogers Place"
+    },
+    "startTimeUTC": "2023-11-14T01:30:00Z",
+    "easternUTCOffset": "-05:00",
+    "venueUTCOffset": "-07:00",
+    "venueTimezone": "America/Edmonton",
+    "tvBroadcasts": [
+      {
+        "id": 281,
+        "market": "N",
+        "countryCode": "CA",
+        "network": "TVAS"
+      },
+      {
+        "id": 282,
+        "market": "N",
+        "countryCode": "CA",
+        "network": "SN"
+      },
+      {
+        "id": 409,
+        "market": "A",
+        "countryCode": "US",
+        "network": "MSGSN"
+      }
+    ],
+    "gameState": "LIVE",
+    "gameScheduleState": "OK",
+    "awayTeam": {
+      "id": 2,
+      "name": {
+        "default": "Islanders"
+      },
+      "abbrev": "NYI",
+      "placeName": {
+        "default": "New York"
+      },
+      "score": 1,
+      "sog": 5,
+      "logo": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg",
+      "radioLink": "https://d2igy0yla8zi0u.cloudfront.net/nyi/20232024/nyi-radio.m3u8"
+    },
+    "homeTeam": {
+      "id": 22,
+      "name": {
+        "default": "Oilers"
+      },
+      "abbrev": "EDM",
+      "placeName": {
+        "default": "Edmonton"
+      },
+      "score": 0,
+      "sog": 2,
+      "logo": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+      "radioLink": "https://d2igy0yla8zi0u.cloudfront.net/edm/20232024/edm-radio.m3u8"
+    },
+    "shootoutInUse": true,
+    "maxPeriods": 5,
+    "regPeriods": 3,
+    "otInUse": true,
+    "tiesInUse": false,
+    "clock": {
+      "timeRemaining": "12:22",
+      "secondsRemaining": 742,
+      "running": true,
+      "inIntermission": false
+    },
+    "summary": {
+      "linescore": {
+        "byPeriod": [
+          {
+            "period": 1,
+            "periodDescriptor": {
+              "number": 1,
+              "periodType": "REG"
+            },
+            "away": 1,
+            "home": 0
+          }
+        ],
+        "totals": {
+          "away": 1,
+          "home": 0
+        }
+      },
+      "scoring": [
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG"
+          },
+          "goals": [
+            {
+              "situationCode": "1551",
+              "strength": "ev",
+              "playerId": 8478445,
+              "firstName": "Mathew",
+              "lastName": "Barzal",
+              "name": "M. Barzal",
+              "teamAbbrev": "NYI",
+              "headshot": "https://assets.nhle.com/mugs/nhl/20232024/NYI/8478445.png",
+              "highlightClip": 6341077752112,
+              "highlightClipFr": 6341077357112,
+              "goalsToDate": 3,
+              "awayScore": 1,
+              "homeScore": 0,
+              "leadingTeamAbbrev": "NYI",
+              "timeInPeriod": "00:40",
+              "shotType": "snap",
+              "goalModifier": "none",
+              "assists": [
+                {
+                  "playerId": 8477500,
+                  "firstName": "Bo",
+                  "lastName": "Horvat",
+                  "assistsToDate": 7
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "shootout": [],
+      "threeStars": [],
+      "teamGameStats": [
+        {
+          "category": "sog",
+          "awayValue": "5",
+          "homeValue": "2"
+        },
+        {
+          "category": "faceoffPctg",
+          "awayValue": "33.3",
+          "homeValue": "66.7"
+        },
+        {
+          "category": "powerPlay",
+          "awayValue": "0/0",
+          "homeValue": "0/1"
+        },
+        {
+          "category": "pim",
+          "awayValue": "2",
+          "homeValue": "0"
+        },
+        {
+          "category": "hits",
+          "awayValue": "1",
+          "homeValue": "7"
+        },
+        {
+          "category": "blockedShots",
+          "awayValue": "3",
+          "homeValue": "4"
+        },
+        {
+          "category": "giveaways",
+          "awayValue": "1",
+          "homeValue": "1"
+        },
+        {
+          "category": "takeaways",
+          "awayValue": "2",
+          "homeValue": "0"
+        }
+      ],
+      "shotsByPeriod": [
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG"
+          },
+          "away": 5,
+          "home": 2
+        }
+      ],
+      "penalties": [
+        {
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG"
+          },
+          "penalties": [
+            {
+              "timeInPeriod": "07:06",
+              "type": "MIN",
+              "duration": 2,
+              "committedByPlayer": "Casey Cizikas",
+              "teamAbbrev": "NYI",
+              "drawnBy": "Mattias Ekholm",
+              "descKey": "minor"
+            }
+          ]
+        }
+      ],
+      "seasonSeries": [
+        {
+          "id": 2023020227,
+          "season": 20232024,
+          "gameType": 2,
+          "gameDate": "2023-11-13",
+          "startTimeUTC": "2023-11-14T01:30:00Z",
+          "easternUTCOffset": "-05:00",
+          "venueUTCOffset": "-07:00",
+          "tvBroadcasts": [
+            "TVAS",
+            "SN",
+            "MSGSN"
+          ],
+          "gameState": "LIVE",
+          "gameScheduleState": "OK",
+          "awayTeam": {
+            "id": 2,
+            "abbrev": "NYI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg",
+            "score": 1
+          },
+          "homeTeam": {
+            "id": 22,
+            "abbrev": "EDM",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
+            "score": 0
+          },
+          "clock": {
+            "timeRemaining": "12:06",
+            "secondsRemaining": 726,
+            "running": true,
+            "inIntermission": false
+          },
+          "period": 1,
+          "periodDescriptor": {
+            "number": 1,
+            "periodType": "REG"
+          },
+          "gameOutcome": {
+            "lastPeriodType": "REG"
+          }
+        },
+        {
+          "id": 2023020490,
+          "season": 20232024,
+          "gameType": 2,
+          "gameDate": "2023-12-19",
+          "startTimeUTC": "2023-12-20T00:30:00Z",
+          "easternUTCOffset": "-05:00",
+          "venueUTCOffset": "-05:00",
+          "gameState": "FUT",
+          "gameScheduleState": "OK",
+          "awayTeam": {
+            "id": 22,
+            "abbrev": "EDM",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg"
+          },
+          "homeTeam": {
+            "id": 2,
+            "abbrev": "NYI",
+            "logo": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg"
+          }
+        }
+      ],
+      "gameInfo": {
+        "referees": [
+          {
+            "default": "Dan O'Rourke"
+          },
+          {
+            "default": "Carter Sandlak"
+          }
+        ],
+        "linesmen": [
+          {
+            "default": "Steve Barton"
+          },
+          {
+            "default": "Kiel Murchison"
+          }
+        ],
+        "awayTeam": {
+          "headCoach": {
+            "default": "Lane Lambert"
+          },
+          "scratches": [
+            {
+              "id": 8474709,
+              "firstName": {
+                "default": "Matt"
+              },
+              "lastName": {
+                "default": "Martin"
+              }
+            },
+            {
+              "id": 8477392,
+              "firstName": {
+                "default": "Hudson"
+              },
+              "lastName": {
+                "default": "Fasching"
+              }
+            },
+            {
+              "id": 8481541,
+              "firstName": {
+                "default": "Samuel"
+              },
+              "lastName": {
+                "default": "Bolduc"
+              }
+            }
+          ]
+        },
+        "homeTeam": {
+          "headCoach": {
+            "default": "Jay Woodcroft"
+          },
+          "scratches": [
+            {
+              "id": 8477015,
+              "firstName": {
+                "default": "Connor"
+              },
+              "lastName": {
+                "default": "Brown"
+              }
+            },
+            {
+              "id": 8477406,
+              "firstName": {
+                "default": "Mattias"
+              },
+              "lastName": {
+                "default": "Janmark",
+                "sv": "Janmark-Nylén"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "situation": {
+      "homeTeam": {
+        "abbrev": "EDM",
+        "situationDescriptions": [
+          "PP"
+        ],
+        "strength": 5
+      },
+      "awayTeam": {
+        "abbrev": "NYI",
+        "strength": 4
+      },
+      "situationCode": "1451",
+      "timeRemaining": "01:28",
+      "secondsRemaining": 88
+    }
+  }
