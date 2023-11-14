@@ -211,7 +211,7 @@ function createGameHelper(gameid, response, teams) {
             resolve(goals);
             return;
         } else {
-            nhlApi.GetFromNHLApi("/gamecenter/" + gameid + "/landing").then((game) => {
+            nhlApi.GetFromNHLApi("gamecenter/" + gameid + "/landing").then((game) => {
                 let goals = extractAllGoalsScored(game, prevGame);
                 resolve(goals);
                 return;
@@ -260,20 +260,55 @@ function createGameHelper(gameid, response, teams) {
     let awayTeamAPI = game["awayTeam"];
     let homeTeam = {};
     let awayTeam = {};
-    homeTeam["goals"] = homeTeamAPI["score"];
-    homeTeam["shots"] = homeTeamAPI["sog"];
-    // homeTeam["powerplay"] = homeTeamAPI["powerPlay"];
-    // homeTeam["goaliePulled"] = homeTeamAPI["goaliePulled"];
-    awayTeam["goals"] = awayTeamAPI["score"];
-    awayTeam["shots"] = awayTeamAPI["sog"];
-    // awayTeam["powerplay"] = awayTeamAPI["powerPlay"];
-    // awayTeam["goaliePulled"] = awayTeamAPI["goaliePulled"];
+    homeTeam["goals"] = homeTeamAPI?.["score"] ? homeTeamAPI?.["score"] : 0;
+    homeTeam["shots"] = homeTeamAPI?.["sog"] ? homeTeamAPI?.["sog"] : 0;
+    homeTeam["powerplay"] = false;
+    homeTeam["goaliePulled"] = false;
+    awayTeam["goals"] = awayTeamAPI["score"] ? awayTeamAPI["score"] : 0;
+    awayTeam["shots"] = awayTeamAPI["sog"] ? awayTeamAPI["sog"] : 0;
+    awayTeam["powerplay"] = false;
+    awayTeam["goaliePulled"] = false;
+    if (game?.["situation"]) {
+        let situationObj = game?.["situation"];
+        let homeSituation = situationObj?.["homeTeam"]?.["situationDescriptions"];
+        let awaySituation = situationObj?.["awayTeam"]?.["situationDescriptions"];
+        if (homeSituation) {
+            for (let homeSit of homeSituation) {
+                if (homeSit == "PP") {
+                    homeTeam["powerplay"] = true;
+                } else if (homeSit == "EN") {
+                    homeTeam["goaliePulled"] = true;
+                }
+            }
+        }
+        if (awaySituation) {
+            for (let awaySit of awaySituation) {
+                if (awaySit == "PP") {
+                    awayTeam["powerplay"] = true;
+                } else if (awaySit == "EN") {
+                    awayTeam["goaliePulled"] = true;
+                }
+            }
+        }
+         
+    }
     let gameState = {};
-    let periodsArray = game["summary"]["linescore"]["byPeriod"];
-    let period = periodsArray[periodsArray.length-1]["period"];
-    period = convertPeriodToOrdinal(period,game["shootoutInUse"],game["clock"]["inIntermission"]);
-    gameState["period"] = period;
-    gameState["periodTimeRemaining"] = game["clock"]["timeRemaining"];
+    let periodsArray = game?.["summary"]?.["linescore"]?.["byPeriod"];
+    let period = "1st";
+    if (periodsArray != undefined) {
+        period = periodsArray[periodsArray.length-1]["period"];
+        period = convertPeriodToOrdinal(period,game["shootoutInUse"],game["clock"]["inIntermission"]);
+        gameState["period"] = period;
+        gameState["periodTimeRemaining"] = game["clock"]["timeRemaining"];
+    } else {
+        gameState["period"] = "1st";
+        gameState["periodTimeRemaining"] = "--";
+    }
+    gameState["status"] = game["gameState"];
+    if (gameState["status"] == "FINAL" || gameState["status"] == "OFF" ) {
+        gameState["periodTimeRemaining"] = "FINAL";
+        gameState["status"] = "FINAL";
+    }
     homeTeam["shootoutGoalsScored"] = null;
     homeTeam["shootoutAttempts"] = null;
     awayTeam["shootoutGoalsScored"] = null;
@@ -306,7 +341,7 @@ function extractAllGoalsScored(game,prevGame = null) {
         return [];
     }
     for (let goals of goalsByPeriod) {
-        let period = goalsByPeriod[0]["period"];
+        let period = goals["period"];
         period = convertPeriodToOrdinal(period);
         let goal = goals["goals"];
         for (let g of goal) {

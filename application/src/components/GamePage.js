@@ -43,7 +43,7 @@ export default function GamePage(props) {
 
     useEffect(() => {
         window.localStorage.setItem('activeGameData',JSON.stringify(gameData));
-        if (gameData?.["currentState"]?.["periodTimeRemaining"] == "Final") {
+        if (gameData?.["currentState"]["status"] == "FINAL") {
             stopInterval();
             let winner = util.determineWinner(gameData);
             let winnerTitle = winner["winnerShort"] + " win in " + winner["winType"] + "!";
@@ -68,13 +68,13 @@ export default function GamePage(props) {
                 // If a new goal is detected, send message to display notification and play audio
                 let goalObj = gameData["allGoals"][0];
                 // Get the team who scored the goal
-                let team = goalObj["team"]["name"];
+                let team = goalObj["teamAbbrev"];
                 // Get goal information for notification
-                let goalTitle = gameData["away"]["abbreviation"] + ": " + goalObj["about"]["goals"]["away"] + " | " + gameData["home"]["abbreviation"] + ": " + goalObj["about"]["goals"]["home"]
-                + " (" + goalObj["team"]["triCode"] + " GOAL)";
-                let goalMsg = goalObj["about"]["ordinalNum"] + " @ " + goalObj["about"]["periodTime"] + " (" + goalObj["result"]["strength"]["code"] + ")"
+                let goalTitle = gameData["away"]["abbreviation"] + ": " + goalObj["awayScore"] + " | " + gameData["home"]["abbreviation"] + ": " + goalObj["homeScore"]
+                + " (" + goalObj["teamAbbrev"] + " GOAL)";
+                let goalMsg = goalObj["ordinalNum"] + " @ " + goalObj["timeInPeriod"] + " (" + goalObj["strength"] + ")"
                 // Get the object containing team data
-                let teamObj = gameData["away"]["name"] == team ? gameData["away"] : gameData["home"];
+                let teamObj = gameData["away"]["abbreviation"] == team ? gameData["away"] : gameData["home"];
                 let goalHorn = teamObj["goalHorn"];
                 let duration = 20000;
                 let logo = teamObj["logo"];
