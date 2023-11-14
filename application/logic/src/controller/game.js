@@ -269,14 +269,17 @@ function createGameHelper(gameid, response, teams) {
     // awayTeam["powerplay"] = awayTeamAPI["powerPlay"];
     // awayTeam["goaliePulled"] = awayTeamAPI["goaliePulled"];
     let gameState = {};
-    gameState["period"] = current["currentPeriodOrdinal"] ? current["currentPeriodOrdinal"]: null ;
-    gameState["periodTimeRemaining"] = current["currentPeriodTimeRemaining"] ? current["currentPeriodTimeRemaining"] : null;
+    let periodsArray = game["summary"]["linescore"]["byPeriod"];
+    let period = periodsArray[periodsArray.length-1]["period"];
+    period = convertPeriodToOrdinal(period,game["shootoutInUse"],game["clock"]["inIntermission"]);
+    gameState["period"] = period;
+    gameState["periodTimeRemaining"] = game["clock"]["timeRemaining"];
     homeTeam["shootoutGoalsScored"] = null;
     homeTeam["shootoutAttempts"] = null;
     awayTeam["shootoutGoalsScored"] = null;
     awayTeam["shootoutAttempts"] = null;
     if (gameState["period"] === "SO") {
-        let shootout = game["summary"]["linescore"]["shootout"]
+        let shootout = game["summary"]["linescore"]["shootout"];
         let homeShootoutScore = shootout["homeConversions"];
         let homeShootoutAttempts = shootout["homeAttempts"];
         let awayShootoutScore = shootout["awayConversions"];
@@ -297,21 +300,58 @@ function createGameHelper(gameid, response, teams) {
  * @returns Array of all goals scored
  */
 function extractAllGoalsScored(game,prevGame = null) {
-    let goals = game?.["summary"]?.["scoring"];
+    let goalsByPeriod = game?.["summary"]?.["scoring"];
     let goalsArr = [];
-    if (!goals) {
+    if (!goalsByPeriod) {
         return [];
     }
-    for (let i = goals.length-1; i <= 0; i--) {
-        let goalsInPeriod = goals[i];
-        for (let j = goalsInPeriod.length - 1; j <= 0; j--) {
-            goalsArr.push(goalsInPeriod[j]);
+    for (let goals of goalsByPeriod) {
+        let period = goalsByPeriod[0]["period"];
+        period = convertPeriodToOrdinal(period);
+        let goal = goals["goals"];
+        for (let g of goal) {
+            g["ordinalNum"] = period;
+            g["strength"] = convertGoalStrengthToOrdinal(g["strength"]);
         }
+        goalsArr = goalsArr.concat(goals["goals"]);
     }
-    return goalsArr;
+    return goalsArr.reverse();
 }
 
-  
+function convertPeriodToOrdinal(period, shootout = true, intermission = false) {
+    let periodOrdinal;
+    if (period == 1) {
+        periodOrdinal = "1st";
+    } else if (period == 2) {
+        periodOrdinal = "2nd";
+    } else if (period == 3) {
+        periodOrdinal = "3rd";
+    } else if (period == 4) {
+        periodOrdinal = "OT";
+    } else if (period > 4) {
+        if (shootout) {
+            periodOrdinal = "SO";
+        } else {
+            let otNum = period - 3;
+            periodOrdinal = otNum + "OT";
+        }
+    } else if (intermission) {
+        periodOrdinal = "INT";
+    }
+    return periodOrdinal;
+}
+
+function convertGoalStrengthToOrdinal(goalStrength) {
+    let goalStrengthOrdinal;
+    if (goalStrength == "pp") {
+        goalStrengthOrdinal = "PPG";
+    } else if (goalStrength == "sh") {
+        goalStrengthOrdinal = "SHG";
+    } else if (goalStrength == "ev") {
+        goalStrengthOrdinal = "EVEN";
+    }
+    return goalStrengthOrdinal;
+}
 
   /**
    * Updates the game state

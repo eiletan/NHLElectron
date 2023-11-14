@@ -9,7 +9,6 @@ const DOMAIN = "https://api-web.nhle.com/v1/";
  * @returns {Promise} Promise that resolves with the API response in JSON format
  */
 function GetFromNHLApi(uri, domain = DOMAIN) {
-    console.log(domain+uri);
     let getPromise = new Promise((resolve,reject) => {
     https.get(domain+uri,(result) => {
         let resp = '';
