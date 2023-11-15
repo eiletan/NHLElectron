@@ -355,7 +355,9 @@ function extractAllGoalsScored(game,prevGame = null) {
 
 function convertPeriodToOrdinal(period, shootout = true, intermission = false) {
     let periodOrdinal;
-    if (period == 1) {
+    if (intermission) {
+        periodOrdinal = "INT";
+    } else if (period == 1) {
         periodOrdinal = "1st";
     } else if (period == 2) {
         periodOrdinal = "2nd";
@@ -370,8 +372,6 @@ function convertPeriodToOrdinal(period, shootout = true, intermission = false) {
             let otNum = period - 3;
             periodOrdinal = otNum + "OT";
         }
-    } else if (intermission) {
-        periodOrdinal = "INT";
     }
     return periodOrdinal;
 }

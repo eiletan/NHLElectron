@@ -20,10 +20,13 @@ export default function Games(props) {
                 let strength = goal["strength"];
                 let scorer = `${goal["firstName"]} ${goal["lastName"]}`;
                 let goalType = goal["shotType"];
-                goalType = goalType.charAt(0).toUpperCase() + goalType.slice(1);
-                if (goalType != "Tip-in" && goalType != "Backhand" && goalType != "Deflected") {
-                    goalType = goalType + " shot";
+                if (goalType) {
+                    goalType = goalType.charAt(0).toUpperCase() + goalType.slice(1);
+                    if (goalType != "Tip-in" && goalType != "Backhand" && goalType != "Deflected") {
+                        goalType = goalType + " shot";
+                    }
                 }
+                
                 let assists = [];
                 let assistsApi = goal?.["assists"];
                 if (assistsApi) {
