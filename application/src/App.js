@@ -37,13 +37,24 @@ function App() {
   useEffect(() => {
     setErrorMessage(null);
     let today = new Date().toLocaleDateString("en-CA");
-    let gameListUpdateDate = new Date(window.localStorage.getItem("date"));
+    let storedDate = window.localStorage.getItem("date");
+    let storedTeams = window.localStorage.getItem("internalTeams");
+    let internalTeams = window.api.getInternalTeams();
     let todayActual = new Date(today);
+    if (storedDate == "null" || storedTeams == "null") {
+      let formattedDate = todayActual.toISOString().split("T")[0];
+      internalTeams.then((teams) => {
+        setInternalTeams(teams);
+      })
+      
+      setDate(formattedDate);
+    }
+    let gameListUpdateDate = new Date(storedDate);
+    
     // If stored date does not match today, update it and fetch list of games for today and the internal representation of NHL teams 
     if (todayActual.getTime() != gameListUpdateDate.getTime()) {
       let formattedDate = todayActual.toISOString().split("T")[0];
       let games = window.api.getGamesList({date: formattedDate, reset: true});
-      let internalTeams = window.api.getInternalTeams();
       games.then((gamesToday) => {
         setGamesList(gamesToday);
       }).catch((err) => {
