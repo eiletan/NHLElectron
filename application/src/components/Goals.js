@@ -10,7 +10,7 @@ export default function Games(props) {
             let arrOfMaps = [];
             for (let goal of gameData["allGoals"]) {
                 let arrMap = [];
-                let teamName = goal["teamAbbrev"];
+                let teamName = goal["teamAbbrev"]["default"];
                 let logo;
                 if (gameData["away"]["abbreviation"] == teamName) {
                     logo = gameData["away"]["logo"];
@@ -18,7 +18,7 @@ export default function Games(props) {
                     logo = gameData["home"]["logo"];
                 }
                 let strength = goal["strength"];
-                let scorer = `${goal["firstName"]} ${goal["lastName"]}`;
+                let scorer = `${goal["firstName"]["default"]} ${goal["lastName"]["default"]}`;
                 let goalType = goal["shotType"];
                 if (goalType) {
                     goalType = goalType.charAt(0).toUpperCase() + goalType.slice(1);
@@ -31,7 +31,7 @@ export default function Games(props) {
                 let assistsApi = goal?.["assists"];
                 if (assistsApi) {
                     for (let assister of assistsApi) {
-                        assists.push(`${assister["firstName"]} ${assister["lastName"]}`);
+                        assists.push(`${assister["firstName"]["default"]} ${assister["lastName"]["default"]}`);
                     }
                 }
                 // Construct goal description
