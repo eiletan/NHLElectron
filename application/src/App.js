@@ -119,7 +119,7 @@ function App() {
       let map = {};
       for (let game of gamesList) {
         let awayTeam = game["awayTeam"]["fullName"];
-        let homeTeam = game["homeTeam"]["fullName"];;
+        let homeTeam = game["homeTeam"]["fullName"];
         let awayTeamInfo = internalTeams?.[awayTeam];
         let homeTeamInfo = internalTeams?.[homeTeam];
         if (!awayTeamInfo) {

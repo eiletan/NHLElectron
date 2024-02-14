@@ -5,6 +5,7 @@ const jp = require('jsonpath');
 
 var NOTIFLENGTH = 20000;
 
+const multiwordlocations = ["STL", "NYI", "NYR"];
 
 /**
  * Find all NHL games occuring on the passed in date
@@ -119,9 +120,10 @@ function createGameHelper(gameid, response, teams) {
         let goals = extractAllGoalsScored(response);
         let homeTeam = response["homeTeam"];
         let awayTeam = response["awayTeam"];
-        let homeTeamName = homeTeam["placeName"]["default"] + " " + homeTeam["name"]["default"];
-        let awayTeamName = awayTeam["placeName"]["default"] + " " + awayTeam["name"]["default"];
+        let homeTeamName = tempFixToMultiWordLocations(homeTeam);
+        let awayTeamName = tempFixToMultiWordLocations(awayTeam);
         let gameObj = {};
+        console.log(response);
         gameObj["season"] = response["season"];
         if (!teams[homeTeamName]) {
             let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
@@ -164,6 +166,22 @@ function createGameHelper(gameid, response, teams) {
         return;
     });
     return createGameHelperPromise;
+}
+
+
+function tempFixToMultiWordLocations(team) {
+    if (multiwordlocations.includes(team["abbrev"])) {
+        switch(team["abbrev"]) {
+            case "NYI":
+                return "New York Islanders";
+            case "NYR":
+                return "New York Rangers";
+            case "STL":
+                return "St. Louis Blues";
+        }
+    } else {
+        return team["placeName"]["default"] + " " + team["name"]["default"];
+    }
 }
 
   /**
