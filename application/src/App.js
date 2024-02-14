@@ -122,9 +122,26 @@ function App() {
         let homeTeam = game["homeTeam"]["fullName"];;
         let awayTeamInfo = internalTeams?.[awayTeam];
         let homeTeamInfo = internalTeams?.[homeTeam];
-        // Skip if either team is not a NHL team
-        if (!awayTeamInfo || !homeTeamInfo) {
-          continue;
+        if (!awayTeamInfo) {
+          awayTeamInfo = {
+            "name": awayTeam,
+            "abbreviation": game["awayTeam"]["abbrev"],
+            "color": internalTeams["NHL"]["color"],
+            "logo": internalTeams["NHL"]["logo"],
+            "goalHorn": internalTeams["NHL"]["goalHorn"],
+            "hornLength": internalTeams["NHL"]["hornLength"]
+          }
+        }
+
+        if (!homeTeamInfo) {
+          homeTeamInfo = {
+            "name": homeTeam,
+            "abbreviation": game["homeTeam"]["abbrev"],
+            "color": internalTeams["NHL"]["color"],
+            "logo": internalTeams["NHL"]["logo"],
+            "goalHorn": internalTeams["NHL"]["goalHorn"],
+            "hornLength": internalTeams["NHL"]["hornLength"]
+          }
         }
         map[awayTeamInfo["abbreviation"]] = awayTeamInfo;
         map[homeTeamInfo["abbreviation"]] = homeTeamInfo;

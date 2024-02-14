@@ -22,8 +22,8 @@ export default function Games(props) {
             if (!homeLogo) {
                 homeLogo = "NHL.png";
             }
-            let awayAbbr = internalTeams?.[away]?.["abbreviation"];
-            let homeAbbr = internalTeams?.[home]?.["abbreviation"];
+            let awayAbbr = game["awayTeam"]?.["abbrev"];
+            let homeAbbr = game["homeTeam"]?.["abbrev"];
             if (!awayAbbr) {
                 awayAbbr = away;
             }
