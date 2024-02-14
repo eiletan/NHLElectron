@@ -68,10 +68,10 @@ export default function GamePage(props) {
                 // If a new goal is detected, send message to display notification and play audio
                 let goalObj = gameData["allGoals"][0];
                 // Get the team who scored the goal
-                let team = goalObj["teamAbbrev"];
+                let team = goalObj["teamAbbrev"]["default"];
                 // Get goal information for notification
                 let goalTitle = gameData["away"]["abbreviation"] + ": " + goalObj["awayScore"] + " | " + gameData["home"]["abbreviation"] + ": " + goalObj["homeScore"]
-                + " (" + goalObj["teamAbbrev"] + " GOAL)";
+                + " (" + team + " GOAL)";
                 let goalMsg = goalObj["ordinalNum"] + " @ " + goalObj["timeInPeriod"] + " (" + goalObj["strength"] + ")"
                 // Get the object containing team data
                 let teamObj = gameData["away"]["abbreviation"] == team ? gameData["away"] : gameData["home"];
