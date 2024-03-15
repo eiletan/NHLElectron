@@ -314,7 +314,7 @@ function tempFixToMultiWordLocations(team) {
     let periodsArray = game?.["summary"]?.["linescore"]?.["byPeriod"];
     let period = "1st";
     if (periodsArray != undefined) {
-        period = periodsArray[periodsArray.length-1]["period"];
+        period = periodsArray[periodsArray.length-1]["periodDescriptor"]["number"];
         period = convertPeriodToOrdinal(period,game["shootoutInUse"],game["clock"]["inIntermission"]);
         gameState["period"] = period;
         gameState["periodTimeRemaining"] = game["clock"]["timeRemaining"];
@@ -359,7 +359,7 @@ function extractAllGoalsScored(game,prevGame = null) {
         return [];
     }
     for (let goals of goalsByPeriod) {
-        let period = goals["period"];
+        let period = goals["periodDescriptor"]["number"];
         period = convertPeriodToOrdinal(period);
         let goal = goals["goals"];
         for (let g of goal) {
