@@ -50,6 +50,7 @@ function initTeamsHelper(localTeamsJson) {
                   internalTeamsJson[apiteam["fullName"]]["shortName"] = apiteam["teamCommonName"];
                   internalTeamsJson[apiteam["fullName"]]["teamName"] = apiteam["fullName"];
                 } else {
+                  internalTeamsJson[apiteam["fullName"]] = {};
                   internalTeamsJson[apiteam["fullName"]]["id"] = apiteam["id"];
                   let teamNameAbr = new String(apiteam["teamPlaceName"]);
                   teamNameAbr = teamNameAbr.substring(0,3);
