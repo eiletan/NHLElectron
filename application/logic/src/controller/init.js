@@ -50,16 +50,17 @@ function initTeamsHelper(localTeamsJson) {
                   internalTeamsJson[apiteam["fullName"]]["shortName"] = apiteam["teamCommonName"];
                   internalTeamsJson[apiteam["fullName"]]["teamName"] = apiteam["fullName"];
                 } else {
+                  let defaultTeam = localTeamsJson[Object.keys(localTeamsJson).length-1];
                   internalTeamsJson[apiteam["fullName"]] = {};
                   internalTeamsJson[apiteam["fullName"]]["id"] = apiteam["id"];
                   let teamNameAbr = new String(apiteam["teamPlaceName"]);
                   teamNameAbr = teamNameAbr.substring(0,3);
-                  internalTeamsJson[apiteam["fullName"]]["abbreviation"] = teamNameAbr;
+                  internalTeamsJson[apiteam["fullName"]]["abbreviation"] = teamNameAbr.toUpperCase();
                   internalTeamsJson[apiteam["fullName"]]["shortName"] = apiteam["teamCommonName"];
                   internalTeamsJson[apiteam["fullName"]]["teamName"] = apiteam["fullName"];
-                  internalTeamsJson[apiteam["fullName"]]["logo"] = localTeamsJson["NHL"]["logo"];
-                  internalTeamsJson[apiteam["fullName"]]["color"] = localTeamsJson["NHL"]["color"];
-                  internalTeamsJson[apiteam["fullName"]]["goalHorn"] = localTeamsJson["NHL"]["goalHorn"];
+                  internalTeamsJson[apiteam["fullName"]]["logo"] = defaultTeam["logo"];
+                  internalTeamsJson[apiteam["fullName"]]["color"] = defaultTeam["color"];
+                  internalTeamsJson[apiteam["fullName"]]["goalHorn"] = defaultTeam["goalHorn"];
                 }
               }
             }
