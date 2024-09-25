@@ -39,7 +39,6 @@ function App() {
     let today = new Date().toLocaleDateString("en-CA");
     let storedDate = window.localStorage.getItem("date");
     let storedTeams = window.localStorage.getItem("internalTeams");
-    let storedGamesList = window.localStorage.getItem("gamesList");
     let todayActual = new Date(today);
     let gameListUpdateDate;
     if (storedDate == "undefined") {
