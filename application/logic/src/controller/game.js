@@ -123,17 +123,16 @@ function createGameHelper(gameid, response, teams) {
         let homeTeamName = tempFixToMultiWordLocations(homeTeam);
         let awayTeamName = tempFixToMultiWordLocations(awayTeam);
         let gameObj = {};
-        console.log(response);
         gameObj["season"] = response["season"];
         if (!teams[homeTeamName]) {
             let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
             gameObj["home"] = nhlTeamCopy;
             gameObj["home"]["name"] = homeTeamName;
-            gameObj["home"]["abbreviation"] = homeTeamName;
+            gameObj["home"]["abbreviation"] = response["homeTeam"]["abbrev"];
             gameObj["home"]["shortName"] = homeTeamName;
             gameObj["home"]["teamName"] = homeTeamName;
             gameObj["home"]["color"] = "#0000FF";
-            gameObj["home"]["id"] = -1;
+            gameObj["home"]["id"] = response["homeTeam"]["id"];
         } else {
             gameObj["home"] = teams[homeTeamName];
         }
@@ -141,11 +140,11 @@ function createGameHelper(gameid, response, teams) {
             let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
             gameObj["away"] = nhlTeamCopy;
             gameObj["away"]["name"] = awayTeamName;
-            gameObj["away"]["abbreviation"] = awayTeamName;
+            gameObj["away"]["abbreviation"] = response["awayTeam"]["abbrev"];
             gameObj["away"]["shortName"] = awayTeamName;
             gameObj["away"]["teamName"] = awayTeamName;
             gameObj["away"]["color"] = "#FF0000";
-            gameObj["away"]["id"] = -1;   
+            gameObj["away"]["id"] = response["awayTeam"]["id"];   
         } else {
             gameObj["away"] = teams[awayTeamName];
         }
@@ -180,7 +179,14 @@ function tempFixToMultiWordLocations(team) {
                 return "St. Louis Blues";
         }
     } else {
-        return team["placeName"]["default"] + " " + team["name"]["default"];
+        let placeNameLength = team["placeName"]["default"].length;
+        // If team name contains place name already, do not duplicate it;
+        if (team["placeName"]["default"] == team["name"]["default"].substring(0,placeNameLength)) {
+            return team["name"]["default"];
+        } else {
+            return team["placeName"]["default"] + " " + team["name"]["default"];
+        }
+        
     }
 }
 
