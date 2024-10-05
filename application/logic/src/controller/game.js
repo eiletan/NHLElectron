@@ -317,10 +317,11 @@ function tempFixToMultiWordLocations(team) {
          
     }
     let gameState = {};
-    let periodsArray = game?.["summary"]?.["linescore"]?.["byPeriod"];
+    // let periodsArray = game?.["summary"]?.["linescore"]?.["byPeriod"];
+    let periodInfo = game?.["periodDescriptor"];
     let period = "1st";
-    if (periodsArray != undefined) {
-        period = periodsArray[periodsArray.length-1]["periodDescriptor"]["number"];
+    if (periodInfo != undefined) {
+        period = periodInfo?.["number"];
         period = convertPeriodToOrdinal(period,game["shootoutInUse"],game["clock"]["inIntermission"]);
         gameState["period"] = period;
         gameState["periodTimeRemaining"] = game["clock"]["timeRemaining"];
