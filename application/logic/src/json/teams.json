@@ -1,6 +1,7 @@
 [
     {
         "name": "Anaheim Ducks",
+        "abbreviation": "ANA",
         "color": "#F47A38",
         "logo": "Anaheim Ducks.png",
         "goalHorn": "Anaheim Ducks.mp3",
@@ -8,6 +9,7 @@
     },
     {
         "name": "Arizona Coyotes",
+        "abbreviation": "ARI",
         "color": "#8C2633",
         "logo": "Arizona Coyotes.png",
         "goalHorn": "Arizona Coyotes.mp3",
@@ -15,6 +17,7 @@
     },
     {
         "name": "Boston Bruins",
+        "abbreviation": "BOS",
         "color": "#FFB81C",
         "logo": "Boston Bruins.png",
         "goalHorn": "Boston Bruins.mp3",
@@ -22,6 +25,7 @@
     },
     {
         "name": "Buffalo Sabres",
+        "abbreviation": "BUF",
         "color": "#002654",
         "logo": "Buffalo Sabres.png",
         "goalHorn": "Buffalo Sabres.mp3",
@@ -29,6 +33,7 @@
     },
     {
         "name": "Calgary Flames",
+        "abbreviation": "CGY",
         "color": "#C8102E",
         "logo": "Calgary Flames.png",
         "goalHorn": "Calgary Flames.mp3",
@@ -36,6 +41,7 @@
     },
     {
         "name": "Carolina Hurricanes",
+        "abbreviation": "CAR",
         "color": "#CC0000",
         "logo": "Carolina Hurricanes.png",
         "goalHorn": "Carolina Hurricanes.mp3",
@@ -43,6 +49,7 @@
     },
     {
         "name": "Chicago Blackhawks",
+        "abbreviation": "CHI",
         "color": "#CF0A2C",
         "logo": "Chicago Blackhawks.png",
         "goalHorn": "Chicago Blackhawks.mp3",
@@ -50,6 +57,7 @@
     },
     {
         "name": "Colorado Avalanche",
+        "abbreviation": "COL",
         "color": "#6F263D",
         "logo": "Colorado Avalanche.png",
         "goalHorn": "Colorado Avalanche.mp3",
@@ -57,6 +65,7 @@
     },
     {
         "name": "Columbus Blue Jackets",
+        "abbreviation": "CBJ",
         "color": "#002654",
         "logo": "Columbus Blue Jackets.png",
         "goalHorn": "Columbus Blue Jackets.mp3",
@@ -64,6 +73,7 @@
     },
     {
         "name": "Dallas Stars",
+        "abbreviation": "DAL",
         "color": "#006847",
         "logo": "Dallas Stars.png",
         "goalHorn": "Dallas Stars.mp3",
@@ -71,6 +81,7 @@
     },
     {
         "name": "Detroit Red Wings",
+        "abbreviation": "DET",
         "color": "#CE1126",
         "logo": "Detroit Red Wings.png",
         "goalHorn": "Detroit Red Wings.mp3",
@@ -78,6 +89,7 @@
     },
     {
         "name": "Edmonton Oilers",
+        "abbreviation": "EDM",
         "color": "#041E42",
         "logo": "Edmonton Oilers.png",
         "goalHorn": "Edmonton Oilers.mp3",
@@ -85,6 +97,7 @@
     },
     {
         "name": "Florida Panthers",
+        "abbreviation": "FLA",
         "color": "#041E42",
         "logo": "Florida Panthers.png",
         "goalHorn": "Florida Panthers.mp3",
@@ -92,6 +105,7 @@
     },
     {
         "name": "Los Angeles Kings",
+        "abbreviation": "LAK",
         "color": "#111111",
         "logo": "Los Angeles Kings.png",
         "goalHorn": "Los Angeles Kings.mp3",
@@ -99,6 +113,7 @@
     },
     {
         "name": "Minnesota Wild",
+        "abbreviation": "MIN",
         "color": "#154734",
         "logo": "Minnesota Wild.png",
         "goalHorn": "Minnesota Wild.mp3",
@@ -106,6 +121,7 @@
     },
     {
         "name": "Montréal Canadiens",
+        "abbreviation": "MTL",
         "color": "#AF1E2D",
         "logo": "Montreal Canadiens.png",
         "goalHorn": "Montreal Canadiens.mp3",
@@ -113,6 +129,7 @@
     },
     {
         "name": "Nashville Predators",
+        "abbreviation": "NSH",
         "color": "#FFB81C",
         "logo": "Nashville Predators.png",
         "goalHorn": "Nashville Predators.mp3",
@@ -120,6 +137,7 @@
     },
     {
         "name": "New Jersey Devils",
+        "abbreviation": "NJD",
         "color": "#CE1126",
         "logo": "New Jersey Devils.png",
         "goalHorn": "New Jersey Devils.mp3",
@@ -127,6 +145,7 @@
     },
     {
         "name": "New York Islanders",
+        "abbreviation": "NYI",
         "color": "#00539B",
         "logo": "New York Islanders.png",
         "goalHorn": "New York Islanders.mp3",
@@ -134,6 +153,7 @@
     },
     {
         "name": "New York Rangers",
+        "abbreviation": "NYR",
         "color": "#0038A8",
         "logo": "New York Rangers.png",
         "goalHorn": "New York Rangers.mp3",
@@ -141,6 +161,7 @@
     },
     {
         "name": "Ottawa Senators",
+        "abbreviation": "OTT",
         "color": "#C52032",
         "logo": "Ottawa Senators.png",
         "goalHorn": "Ottawa Senators.mp3",
@@ -148,6 +169,7 @@
     },
     {
         "name": "Philadelphia Flyers",
+        "abbreviation": "PHI",
         "color": "#F74902",
         "logo": "Philadelphia Flyers.png",
         "goalHorn": "Philadelphia Flyers.mp3",
@@ -155,6 +177,7 @@
     },
     {
         "name": "Pittsburgh Penguins",
+        "abbreviation": "PIT",
         "color": "#FCB514",
         "logo": "Pittsburgh Penguins.png",
         "goalHorn": "Pittsburgh Penguins.mp3",
@@ -162,6 +185,7 @@
     },
     {
         "name": "San Jose Sharks",
+        "abbreviation": "SJS",
         "color": "#006D75",
         "logo": "San Jose Sharks.png",
         "goalHorn": "San Jose Sharks.mp3",
@@ -169,6 +193,7 @@
     },
     {
         "name": "Seattle Kraken",
+        "abbreviation": "SEA",
         "color": "#355464",
         "logo": "Seattle Kraken.png",
         "goalHorn": "Seattle Kraken.mp3",
@@ -176,6 +201,7 @@
     },
     {
         "name": "St. Louis Blues",
+        "abbreviation": "STL",
         "color": "#002F87",
         "logo": "St. Louis Blues.png",
         "goalHorn": "St. Louis Blues.mp3",
@@ -184,6 +210,7 @@
 
     {
         "name": "Tampa Bay Lightning",
+        "abbreviation": "TBL",
         "color": "#002868",
         "logo": "Tampa Bay Lightning.png",
         "goalHorn": "Tampa Bay Lightning.mp3",
@@ -191,6 +218,7 @@
     },
     {
         "name": "Toronto Maple Leafs",
+        "abbreviation": "TOR",
         "color": "#00205B",
         "logo": "Toronto Maple Leafs.png",
         "goalHorn": "Toronto Maple Leafs.mp3",
@@ -198,6 +226,7 @@
     },
     {
         "name": "Vancouver Canucks",
+        "abbreviation": "VAN",
         "color": "#00205B",
         "logo": "Vancouver Canucks.png",
         "goalHorn": "Vancouver Canucks.mp3",
@@ -205,6 +234,7 @@
     },
     {
         "name": "Vegas Golden Knights",
+        "abbreviation": "VGK",
         "color": "#B4975A",
         "logo": "Vegas Golden Knights.png",
         "goalHorn": "Vegas Golden Knights.mp3",
@@ -212,6 +242,7 @@
     },
     {
         "name": "Washington Capitals",
+        "abbreviation": "WSH",
         "color": "#C8102E",
         "logo": "Washington Capitals.png",
         "goalHorn": "Washington Capitals.mp3",
@@ -219,6 +250,7 @@
     },
     {
         "name": "Winnipeg Jets",
+        "abbreviation": "WPG",
         "color": "#041E42",
         "logo": "Winnipeg Jets.png",
         "goalHorn": "Winnipeg Jets.mp3",
@@ -226,6 +258,7 @@
     },
     {
         "name": "NHL",
+        "abbreviation": "NHL",
         "color": "#DCDCDC",
         "logo": "NHL.png",
         "goalHorn": "Vancouver Canucks.mp3",

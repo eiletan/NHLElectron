@@ -10,23 +10,28 @@ export default function Games(props) {
             let arrOfMaps = [];
             for (let goal of gameData["allGoals"]) {
                 let arrMap = [];
-                let teamName = goal["team"]["name"];
+                let teamName = goal["teamAbbrev"]["default"];
                 let logo;
-                if (gameData["away"]["name"] == teamName) {
+                if (gameData["away"]["abbreviation"] == teamName) {
                     logo = gameData["away"]["logo"];
                 } else {
                     logo = gameData["home"]["logo"];
                 }
-                let strength = goal["result"]["strength"]["code"];
-                let scorer = "";
-                let goalType = goal["result"]["secondaryType"];
+                let strength = goal["strength"];
+                let scorer = `${goal["firstName"]["default"]} ${goal["lastName"]["default"]}`;
+                let goalType = goal["shotType"];
+                if (goalType) {
+                    goalType = goalType.charAt(0).toUpperCase() + goalType.slice(1);
+                    if (goalType != "Tip-in" && goalType != "Backhand" && goalType != "Deflected") {
+                        goalType = goalType + " shot";
+                    }
+                }
+                
                 let assists = [];
-                // Find scorer
-                for (let player of goal["players"]) {
-                    if (player["playerType"] == "Scorer") {
-                        scorer = player["player"]["fullName"];
-                    } else if (player["playerType"] == "Assist") {
-                        assists.push(player["player"]["fullName"]);
+                let assistsApi = goal?.["assists"];
+                if (assistsApi) {
+                    for (let assister of assistsApi) {
+                        assists.push(`${assister["firstName"]["default"]} ${assister["lastName"]["default"]}`);
                     }
                 }
                 // Construct goal description
@@ -42,10 +47,10 @@ export default function Games(props) {
                         }  
                     } 
                 }
-                goalDesc = goalDesc + " \n" + goal["about"]["ordinalNum"] + " @ " + goal["about"]["periodTime"]
+                goalDesc = goalDesc + " \n" + goal["ordinalNum"] + " @ " + goal["timeInPeriod"]
                 + " (" + strength + ")" ;
-                let score = gameData["away"]["abbreviation"] + ": " + goal["about"]["goals"]["away"] + "\n" 
-                + gameData["home"]["abbreviation"] + ": " + goal["about"]["goals"]["home"];
+                let score = gameData["away"]["abbreviation"] + ": " + goal["awayScore"] + "\n" 
+                + gameData["home"]["abbreviation"] + ": " + goal["homeScore"];
 
                 arrMap.push(["logo", <img className={"goalTeamLogoImg"} src={require('../assets/logos/' + logo)}></img>]);
                 arrMap.push(["desc", goalDesc]);

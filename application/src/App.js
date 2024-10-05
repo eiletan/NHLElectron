@@ -37,8 +37,16 @@ function App() {
   useEffect(() => {
     setErrorMessage(null);
     let today = new Date().toLocaleDateString("en-CA");
-    let gameListUpdateDate = new Date(window.localStorage.getItem("date"));
+    let storedDate = window.localStorage.getItem("date");
+    let storedTeams = window.localStorage.getItem("internalTeams");
     let todayActual = new Date(today);
+    let gameListUpdateDate;
+    if (storedDate == "undefined") {
+      gameListUpdateDate = new Date("1999-01-01");
+    } else {
+      gameListUpdateDate = new Date(storedDate);
+    }
+    
     // If stored date does not match today, update it and fetch list of games for today and the internal representation of NHL teams 
     if (todayActual.getTime() != gameListUpdateDate.getTime()) {
       let formattedDate = todayActual.toISOString().split("T")[0];
@@ -56,10 +64,25 @@ function App() {
       });
       setDate(formattedDate);
     } else {
-      setDate(window.localStorage.getItem("date"));
-      setGamesList(JSON.parse(window.localStorage.getItem("gamesList")));
-      setInternalTeams(JSON.parse(window.localStorage.getItem("internalTeams")));
-      setGamesInfoMap(JSON.parse(window.localStorage.getItem("gamesInfoMap")));
+      // If internal teams is not already in application memory, fetch it as well as the games list
+      if (storedTeams == "undefined") {
+        let formattedDate = todayActual.toISOString().split("T")[0];
+        let internalTeams = window.api.getInternalTeams();
+        internalTeams.then((teams) => {
+          setInternalTeams(teams);
+          let gamesList = window.api.getGamesList({date: formattedDate, reset: true});
+          return gamesList;
+        }).then((gamesList) => {
+          setGamesList(gamesList);
+        }).catch((err) => {
+          console.log("Error initializing data: " + err);
+        });
+      } else {
+        setInternalTeams(JSON.parse(window.localStorage.getItem("internalTeams")));
+        setGamesList(JSON.parse(window.localStorage.getItem("gamesList")));
+        setGamesInfoMap(JSON.parse(window.localStorage.getItem("gamesInfoMap")));
+      }
+      setDate(window.localStorage.getItem("date"));      
     }
     window.localStorage.setItem('apiBase',apiBase);
   },[]);
@@ -107,13 +130,30 @@ function App() {
     if (gamesList && gamesList.length != 0) {
       let map = {};
       for (let game of gamesList) {
-        let awayTeam = game["teams"]["away"]["team"]["name"];
-        let homeTeam = game["teams"]["home"]["team"]["name"];
+        let awayTeam = game["awayTeam"]["fullName"];
+        let homeTeam = game["homeTeam"]["fullName"];
         let awayTeamInfo = internalTeams?.[awayTeam];
         let homeTeamInfo = internalTeams?.[homeTeam];
-        // Skip if either team is not a NHL team
-        if (!awayTeamInfo || !homeTeamInfo) {
-          continue;
+        if (!awayTeamInfo) {
+          awayTeamInfo = {
+            "name": awayTeam,
+            "abbreviation": game["awayTeam"]["abbrev"],
+            "color": internalTeams["NHL"]["color"],
+            "logo": internalTeams["NHL"]["logo"],
+            "goalHorn": internalTeams["NHL"]["goalHorn"],
+            "hornLength": internalTeams["NHL"]["hornLength"]
+          }
+        }
+
+        if (!homeTeamInfo) {
+          homeTeamInfo = {
+            "name": homeTeam,
+            "abbreviation": game["homeTeam"]["abbrev"],
+            "color": internalTeams["NHL"]["color"],
+            "logo": internalTeams["NHL"]["logo"],
+            "goalHorn": internalTeams["NHL"]["goalHorn"],
+            "hornLength": internalTeams["NHL"]["hornLength"]
+          }
         }
         map[awayTeamInfo["abbreviation"]] = awayTeamInfo;
         map[homeTeamInfo["abbreviation"]] = homeTeamInfo;

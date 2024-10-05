@@ -12,8 +12,8 @@ export default function Games(props) {
         let gamesDataSorted = sortGamesByTime(gamesData);
         for (let game of gamesDataSorted) {
             let arrMap = [];
-            let away = game["teams"]["away"]["team"]["name"];
-            let home = game["teams"]["home"]["team"]["name"];
+            let away = game["awayTeam"]["fullName"];
+            let home = game["homeTeam"]["fullName"];
             let awayLogo = internalTeams?.[away]?.["logo"];
             let homeLogo = internalTeams?.[home]?.["logo"];
             if (!awayLogo) {
@@ -22,8 +22,8 @@ export default function Games(props) {
             if (!homeLogo) {
                 homeLogo = "NHL.png";
             }
-            let awayAbbr = internalTeams?.[away]?.["abbreviation"];
-            let homeAbbr = internalTeams?.[home]?.["abbreviation"];
+            let awayAbbr = game["awayTeam"]?.["abbrev"];
+            let homeAbbr = game["homeTeam"]?.["abbrev"];
             if (!awayAbbr) {
                 awayAbbr = away;
             }
@@ -35,10 +35,10 @@ export default function Games(props) {
             arrMap.push(["at", "@"]);
             arrMap.push(["homeAbbr",homeAbbr]);
             arrMap.push(["homeLogo",<img src={require('../assets/logos/' + homeLogo)}></img>]);
-            let startTime = new Date(game["gameDate"]);
+            let startTime = new Date(game["startTimeUTC"]);
             startTime = startTime.toLocaleString('en-US', { hour: 'numeric',minute: 'numeric', hour12: true });
             arrMap.push(["startTime",startTime]);
-            arrMap.push(["ROWKEYIDENTIFIER", game["gamePk"]]);
+            arrMap.push(["ROWKEYIDENTIFIER", game["id"]]);
             let map = new Map(arrMap);
             arrOfMaps.push(map);
         }
@@ -49,8 +49,8 @@ export default function Games(props) {
         for (let i = 0; i < gamesData.length; i++) {
             let minIndex = i;
             for (let j = i+1; j < gamesData.length; j++) {
-                let jDate = new Date(gamesData[j]["gameDate"]);
-                let minDate = new Date(gamesData[minIndex]["gameDate"]);
+                let jDate = new Date(gamesData[j]["startTimeUTC"]);
+                let minDate = new Date(gamesData[minIndex]["startTimeUTC"]);
                 if (jDate.getTime() < minDate.getTime()) {
                     minIndex = j;
                 }

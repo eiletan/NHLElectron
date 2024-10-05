@@ -5,6 +5,7 @@ const jp = require('jsonpath');
 
 var NOTIFLENGTH = 20000;
 
+const multiwordlocations = ["STL", "NYI", "NYR"];
 
 /**
  * Find all NHL games occuring on the passed in date
@@ -14,16 +15,18 @@ var NOTIFLENGTH = 20000;
 function findGames(date) {
     let gamesList = null;
     let scheduledGamesPromise = new Promise((resolve,reject) => {
-        nhlApi.GetFromNHLApi("/schedule?date=" + date).then((games) => {
-            if (games["dates"].length == 0) {
+        nhlApi.GetFromNHLApi("schedule/" + date).then((games) => {
+            if (games["gameWeek"].length == 0) {
                 let empty = [];
                 resolve(empty);
                 return;
             } else {
-                gamesList = games["dates"][0]["games"];
-                resolve(gamesList);
-                return;
+                gamesList = games["gameWeek"][0]["games"];
+                return supplementGamesData(gamesList);
             }
+        }).then((gamesList) => {
+            resolve(gamesList);
+            return;
         }).catch((err) => {
             reject("An error occurred: Games for " + date + " could not be retrieved. Please try again");
             console.log(err);
@@ -33,38 +36,45 @@ function findGames(date) {
     return scheduledGamesPromise;
 }
 
-/**
- * Find the NHL game involving the passed in team on the given date
- * @param {String} team Name of the team 
- * @param {String} date Date of the game - Must be in format "YYYY-MM-DD"
- * @returns a Promise that resolves with the NHL game as a JSON object, else an exception is thrown
- */
-function findGameForTeam(team, date) {
-    let gamePromise = new Promise((resolve,reject) => {
-        try {
-            findGames(date).then((retgames) => {
-                let found = false;
-                for (game of retgames) {
-                    let awayTeam = game["teams"]["away"]["team"]["name"]
-                    let homeTeam = game["teams"]["home"]["team"]["name"]
-                    if (util.matchTeamName(awayTeam, team) || util.matchTeamName(homeTeam, team)) {
-                        found = true;
-                        resolve(game);
+
+function supplementGamesData(gamesList) {
+    
+    let promise = new Promise((resolve,reject) => {
+        nhlApi.GetFromNHLApi("stats/rest/en/team", "https://api.nhle.com/").then((response) => {
+            let teams = response["data"];
+            for (let game of gamesList) {
+                let awayFound = false;
+                let homeFound = false;
+                let awayId = game["awayTeam"]["id"];
+                let homeId = game["homeTeam"]["id"];
+                for (let team of teams) {
+                    if (awayFound && homeFound) {
+                        break;
+                    }
+                    let teamId = team["id"];
+                    if (teamId == awayId) {
+                        let gameAwayObject = {...game["awayTeam"],...team};
+                        game["awayTeam"] = gameAwayObject;
+                        awayFound = true;
+                        continue;
+                    }
+                    if (teamId == homeId) {
+                        let gameHomeObject = {...game["homeTeam"],...team};
+                        game["homeTeam"] = gameHomeObject;
+                        homeFound = true;
+                        continue;
                     }
                 }
-                if (found == false) {
-                    reject("Game for " + team + " could not be found. Please try again.");
-                }
-            }).catch((err) => {
-                reject(err);
-            });
-        } catch (err) {
-            throw err;
-        }
+            }
+            resolve(gamesList);
+            return;
+        }).catch((err) => {
+            console.log("Could not retrive teams due to: " + err);
+            reject(err);
+        });
     });
-    return gamePromise;
+    return promise;
 }
-
 
 /**
  * Creates an internal record of a NHL game and saves it to local storage.
@@ -85,7 +95,7 @@ function findGameForTeam(team, date) {
             });  
         }
         else {
-            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((response) => {
+            nhlApi.GetFromNHLApi("gamecenter/" + gameid + "/landing").then((response) => {
                 return createGameHelper(gameid, response, teams);
             }).then((gameObj)=> {
                 resolve(gameObj);
@@ -108,34 +118,35 @@ function findGameForTeam(team, date) {
 function createGameHelper(gameid, response, teams) {
     let createGameHelperPromise = new Promise((resolve,reject) => {
         let goals = extractAllGoalsScored(response);
-        let gameData = response["gameData"];
-        let homeTeam = gameData["teams"]["home"]["name"];
-        let awayTeam = gameData["teams"]["away"]["name"];
+        let homeTeam = response["homeTeam"];
+        let awayTeam = response["awayTeam"];
+        let homeTeamName = tempFixToMultiWordLocations(homeTeam);
+        let awayTeamName = tempFixToMultiWordLocations(awayTeam);
         let gameObj = {};
-        gameObj["season"] = gameData["game"]["season"];
-        if (!teams[homeTeam]) {
+        gameObj["season"] = response["season"];
+        if (!teams[homeTeamName]) {
             let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
             gameObj["home"] = nhlTeamCopy;
-            gameObj["home"]["name"] = homeTeam;
-            gameObj["home"]["abbreviation"] = homeTeam;
-            gameObj["home"]["shortName"] = homeTeam;
-            gameObj["home"]["teamName"] = homeTeam;
+            gameObj["home"]["name"] = homeTeamName;
+            gameObj["home"]["abbreviation"] = response["homeTeam"]["abbrev"];
+            gameObj["home"]["shortName"] = homeTeamName;
+            gameObj["home"]["teamName"] = homeTeamName;
             gameObj["home"]["color"] = "#0000FF";
-            gameObj["home"]["id"] = -1;
+            gameObj["home"]["id"] = response["homeTeam"]["id"];
         } else {
-            gameObj["home"] = teams[homeTeam];
+            gameObj["home"] = teams[homeTeamName];
         }
-        if (!teams[awayTeam]) {
+        if (!teams[awayTeamName]) {
             let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
             gameObj["away"] = nhlTeamCopy;
-            gameObj["away"]["name"] = awayTeam;
-            gameObj["away"]["abbreviation"] = awayTeam;
-            gameObj["away"]["shortName"] = awayTeam;
-            gameObj["away"]["teamName"] = awayTeam;
+            gameObj["away"]["name"] = awayTeamName;
+            gameObj["away"]["abbreviation"] = response["awayTeam"]["abbrev"];
+            gameObj["away"]["shortName"] = awayTeamName;
+            gameObj["away"]["teamName"] = awayTeamName;
             gameObj["away"]["color"] = "#FF0000";
-            gameObj["away"]["id"] = -1;   
+            gameObj["away"]["id"] = response["awayTeam"]["id"];   
         } else {
-            gameObj["away"] = teams[awayTeam];
+            gameObj["away"] = teams[awayTeamName];
         }
         gameObj["id"] = gameid;
         gameObj["allGoals"] = goals;
@@ -150,26 +161,33 @@ function createGameHelper(gameid, response, teams) {
             gameObj["allGoals"][0]["about"]["goals"]["away"] = awayGoals;
             gameObj["allGoals"][0]["about"]["goals"]["home"] = homeGoals;
         }
-        if (gameData["game"]["type"] == "P") {
-            nhlApi.GetFromNHLApi("/tournaments/playoffs?expand=round.series,schedule.game.seriesSummary&season=" +  gameData["game"]["season"]).then((response) => {
-                let pogame = findPlayoffGame(response, homeTeam, awayTeam);
-                gameObj["playoffSeries"] = pogame;
-                if (pogame != null) {
-                    resolve(gameObj);
-                    return;
-                } else {
-                    throw "Playoff data could not be found for the game. Please try again";
-                }
-            }).catch((err) => {
-                reject(err);
-                return;
-            });
-        } else {
-            resolve(gameObj);
-            return;
-        }
+        resolve(gameObj);
+        return;
     });
     return createGameHelperPromise;
+}
+
+
+function tempFixToMultiWordLocations(team) {
+    if (multiwordlocations.includes(team["abbrev"])) {
+        switch(team["abbrev"]) {
+            case "NYI":
+                return "New York Islanders";
+            case "NYR":
+                return "New York Rangers";
+            case "STL":
+                return "St. Louis Blues";
+        }
+    } else {
+        let placeNameLength = team["placeName"]["default"].length;
+        // If team name contains place name already, do not duplicate it;
+        if (team["placeName"]["default"] == team["name"]["default"].substring(0,placeNameLength)) {
+            return team["name"]["default"];
+        } else {
+            return team["placeName"]["default"] + " " + team["name"]["default"];
+        }
+        
+    }
 }
 
   /**
@@ -179,29 +197,29 @@ function createGameHelper(gameid, response, teams) {
    * @param {String} teamB Team name of the other team
    * @returns JSON object containing the playoff round, game number, and game series status
    */
-  function findPlayoffGame(response, teamA, teamB) {
-      let jpexpr = `$.rounds[*].series[?((@.matchupTeams[0].team.name == "${teamA}" && @.matchupTeams[1].team.name == "${teamB}") || (@.matchupTeams[1].team.name == "${teamA}" && @.matchupTeams[0].team.name == "${teamB}"))]`;
-      let playoffArr = jp.query(response, jpexpr);
+//   function findPlayoffGame(response, teamA, teamB) {
+//       let jpexpr = `$.rounds[*].series[?((@.matchupTeams[0].team.name == "${teamA}" && @.matchupTeams[1].team.name == "${teamB}") || (@.matchupTeams[1].team.name == "${teamA}" && @.matchupTeams[0].team.name == "${teamB}"))]`;
+//       let playoffArr = jp.query(response, jpexpr);
       
-      if (playoffArr.length == 0) {
-        return null;
-      } else {
-        // Reverse the array so that the latest playoff series information is the first element
-        playoffArr = playoffArr.reverse();
-        let pogame = playoffArr[0];
-        let round = pogame["round"]["number"];
-        let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
-        let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
-        if (seriesStatus == "") {
-            seriesStatus = "Tied 0-0";
-        }
-        let pogameObj = {};
-        pogameObj["round"] = response["rounds"][round-1]["names"]["name"];
-        pogameObj["gamenum"] = gamenum;
-        pogameObj["seriesStatus"] = seriesStatus;
-        return pogameObj;
-      }
-  }
+//       if (playoffArr.length == 0) {
+//         return null;
+//       } else {
+//         // Reverse the array so that the latest playoff series information is the first element
+//         playoffArr = playoffArr.reverse();
+//         let pogame = playoffArr[0];
+//         let round = pogame["round"]["number"];
+//         let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
+//         let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
+//         if (seriesStatus == "") {
+//             seriesStatus = "Tied 0-0";
+//         }
+//         let pogameObj = {};
+//         pogameObj["round"] = response["rounds"][round-1]["names"]["name"];
+//         pogameObj["gamenum"] = gamenum;
+//         pogameObj["seriesStatus"] = seriesStatus;
+//         return pogameObj;
+//       }
+//   }
 
 /**
  * Gets a live update for the game specified by gameid and returns all goals scored in the game at the present moment as an array
@@ -217,7 +235,7 @@ function createGameHelper(gameid, response, teams) {
             resolve(goals);
             return;
         } else {
-            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
+            nhlApi.GetFromNHLApi("gamecenter/" + gameid + "/landing").then((game) => {
                 let goals = extractAllGoalsScored(game, prevGame);
                 resolve(goals);
                 return;
@@ -243,7 +261,7 @@ function createGameHelper(gameid, response, teams) {
             resolve(gameState);
             return;
         } else {
-            nhlApi.GetFromNHLApi("/game/" + gameid + "/feed/live/diffPatch?startTimecode=").then((game) => {
+            nhlApi.GetFromNHLApi("gamecenter/" + gameid + "/landing").then((game) => {
                 let gameState = extractGameState(game);
                 resolve(gameState);
                 return;
@@ -261,32 +279,71 @@ function createGameHelper(gameid, response, teams) {
    * @param {Object} game API response from the live game endpoint
    * @returns JSON object containing information about game state
    */
-  function extractGameState(game) {
-    let current = game["liveData"]["linescore"];
-    let homeTeamAPI = current["teams"]["home"];
-    let awayTeamAPI = current["teams"]["away"];
+  function extractGameState(game) {;
+    let homeTeamAPI = game["homeTeam"];
+    let awayTeamAPI = game["awayTeam"];
     let homeTeam = {};
     let awayTeam = {};
-    homeTeam["goals"] = homeTeamAPI["goals"];
-    homeTeam["shots"] = homeTeamAPI["shotsOnGoal"];
-    homeTeam["powerplay"] = homeTeamAPI["powerPlay"];
-    homeTeam["goaliePulled"] = homeTeamAPI["goaliePulled"];
-    awayTeam["goals"] = awayTeamAPI["goals"];
-    awayTeam["shots"] = awayTeamAPI["shotsOnGoal"];
-    awayTeam["powerplay"] = awayTeamAPI["powerPlay"];
-    awayTeam["goaliePulled"] = awayTeamAPI["goaliePulled"];
+    homeTeam["goals"] = homeTeamAPI?.["score"] ? homeTeamAPI?.["score"] : 0;
+    homeTeam["shots"] = homeTeamAPI?.["sog"] ? homeTeamAPI?.["sog"] : 0;
+    homeTeam["powerplay"] = false;
+    homeTeam["goaliePulled"] = false;
+    awayTeam["goals"] = awayTeamAPI["score"] ? awayTeamAPI["score"] : 0;
+    awayTeam["shots"] = awayTeamAPI["sog"] ? awayTeamAPI["sog"] : 0;
+    awayTeam["powerplay"] = false;
+    awayTeam["goaliePulled"] = false;
+    if (game?.["situation"]) {
+        let situationObj = game?.["situation"];
+        let homeSituation = situationObj?.["homeTeam"]?.["situationDescriptions"];
+        let awaySituation = situationObj?.["awayTeam"]?.["situationDescriptions"];
+        if (homeSituation) {
+            for (let homeSit of homeSituation) {
+                if (homeSit == "PP") {
+                    homeTeam["powerplay"] = true;
+                } else if (homeSit == "EN") {
+                    homeTeam["goaliePulled"] = true;
+                }
+            }
+        }
+        if (awaySituation) {
+            for (let awaySit of awaySituation) {
+                if (awaySit == "PP") {
+                    awayTeam["powerplay"] = true;
+                } else if (awaySit == "EN") {
+                    awayTeam["goaliePulled"] = true;
+                }
+            }
+        }
+         
+    }
     let gameState = {};
-    gameState["period"] = current["currentPeriodOrdinal"] ? current["currentPeriodOrdinal"]: null ;
-    gameState["periodTimeRemaining"] = current["currentPeriodTimeRemaining"] ? current["currentPeriodTimeRemaining"] : null;
+    // let periodsArray = game?.["summary"]?.["linescore"]?.["byPeriod"];
+    let periodInfo = game?.["periodDescriptor"];
+    let period = "1st";
+    if (periodInfo != undefined) {
+        period = periodInfo?.["number"];
+        period = convertPeriodToOrdinal(period,game["shootoutInUse"],game["clock"]["inIntermission"]);
+        gameState["period"] = period;
+        gameState["periodTimeRemaining"] = game["clock"]["timeRemaining"];
+    } else {
+        gameState["period"] = "1st";
+        gameState["periodTimeRemaining"] = "--";
+    }
+    gameState["status"] = game["gameState"];
+    if (gameState["status"] == "FINAL" || gameState["status"] == "OFF" ) {
+        gameState["periodTimeRemaining"] = "FINAL";
+        gameState["status"] = "FINAL";
+    }
     homeTeam["shootoutGoalsScored"] = null;
     homeTeam["shootoutAttempts"] = null;
     awayTeam["shootoutGoalsScored"] = null;
     awayTeam["shootoutAttempts"] = null;
     if (gameState["period"] === "SO") {
-        let homeShootoutScore = current["shootoutInfo"]["home"]["scores"];
-        let homeShootoutAttempts = current["shootoutInfo"]["home"]["attempts"];
-        let awayShootoutScore = current["shootoutInfo"]["away"]["scores"];
-        let awayShootoutAttempts = current["shootoutInfo"]["away"]["attempts"];
+        let shootout = game["summary"]["linescore"]["shootout"];
+        let homeShootoutScore = shootout["homeConversions"];
+        let homeShootoutAttempts = shootout["homeAttempts"];
+        let awayShootoutScore = shootout["awayConversions"];
+        let awayShootoutAttempts = shootout["awayAttempts"];
         homeTeam["shootoutGoalsScored"] = homeShootoutScore;
         homeTeam["shootoutAttempts"] = homeShootoutAttempts;
         awayTeam["shootoutGoalsScored"] = awayShootoutScore;
@@ -303,14 +360,58 @@ function createGameHelper(gameid, response, teams) {
  * @returns Array of all goals scored
  */
 function extractAllGoalsScored(game,prevGame = null) {
-    gameData = game["liveData"]["plays"]["allPlays"];
-    let jspexpr = "$.liveData.plays.allPlays[?(@.result.eventTypeId == 'GOAL')]";
-    let goals = jp.query(game, jspexpr);
-    goals = goals.reverse();
-    return goals;
+    let goalsByPeriod = game?.["summary"]?.["scoring"];
+    let goalsArr = [];
+    if (!goalsByPeriod) {
+        return [];
+    }
+    for (let goals of goalsByPeriod) {
+        let period = goals["periodDescriptor"]["number"];
+        period = convertPeriodToOrdinal(period);
+        let goal = goals["goals"];
+        for (let g of goal) {
+            g["ordinalNum"] = period;
+            g["strength"] = convertGoalStrengthToOrdinal(g["strength"]);
+        }
+        goalsArr = goalsArr.concat(goals["goals"]);
+    }
+    return goalsArr.reverse();
 }
 
-  
+function convertPeriodToOrdinal(period, shootout = true, intermission = false) {
+    let periodOrdinal;
+    if (intermission) {
+        periodOrdinal = "INT";
+    } else if (period == 1) {
+        periodOrdinal = "1st";
+    } else if (period == 2) {
+        periodOrdinal = "2nd";
+    } else if (period == 3) {
+        periodOrdinal = "3rd";
+    } else if (period == 4) {
+        periodOrdinal = "OT";
+    } else if (period > 4) {
+        if (shootout) {
+            periodOrdinal = "SO";
+        } else {
+            let otNum = period - 3;
+            periodOrdinal = otNum + "OT";
+        }
+    }
+    return periodOrdinal;
+}
+
+function convertGoalStrengthToOrdinal(goalStrength) {
+    let goalStrengthOrdinal;
+    if (goalStrength == "pp") {
+        goalStrengthOrdinal = "PPG";
+    } else if (goalStrength == "sh") {
+        goalStrengthOrdinal = "SHG";
+    } else if (goalStrength == "ev") {
+        goalStrengthOrdinal = "EVEN";
+    }
+    return goalStrengthOrdinal;
+}
 
   /**
    * Updates the game state
@@ -398,7 +499,6 @@ function extractAllGoalsScored(game,prevGame = null) {
 
 module.exports = {
     findGames: findGames,
-    findGameForTeam: findGameForTeam,
     createGame: createGame,
     updateGameStatus: updateGameStatus,
     determineWinner: determineWinner

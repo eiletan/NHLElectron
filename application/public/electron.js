@@ -37,7 +37,7 @@ function createWindow (windowSettings,url) {
     title: "AudioWindow",
     show: false
   })
-  audioWindow.loadURL(path.join(__dirname, "audio.html"));
+  audioWindow.loadURL(path.join(__dirname, "..", "audio.html"));
 
   mainWindow.on("close", function () {
     audioWindow.close();
