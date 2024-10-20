@@ -284,10 +284,12 @@ function tempFixToMultiWordLocations(team) {
     let awayTeamAPI = game["awayTeam"];
     let homeTeam = {};
     let awayTeam = {};
+    homeTeam["abbrev"] = homeTeamAPI["abbrev"];
     homeTeam["goals"] = homeTeamAPI?.["score"] ? homeTeamAPI?.["score"] : 0;
     homeTeam["shots"] = homeTeamAPI?.["sog"] ? homeTeamAPI?.["sog"] : 0;
     homeTeam["powerplay"] = false;
     homeTeam["goaliePulled"] = false;
+    awayTeam["abbrev"] = awayTeamAPI["abbrev"];
     awayTeam["goals"] = awayTeamAPI["score"] ? awayTeamAPI["score"] : 0;
     awayTeam["shots"] = awayTeamAPI["sog"] ? awayTeamAPI["sog"] : 0;
     awayTeam["powerplay"] = false;
@@ -339,15 +341,13 @@ function tempFixToMultiWordLocations(team) {
     awayTeam["shootoutGoalsScored"] = null;
     awayTeam["shootoutAttempts"] = null;
     if (gameState["period"] === "SO") {
-        let shootout = game["summary"]["linescore"]["shootout"];
-        let homeShootoutScore = shootout["homeConversions"];
-        let homeShootoutAttempts = shootout["homeAttempts"];
-        let awayShootoutScore = shootout["awayConversions"];
-        let awayShootoutAttempts = shootout["awayAttempts"];
-        homeTeam["shootoutGoalsScored"] = homeShootoutScore;
-        homeTeam["shootoutAttempts"] = homeShootoutAttempts;
-        awayTeam["shootoutGoalsScored"] = awayShootoutScore;
-        awayTeam["shootoutAttempts"] = awayShootoutAttempts;
+        let shootoutObj = game["summary"]["shootout"];
+        let soState = getShootOutState(shootoutObj,homeTeam,awayTeam);
+        homeTeam["shootoutGoalsScored"] = soState["homeShootoutScore"];
+        homeTeam["shootoutAttempts"] = soState["homeShootoutAttempts"];
+        awayTeam["shootoutGoalsScored"] = soState["awayShootoutScore"];
+        awayTeam["shootoutAttempts"] = soState["awayShootoutAttempts"];
+        
     }
     gameState["home"] = homeTeam;
     gameState["away"] = awayTeam;
@@ -376,6 +376,34 @@ function extractAllGoalsScored(game,prevGame = null) {
         goalsArr = goalsArr.concat(goals["goals"]);
     }
     return goalsArr.reverse();
+}
+
+
+function getShootOutState(shootoutObj, homeTeam, awayTeam) {
+    let homeShootoutScore = 0;
+    let homeShootoutAttempts = 0;
+    let awayShootoutScore = 0;
+    let awayShootoutAttempts = 0;
+    for (let shootoutAttempt of shootoutObj) {
+        if (shootoutAttempt["teamAbbrev"] == homeTeam["abbrev"]) {
+            homeShootoutAttempts = homeShootoutAttempts + 1;
+            if (shootoutAttempt["result"] == "goal") {
+                homeShootoutScore = homeShootoutScore + 1;
+            }
+        } else {
+            awayShootoutAttempts = awayShootoutAttempts + 1;
+            if (shootoutAttempt["result"] == "goal") {
+                awayShootoutScore = awayShootoutScore + 1;
+            }
+        }
+    }
+    let shootOutState = {
+        homeShootoutScore: homeShootoutScore,
+        homeShootoutAttempts: homeShootoutAttempts,
+        awayShootoutScore: awayShootoutScore,
+        awayShootoutAttempts: awayShootoutAttempts 
+    }
+    return shootOutState;
 }
 
 function convertPeriodToOrdinal(period, shootout = true, intermission = false) {
