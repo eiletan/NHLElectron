@@ -181,10 +181,10 @@ function tempFixToMultiWordLocations(team) {
     } else {
         let placeNameLength = team["placeName"]["default"].length;
         // If team name contains place name already, do not duplicate it;
-        if (team["placeName"]["default"] == team["name"]["default"].substring(0,placeNameLength)) {
+        if (team["placeName"]["default"] == team["commonName"]["default"].substring(0,placeNameLength)) {
             return team["name"]["default"];
         } else {
-            return team["placeName"]["default"] + " " + team["name"]["default"];
+            return team["placeName"]["default"] + " " + team["commonName"]["default"];
         }
         
     }
