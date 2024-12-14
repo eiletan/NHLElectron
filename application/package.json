@@ -1,6 +1,6 @@
 {
   "name": "spectator",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "eiletan",
   "description": "A desktop application created with Electron and React to allow NHL fans to track NHL games in real time, complete with desktop and audio notifications, live scoreboards, and detailed goal breakdowns.",
   "private": true,

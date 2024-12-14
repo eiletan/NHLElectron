@@ -7,7 +7,7 @@ const util = require('../logic/src/controller/util');
 
 const windowSettings = {
   title: "NHLElectron",
-  width: 1000,
+  width: 1200,
   height: 800,
   webPreferences: {
     preload: path.join(__dirname, '..', 'preload.js')
