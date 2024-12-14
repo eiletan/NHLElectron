@@ -225,6 +225,14 @@
         "hornLength": 64000
     },
     {
+        "name": "Utah Hockey Club",
+        "abbreviation": "UTA",
+        "color": "#5fa8e3",
+        "logo": "Utah Hockey Club.png",
+        "goalHorn": "Utah Hockey Club.mp3",
+        "hornLength": 41000
+    },
+    {
         "name": "Vancouver Canucks",
         "abbreviation": "VAN",
         "color": "#00205B",

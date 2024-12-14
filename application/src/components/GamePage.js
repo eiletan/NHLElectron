@@ -28,7 +28,7 @@ export default function GamePage(props) {
         }
 
         if (!intervalRef.current) {
-            intervalRef.current = setInterval(getGameUpdate,30000);
+            intervalRef.current = setInterval(getGameUpdate,5000);
         }
 
 

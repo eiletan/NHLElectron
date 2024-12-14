@@ -182,7 +182,7 @@ function tempFixToMultiWordLocations(team) {
         let placeNameLength = team["placeName"]["default"].length;
         // If team name contains place name already, do not duplicate it;
         if (team["placeName"]["default"] == team["commonName"]["default"].substring(0,placeNameLength)) {
-            return team["name"]["default"];
+            return team["commonName"]["default"];
         } else {
             return team["placeName"]["default"] + " " + team["commonName"]["default"];
         }

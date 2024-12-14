@@ -198,6 +198,9 @@ function App() {
     event.currentTarget.style.backgroundColor = internalTeams["NHL"]["color"];
   }
 
+  function errorBackButtonOnClick() {
+    navigate(0);
+  }
 
   function scoreboardBackButtonOnClick() {
     navigate("/");
@@ -242,7 +245,7 @@ function App() {
           </button>
         </div>
       </div>
-      <ErrorBoundary onClickHandler={scoreboardBackButtonOnClick}>
+      <ErrorBoundary onClickHandler={errorBackButtonOnClick}>
       <div className="componentText errorMessage">{errorMessage}</div>
         <Routes>
             <Route path="/" element={<HomePage gamesData={gamesList} date={date} internalTeams={internalTeams} onClickHandler={gamesTableOnClick} onHoverHandler={[gamesOnMouseEnter, gamesOnMouseLeave]}></HomePage>}/>
