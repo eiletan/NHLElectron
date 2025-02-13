@@ -132,6 +132,12 @@ function App() {
       for (let game of gamesList) {
         let awayTeam = game["awayTeam"]["fullName"];
         let homeTeam = game["homeTeam"]["fullName"];
+        if (game?.["awayTeam"]?.["commonName"]?.["default"]) {
+          awayTeam = game?.["awayTeam"]?.["commonName"]?.["default"];
+        }
+        if (game?.["homeTeam"]?.["commonName"]?.["default"]) {
+          homeTeam = game?.["homeTeam"]?.["commonName"]?.["default"];
+        }
         let awayTeamInfo = internalTeams?.[awayTeam];
         let homeTeamInfo = internalTeams?.[homeTeam];
         if (!awayTeamInfo) {
