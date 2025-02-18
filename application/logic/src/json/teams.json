@@ -291,8 +291,8 @@
     {
         "name": "Finland",
         "abbreviation": "FIN",
-        "color": "#002F6C",
-        "logo": "Finalnd.png",
+        "color": "#FFFFFF",
+        "logo": "Finland.png",
         "goalHorn": "Colorado Avalanche.mp3",
         "hornLength": 53000
     },
