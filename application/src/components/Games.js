@@ -14,12 +14,6 @@ export default function Games(props) {
             let arrMap = [];
             let away = game["awayTeam"]["fullName"];
             let home = game["homeTeam"]["fullName"];
-            if (game["awayTeam"]?.["commonName"]?.["default"]) {
-                away = game["awayTeam"]?.["commonName"]?.["default"];
-            }
-            if (game["homeTeam"]?.["commonName"]?.["default"]) {
-                home = game["homeTeam"]?.["commonName"]?.["default"];
-            }
             let awayLogo = internalTeams?.[away]?.["logo"];
             let homeLogo = internalTeams?.[home]?.["logo"];
             if (!awayLogo) {

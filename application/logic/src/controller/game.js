@@ -123,8 +123,6 @@ function createGameHelper(gameid, response, teams) {
         let homeTeamName = tempFixToMultiWordLocations(homeTeam);
         let awayTeamName = tempFixToMultiWordLocations(awayTeam);
         let gameObj = {};
-        homeTeamName = homeTeamName.replace(/ /g,'');
-        awayTeamName = awayTeamName.replace(/ /g,'');
         gameObj["season"] = response["season"];
         if (!teams[homeTeamName]) {
             let nhlTeamCopy = JSON.parse(JSON.stringify(teams["NHL"]));
