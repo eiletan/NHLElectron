@@ -265,38 +265,6 @@
         "hornLength": 63000
     },
     {
-        "name": "Canada",
-        "abbreviation": "CAN",
-        "color": "#FF0000",
-        "logo": "Canada.png",
-        "goalHorn": "Vancouver Canucks.mp3",
-        "hornLength": 71000
-    },
-    {
-        "name": "USA",
-        "abbreviation": "USA",
-        "color": "#0A3161",
-        "logo": "USA.png",
-        "goalHorn": "Washington Capitals.mp3",
-        "hornLength": 51000
-    },
-    {
-        "name": "Sweden",
-        "abbreviation": "SWE",
-        "color": "#FECC02",
-        "logo": "Sweden.png",
-        "goalHorn": "Boston Bruins.mp3",
-        "hornLength": 79000
-    },
-    {
-        "name": "Finland",
-        "abbreviation": "FIN",
-        "color": "#FFFFFF",
-        "logo": "Finland.png",
-        "goalHorn": "Colorado Avalanche.mp3",
-        "hornLength": 53000
-    },
-    {
         "name": "NHL",
         "abbreviation": "NHL",
         "color": "#DCDCDC",

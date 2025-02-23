@@ -49,11 +49,15 @@ export default function Games(props) {
                 }
                 goalDesc = goalDesc + " \n" + goal["ordinalNum"] + " @ " + goal["timeInPeriod"]
                 + " (" + strength + ")" ;
+                let highlight = goal?.["highlightClipSharingUrl"];
+
+                let goalDescElement = highlight ? <a className= "goalHighlight" href={highlight} target="_blank">{goalDesc}</a> : goalDesc;
+
                 let score = gameData["away"]["abbreviation"] + ": " + goal["awayScore"] + "\n" 
                 + gameData["home"]["abbreviation"] + ": " + goal["homeScore"];
 
                 arrMap.push(["logo", <img className={"goalTeamLogoImg"} src={require('../assets/logos/' + logo)}></img>]);
-                arrMap.push(["desc", goalDesc]);
+                arrMap.push(["desc", goalDescElement]);
                 arrMap.push(["score",score]);
                 arrMap.push(["ROWKEYIDENTIFIER",null]);
                 arrOfMaps.push(new Map(arrMap));
@@ -61,6 +65,7 @@ export default function Games(props) {
             return arrOfMaps;
         }
     }
+
 
 
     return (

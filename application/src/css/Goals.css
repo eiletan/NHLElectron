@@ -52,6 +52,16 @@
     white-space: pre-wrap;
 }
 
+
+.goalHighlight {
+    color: black;
+    text-decoration: none;
+}
+
+.goalHighlight:hover {
+    color: blue;
+}
+
 .goalCurrentScore {
     /* min-width: 75px; */
     white-space: pre-wrap;
