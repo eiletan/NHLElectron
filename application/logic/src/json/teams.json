@@ -238,7 +238,7 @@
         "color": "#00205B",
         "logo": "Vancouver Canucks.png",
         "goalHorn": "Vancouver Canucks.mp3",
-        "hornLength": 71000
+        "hornLength": 63000
     },
     {
         "name": "Vegas Golden Knights",
@@ -270,6 +270,6 @@
         "color": "#DCDCDC",
         "logo": "NHL.png",
         "goalHorn": "Vancouver Canucks.mp3",
-        "hornLength": 71000
+        "hornLength": 63000
     }
 ]
