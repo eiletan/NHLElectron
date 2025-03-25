@@ -385,7 +385,7 @@ function getShootOutState(shootoutObj, homeTeam, awayTeam) {
     let awayShootoutScore = 0;
     let awayShootoutAttempts = 0;
     for (let shootoutAttempt of shootoutObj) {
-        if (shootoutAttempt["teamAbbrev"] == homeTeam["abbrev"]) {
+        if (shootoutAttempt["teamAbbrev"]["default"] == homeTeam["abbrev"]) {
             homeShootoutAttempts = homeShootoutAttempts + 1;
             if (shootoutAttempt["result"] == "goal") {
                 homeShootoutScore = homeShootoutScore + 1;
