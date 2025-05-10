@@ -119,12 +119,12 @@ export default function Scoreboard(props) {
 
 
     function processGameDataForPlayoffs(gameData) {
-        let playoffSeries = gameData["playoffSeries"] 
+        let playoffSeries = gameData["playoffSeries"];
         if (playoffSeries) {
             let arrOfMaps = [];
-            arrOfMaps.push(new Map([["playoffRound", playoffSeries["round"]],["ROWKEYIDENTIFIER", null]]));
-            arrOfMaps.push(new Map([["playoffGameNum", playoffSeries["gamenum"]],["ROWKEYIDENTIFIER", null]]));
-            arrOfMaps.push(new Map([["currentPlayoffSeriesStatus", playoffSeries["seriesStatus"]],["ROWKEYIDENTIFIER", null]]));
+            arrOfMaps.push(new Map([["playoffRound", playoffSeries["roundLabel"]],["ROWKEYIDENTIFIER", null]]));
+            arrOfMaps.push(new Map([["playoffGameNum", playoffSeries["currentGameLabel"]],["ROWKEYIDENTIFIER", null]]));
+            arrOfMaps.push(new Map([["currentPlayoffSeriesStatus", playoffSeries["status"]],["ROWKEYIDENTIFIER", null]]));
             return arrOfMaps;
         } else {
             return null;

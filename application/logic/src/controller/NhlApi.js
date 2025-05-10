@@ -16,6 +16,11 @@ function GetFromNHLApi(uri, domain = DOMAIN) {
             resp = resp + data;
         });
         result.on('end', () => {
+            // If status code is not 200, reject
+            if (result.statusCode != 200) {
+                reject(new Error(`API call to ${domain+uri} failed with status ${result.statusCode}`));
+                return;
+            }
             resp = JSON.parse(resp);
             resolve(resp);
             return;
