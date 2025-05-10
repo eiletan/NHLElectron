@@ -95,12 +95,20 @@ function supplementGamesData(gamesList) {
             });  
         }
         else {
+            let gameObjRet;
             nhlApi.GetFromNHLApi("gamecenter/" + gameid + "/landing").then((response) => {
                 return createGameHelper(gameid, response, teams);
             }).then((gameObj)=> {
-                resolve(gameObj);
+                // Determine if this is a playoff game
+                gameObjRet = gameObj;
+                return findPlayoffGame(gameObj);
+            }).then((playoffObj) => {
+                gameObjRet["playoffSeries"] = playoffObj;
+                console.log(gameObjRet);
+                resolve(gameObjRet);
                 return;
-            }).catch((err) => {
+            })
+            .catch((err) => {
                 reject("Game could not be created due to: " +err);
                 return;
             });
@@ -192,34 +200,84 @@ function tempFixToMultiWordLocations(team) {
 
   /**
    * Function which finds playoff information about the given game
-   * @param {Object} response API response from the live game endpoint
-   * @param {String} teamA Team name of one of the teams
-   * @param {String} teamB Team name of the other team
+   * @param {Object} gameObj - internal JSON object representing a game
+   * @param {String} teamA Team abbrev of one of the teams
+   * @param {String} teamB Team abbrev of the other team
    * @returns JSON object containing the playoff round, game number, and game series status
    */
-//   function findPlayoffGame(response, teamA, teamB) {
-//       let jpexpr = `$.rounds[*].series[?((@.matchupTeams[0].team.name == "${teamA}" && @.matchupTeams[1].team.name == "${teamB}") || (@.matchupTeams[1].team.name == "${teamA}" && @.matchupTeams[0].team.name == "${teamB}"))]`;
-//       let playoffArr = jp.query(response, jpexpr);
-      
-//       if (playoffArr.length == 0) {
-//         return null;
-//       } else {
-//         // Reverse the array so that the latest playoff series information is the first element
-//         playoffArr = playoffArr.reverse();
-//         let pogame = playoffArr[0];
-//         let round = pogame["round"]["number"];
-//         let gamenum = pogame["currentGame"]["seriesSummary"]["gameLabel"];
-//         let seriesStatus = pogame["currentGame"]["seriesSummary"]["seriesStatusShort"];
-//         if (seriesStatus == "") {
-//             seriesStatus = "Tied 0-0";
-//         }
-//         let pogameObj = {};
-//         pogameObj["round"] = response["rounds"][round-1]["names"]["name"];
-//         pogameObj["gamenum"] = gamenum;
-//         pogameObj["seriesStatus"] = seriesStatus;
-//         return pogameObj;
-//       }
-//   }
+  function findPlayoffGame(gameObj) {
+    let playoffProm = new Promise((resolve) => {
+        let season = gameObj["season"];
+        let gameId = gameObj["id"];
+        let playoffObj = {};
+        nhlApi.GetFromNHLApi(`playoff-series/carousel/${season}`).then((playoffInfo) => {
+            let currentRound = playoffInfo["currentRound"];
+            let rounds = playoffInfo["rounds"];
+            let teamA = gameObj["home"]["abbreviation"];
+            let teamB = gameObj["away"]["abbreviation"];
+            for (let i = rounds.length-1; i >= 0; i--) {
+                let round = rounds[i];
+                if (round["roundNumber"] == currentRound) {
+                    let series = round["series"];
+                    for (match of series) {
+                        let apiTeamA = match["topSeed"]["abbrev"];
+                        let apiTeamB = match["bottomSeed"]["abbrev"];
+                        if (apiTeamA == teamA) {
+                            if (apiTeamB == teamB) {
+                                playoffObj = extractPlayoffSeriesState(match, apiTeamA, apiTeamB, currentRound);
+                                break;
+                            }
+                        }
+                        if (apiTeamB == teamA) {
+                            if (apiTeamA == teamB) {
+                                playoffObj = extractPlayoffSeriesState(match, apiTeamA, apiTeamB, round);
+                                break;
+                            } 
+                        }
+                    }
+                }
+            }
+            // Once playoff series data has been extracted, make a separate call to acquire current game number
+            return nhlApi.GetFromNHLApi(`schedule/playoff-series/${season}/${playoffObj["seriesID"]}`);
+        }).then((seriesData) => {
+            let games = seriesData["games"];
+            for (let j = games.length-1; j >= 0; j--) {
+                let game = games[j];
+                if (game["id"] == gameId) {
+                    playoffObj["currentGame"] = game["gameNumber"];
+                }
+            }
+            // Construct status
+            if (playoffObj["topSeedWins"] == playoffObj["bottomSeedWins"]) {
+                playoffObj["status"] = `Series tied ${playoffObj["topSeedWins"]}-${playoffObj["topSeedWins"]}`;   
+            } else if (playoffObj["topSeedWins"] > playoffObj["bottomSeedWins"]) {
+                playoffObj["status"] = `${playoffObj["topSeed"]} leads ${playoffObj["topSeedWins"]}-${playoffObj["bottomSeedWins"]}`;
+            } else {
+                playoffObj["status"] = `${playoffObj["bottomSeed"]} leads ${playoffObj["bottomSeedWins"]}-${playoffObj["topSeedWins"]}`;
+            }
+            resolve(playoffObj);
+        }).catch((err) => {
+            // If response is an error, return nothing
+            resolve(null);
+        });
+    });
+    return playoffProm;
+  }
+
+  function extractPlayoffSeriesState(series, teamA, teamB, round) {
+    let playoffObj = {};
+    playoffObj["round"] = round;
+    playoffObj["seriesID"] = series["seriesLetter"];
+    playoffObj["topSeed"] = teamA;
+    playoffObj["bottomSeed"] = teamB;
+    playoffObj["topSeedWins"] = series["topSeed"]["wins"];
+    playoffObj["bottomSeedWins"] = series["bottomSeed"]["wins"];
+    playoffObj["neededToWin"] = series["neededToWin"];
+    return playoffObj;
+  }
+
+
+
 
 /**
  * Gets a live update for the game specified by gameid and returns all goals scored in the game at the present moment as an array
