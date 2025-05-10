@@ -245,16 +245,12 @@ function tempFixToMultiWordLocations(team) {
                 let game = games[j];
                 if (game["id"] == gameId) {
                     playoffObj["currentGame"] = game["gameNumber"];
+                    playoffObj["currentGameLabel"] = `Game ${playoffObj["currentGame"]}`;
                 }
             }
             // Construct status
-            if (playoffObj["topSeedWins"] == playoffObj["bottomSeedWins"]) {
-                playoffObj["status"] = `Series tied ${playoffObj["topSeedWins"]}-${playoffObj["topSeedWins"]}`;   
-            } else if (playoffObj["topSeedWins"] > playoffObj["bottomSeedWins"]) {
-                playoffObj["status"] = `${playoffObj["topSeed"]} leads ${playoffObj["topSeedWins"]}-${playoffObj["bottomSeedWins"]}`;
-            } else {
-                playoffObj["status"] = `${playoffObj["bottomSeed"]} leads ${playoffObj["bottomSeedWins"]}-${playoffObj["topSeedWins"]}`;
-            }
+            playoffObj["status"] = determinePlayoffSeriesLeader(playoffObj["topSeedWins"], playoffObj["topSeed"], 
+                playoffObj["bottomSeedWins"], playoffObj["bottomSeed"], playoffObj["neededToWin"])
             resolve(playoffObj);
         }).catch((err) => {
             // If response is an error, return nothing
@@ -266,7 +262,11 @@ function tempFixToMultiWordLocations(team) {
 
   function extractPlayoffSeriesState(series, teamA, teamB, round) {
     let playoffObj = {};
+    let seriesLabel = series["seriesLabel"];
+    seriesLabel = seriesLabel.replace(/-/g, " ");
+    seriesLabel = seriesLabel.replace(/(^\w|\s\w)/g, m => m.toUpperCase());
     playoffObj["round"] = round;
+    playoffObj["roundLabel"] = seriesLabel
     playoffObj["seriesID"] = series["seriesLetter"];
     playoffObj["topSeed"] = teamA;
     playoffObj["bottomSeed"] = teamB;
@@ -274,6 +274,21 @@ function tempFixToMultiWordLocations(team) {
     playoffObj["bottomSeedWins"] = series["bottomSeed"]["wins"];
     playoffObj["neededToWin"] = series["neededToWin"];
     return playoffObj;
+  }
+
+
+  function determinePlayoffSeriesLeader(topSeedW, topSeed, bottomSeedW, bottomSeed, neededToWin) {
+    if (topSeedW == bottomSeedW) {
+        return `Series tied ${topSeedW}-${topSeedW}`;   
+    } else if (topSeedW == neededToWin) {
+        return `${topSeed} wins ${topSeedW}-${bottomSeedW}`;
+    } else if (bottomSeedW == neededToWin) {
+        return `${bottomSeed} wins ${bottomSeedW}-${topSeedW}`; 
+    } else if (topSeedW > bottomSeedW) {
+        return `${topSeed} leads ${topSeedW}-${bottomSeedW}`;
+    } else {
+        return `${bottomSeed} leads ${bottomSeedW}-${topSeedW}`;
+    }
   }
 
 
