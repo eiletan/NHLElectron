@@ -104,7 +104,6 @@ function supplementGamesData(gamesList) {
                 return findPlayoffGame(gameObj);
             }).then((playoffObj) => {
                 gameObjRet["playoffSeries"] = playoffObj;
-                console.log(gameObjRet);
                 resolve(gameObjRet);
                 return;
             })
