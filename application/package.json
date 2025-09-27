@@ -23,6 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "testMocha": "mocha logic/src/test/**/*.js",
+    "mochaGamesList": "mocha logic/src/test/logic/gamesListCreator.js",
     "eject": "react-scripts eject",
     "start-electron": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
     "package": "electron-builder build --win -c.extraMetadata.main=build/electron.js --publish never",

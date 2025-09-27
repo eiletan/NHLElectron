@@ -1,8 +1,11 @@
 :root {
     --textShadowForAbbr: black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px,
     black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px, black 0px 0px 1.5px;
+    --textShadowForAbbrAlt: aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px,
+    aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px, aliceblue 0px 0px 1.5px;
     --universalFont: 'Pragati Narrow', sans-serif;
     --universalFontColor: aliceblue;
+    --universalFontColorAlt: black;
     --defaultGrayR: 220;
     --backgroundBlueR: 30;
     --backgroundBlueG: 144;
