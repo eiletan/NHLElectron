@@ -108,7 +108,7 @@
   .App {
     width: 100vw;
     height: 100vh;
-    background-image: url("../assets/images/DALLE hockey stick gradient.png");
+    background-color: skyblue;
     background-size: 100% 100%;
   }
 
