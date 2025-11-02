@@ -108,7 +108,7 @@
   .App {
     width: 100vw;
     height: 100vh;
-    background-color: whitesmoke;
+    background: linear-gradient(90deg,rgba(93, 59, 179, 1) 0%, rgba(48, 124, 217, 1) 47%, rgba(13, 24, 222, 1) 100%);
     background-size: 100% 100%;
   }
 

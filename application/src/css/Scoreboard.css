@@ -47,6 +47,7 @@
 
 .gameScoreBoardStatusInfoRow {
     height: calc(var(--scoreboardRowHeight)/2);
+    background: gainsboro;
 }
 
 .gameScoreBoardStatusInfo {
@@ -77,6 +78,7 @@
     border: var(--borderRadius) solid var(--borderColor);
     border-left: none;
     font-weight: bold;
+    background: gainsboro;
 }
 
 .awayTeamScoreboardLogo {

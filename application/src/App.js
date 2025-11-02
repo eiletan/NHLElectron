@@ -187,15 +187,15 @@ function App() {
         break;
       }
     }
-    event.currentTarget.style.backgroundColor = gamesInfoMap[abbr]["color"];
+    event.currentTarget.style.background = gamesInfoMap[abbr]["color"];
   }
 
   /**
-   * On exit hover, change row color to default NHL gray
+   * On exit hover, change row color to default
    * @param {*} event 
    */
   function gamesOnMouseLeave(event) {
-    event.currentTarget.style.backgroundColor = internalTeams["NHL"]["color"];
+    event.currentTarget.style.background = 'linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)';
   }
 
   function errorBackButtonOnClick() {
