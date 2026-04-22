@@ -1,5 +1,6 @@
 import {React,useRef,useEffect, useState} from 'react';
 import {Table} from './Table';
+import * as util from '../util/util';
 
 export default function Scoreboard(props) {
     const scoreboardPlayoffsClassNames = ["playoffSeriesInfo componentText"];
@@ -22,17 +23,32 @@ export default function Scoreboard(props) {
             // Highlight the team that just scored on the scoreboard
             let awayGoalElement = containerRef.current.getElementsByClassName("awayTeamScoreboardGoals")[0];
             let homeGoalElement = containerRef.current.getElementsByClassName("homeTeamScoreboardGoals")[0];
+            if (props.gameData?.["currentState"]["status"] == "FINAL") {
+                let winner = util.determineWinner(props.gameData);
+                if (winner.winnerShort == props.gameData.home.abbreviation) {
+                    homeGoalElement.classList.add("justScored");
+                    setTimeout(() => {
+                        homeGoalElement.classList.remove("justScored");
+                    },15000);
+                } else {
+                    awayGoalElement.classList.add("justScored");
+                    setTimeout(() => {
+                        awayGoalElement.classList.remove("justScored");
+                    },15000);
+                }
+            }
             if (props.gameData.areGoalsUpdated) {
                 if (props.gameData.allGoals[0]?.["teamAbbrev"]?.["default"] == props.gameData.home.abbreviation) {
                     homeGoalElement.classList.add("justScored");
-                    awayGoalElement.classList.remove("justScored");
+                    setTimeout(() => {
+                        homeGoalElement.classList.remove("justScored");
+                    },15000)
                 } else {
                     awayGoalElement.classList.add("justScored");
-                    homeGoalElement.classList.remove("justScored");
+                    setTimeout(() => {
+                        awayGoalElement.classList.remove("justScored");
+                    },15000)
                 }
-            } else {
-                homeGoalElement.classList.remove("justScored");
-                awayGoalElement.classList.remove("justScored");
             }
         }
     },[props.gameData]);

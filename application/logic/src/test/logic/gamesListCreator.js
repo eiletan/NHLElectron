@@ -12,7 +12,7 @@ describe("Init", function() {
     })
 
     it("should initialize games list", function() {
-        let date = '2025-09-25';
+        let date = '2025-12-29';
         return game.findGames(date).then((games) => {
             console.log(JSON.stringify(games));
         }).catch((err) => {
