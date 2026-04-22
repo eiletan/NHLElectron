@@ -373,7 +373,7 @@ function tempFixToMultiWordLocations(team) {
         if (homeSituation) {
             for (let homeSit of homeSituation) {
                 if (homeSit == "PP") {
-                    homeTeam["powerplay"] = true;
+                    homeTeam["powerplay"] = situationObj?.["timeRemaining"];
                 } else if (homeSit == "EN") {
                     homeTeam["goaliePulled"] = true;
                 }
@@ -382,7 +382,7 @@ function tempFixToMultiWordLocations(team) {
         if (awaySituation) {
             for (let awaySit of awaySituation) {
                 if (awaySit == "PP") {
-                    awayTeam["powerplay"] = true;
+                    awayTeam["powerplay"] = situationObj?.["timeRemaining"];
                 } else if (awaySit == "EN") {
                     awayTeam["goaliePulled"] = true;
                 }

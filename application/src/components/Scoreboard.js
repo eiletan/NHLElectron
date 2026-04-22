@@ -81,7 +81,7 @@ export default function Scoreboard(props) {
             if (awayGoaliePulled) {
                 arrMap.push(["awayStrength", "PP\nEN"]);
             } else {
-                arrMap.push(["awayStrength", "PP"]);
+                arrMap.push(["awayStrength", `PP - ${awayPowerplay}`]);
             }
         } else if (awayGoaliePulled) {
             arrMap.push(["awayStrength", "EN"]);
@@ -96,7 +96,7 @@ export default function Scoreboard(props) {
             if (homeGoaliePulled) {
                 arrMap.push(["homeStrength", "PP\nEN"]);
             } else {
-                arrMap.push(["homeStrength", "PP"]);
+                arrMap.push(["homeStrength", `PP - ${homePowerplay}`]);
             }
         } else if (homeGoaliePulled) {
             arrMap.push(["homeStrength", "EN"]);
