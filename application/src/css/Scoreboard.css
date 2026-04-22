@@ -124,3 +124,14 @@
 .gameScoreBoardInfoGoals {
     width: 75px;
 }
+
+.justScored {
+    background-color: gainsboro;
+    animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  0%{background-color: lightgreen;}
+  50%{background-color: gainsboro;}
+  100%{background-color: lightgreen;}
+}

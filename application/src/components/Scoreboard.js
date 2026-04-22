@@ -18,6 +18,22 @@ export default function Scoreboard(props) {
             let homeAbbrElement = containerRef.current.getElementsByClassName("homeTeamScoreboardAbbr")[0]; 
             awayAbbrElement.style.backgroundColor = props.gameData["away"]["color"];
             homeAbbrElement.style.backgroundColor = props.gameData["home"]["color"];
+            
+            // Highlight the team that just scored on the scoreboard
+            let awayGoalElement = containerRef.current.getElementsByClassName("awayTeamScoreboardGoals")[0];
+            let homeGoalElement = containerRef.current.getElementsByClassName("homeTeamScoreboardGoals")[0];
+            if (props.gameData.areGoalsUpdated) {
+                if (props.gameData.allGoals[0]?.["teamAbbrev"]?.["default"] == props.gameData.home.abbreviation) {
+                    homeGoalElement.classList.add("justScored");
+                    awayGoalElement.classList.remove("justScored");
+                } else {
+                    awayGoalElement.classList.add("justScored");
+                    homeGoalElement.classList.remove("justScored");
+                }
+            } else {
+                homeGoalElement.classList.remove("justScored");
+                awayGoalElement.classList.remove("justScored");
+            }
         }
     },[props.gameData]);
 
