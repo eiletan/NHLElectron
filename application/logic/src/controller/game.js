@@ -351,7 +351,7 @@ function tempFixToMultiWordLocations(team) {
    * @param {Object} game API response from the live game endpoint
    * @returns JSON object containing information about game state
    */
-  function extractGameState(game) {;
+  function extractGameState(game) {
     let homeTeamAPI = game["homeTeam"];
     let awayTeamAPI = game["awayTeam"];
     let homeTeam = {};
@@ -456,7 +456,8 @@ function getShootOutState(shootoutObj, homeTeam, awayTeam) {
     let homeShootoutAttempts = 0;
     let awayShootoutScore = 0;
     let awayShootoutAttempts = 0;
-    for (let shootoutAttempt of shootoutObj) {
+    let shootoutEventObj = shootoutObj["events"];
+    for (let shootoutAttempt of shootoutEventObj) {
         if (shootoutAttempt["teamAbbrev"]["default"] == homeTeam["abbrev"]) {
             homeShootoutAttempts = homeShootoutAttempts + 1;
             if (shootoutAttempt["result"] == "goal") {
